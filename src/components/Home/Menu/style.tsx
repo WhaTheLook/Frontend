@@ -39,5 +39,5 @@ interface TextProps {
 export const Text = styled.span<TextProps>`
   font-size: 18px;
   font-weight: ${({ $isSelected }) => $isSelected && "600"};
-  color: ${({ $isSelected }) => !$isSelected && "rgba(0, 0, 0, 0.2)"};
+  color: ${({ $isSelected }) => !$isSelected && "rgba(0, 0, 0, 0.3)"};
 `;
