@@ -12,7 +12,7 @@ interface Props {
 
 export function SharedItem({ imageUrl, title, writter, date, like }: Props) {
   return (
-    <S.Container imageUrl={imageUrl}>
+    <S.Container $imageUrl={imageUrl}>
       <S.InfoWrapper>
         <S.InfoBox>
           <S.Title>{title}</S.Title>

@@ -1,9 +1,9 @@
 import { styled } from "styled-components";
 
-export const Container = styled.div<{ imageUrl: string }>`
+export const Container = styled.div<{ $imageUrl: string }>`
   width: 250px;
   height: 250px;
-  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
+  background-image: ${({ $imageUrl }) => `url(${$imageUrl})`};
   background-size: 100%;
   background-position: center;
 
@@ -14,15 +14,14 @@ export const Container = styled.div<{ imageUrl: string }>`
 
   &:hover {
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-      ${({ imageUrl }) => `url(${imageUrl})`};
+      ${({ $imageUrl }) => `url(${$imageUrl})`};
     background-size: 110%;
   }
 `;
 
 export const InfoWrapper = styled.div`
-  height: 100%;
+  height: 95%;
   padding: 0 15px;
-  margin: -15px 0;
 
   display: flex;
   align-items: flex-end;
