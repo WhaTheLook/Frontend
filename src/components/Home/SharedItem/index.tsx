@@ -21,7 +21,7 @@ export function SharedItem({ imageUrl, title, writter, date, like }: Props) {
           </S.InfoTextBox>
         </S.InfoBox>
         <S.SubInfoBox>
-          <HeartIcon size={20} />
+          <HeartIcon size={20} color="#FFFFFF" />
           <S.HeartCount>{like}</S.HeartCount>
         </S.SubInfoBox>
       </S.InfoWrapper>
