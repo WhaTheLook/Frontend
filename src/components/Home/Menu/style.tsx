@@ -1,13 +1,24 @@
-import { styled } from "styled-components";
+import { styled, css } from "styled-components";
 
 export const Container = styled.nav`
+  background-color: #ffffff;
+  width: 100%;
+  padding-top: 25px;
+
+  border-bottom: 1.5px solid #eaebec;
+
+  position: sticky;
+  top: 0px;
+
+  z-index: 10;
+`;
+
+export const Wrapper = styled.div`
   width: 100%;
 
   display: flex;
   align-items: center;
   justify-content: flex-start;
-
-  border-bottom: 1.5px solid #eaebec;
 
   position: relative;
 `;
@@ -30,9 +41,13 @@ export const Box = styled.div<TextProps>`
 `;
 
 export const Text = styled.span<TextProps>`
-  font-size: 18px;
-  font-weight: ${({ $isSelected }) => $isSelected && "600"};
-  color: ${({ $isSelected }) => !$isSelected && "rgba(0, 0, 0, 0.3)"};
+  ${({ $isSelected }) => {
+    return css`
+      font-size: 18px;
+      font-weight: ${$isSelected && "600"};
+      color: ${!$isSelected && "rgba(0, 0, 0, 0.3)"};
+    `;
+  }}
 `;
 
 interface TabLineProps {
@@ -41,15 +56,19 @@ interface TabLineProps {
 }
 
 export const TabLine = styled.div<TabLineProps>`
-  background-color: #000000;
-  width: ${({ width }) => `${width}px`};
-  height: 2px;
+  ${({ width, offset }) => {
+    return css`
+      background-color: #000000;
+      width: ${width}px;
+      height: 2px;
 
-  border-radius: 999px;
+      border-radius: 999px;
 
-  position: absolute;
-  bottom: -1px;
+      position: absolute;
+      bottom: -1px;
 
-  transform: ${({ offset }) => `translateX(${offset}px)`};
-  transition: all 0.3s ease-out;
+      transform: translateX(${offset}px);
+      transition: all 0.3s ease-out;
+    `;
+  }}
 `;

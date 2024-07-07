@@ -1,22 +1,33 @@
-import { styled } from "styled-components";
+import { styled, css } from "styled-components";
 
-export const Container = styled.div<{ $imageUrl: string }>`
-  width: 250px;
-  height: 250px;
-  background-image: ${({ $imageUrl }) => `url(${$imageUrl})`};
-  background-size: 100%;
-  background-position: center;
+interface ContainerProps {
+  $imageUrl: string;
+}
 
-  border-radius: 8px;
+export const Container = styled.div<ContainerProps>`
+  ${({ $imageUrl }) => {
+    return css`
+      width: 250px;
+      height: 250px;
+      background-image: url(${$imageUrl});
+      background-size: 100%;
+      background-position: center;
 
-  cursor: pointer;
-  transition: all 0.3s ease-out;
+      border-radius: 8px;
 
-  &:hover {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-      ${({ $imageUrl }) => `url(${$imageUrl})`};
-    background-size: 110%;
-  }
+      cursor: pointer;
+      transition: all 0.3s ease-out;
+
+      &:hover {
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+          ),
+          url(${$imageUrl});
+        background-size: 110%;
+      }
+    `;
+  }}
 `;
 
 export const InfoWrapper = styled.div`

@@ -33,27 +33,29 @@ export function Menu({ currentMenu, onMenuClick }: Props) {
 
   return (
     <S.Container>
-      {menuList.map(({ id, text }) => {
-        const isSelected = id === currentMenu;
-        return (
-          <S.Box
-            key={id}
-            $isSelected={isSelected}
-            onClick={() => onMenuClick(id)}
-          >
-            <S.Text
-              ref={(el) => (textRefs.current[id] = el)}
+      <S.Wrapper>
+        {menuList.map(({ id, text }) => {
+          const isSelected = id === currentMenu;
+          return (
+            <S.Box
+              key={id}
               $isSelected={isSelected}
+              onClick={() => onMenuClick(id)}
             >
-              {text}
-            </S.Text>
-          </S.Box>
-        );
-      })}
-      <S.TabLine
-        width={tabLineStyles.width}
-        offset={tabLineStyles.translateX}
-      />
+              <S.Text
+                ref={(el) => (textRefs.current[id] = el)}
+                $isSelected={isSelected}
+              >
+                {text}
+              </S.Text>
+            </S.Box>
+          );
+        })}
+        <S.TabLine
+          width={tabLineStyles.width}
+          offset={tabLineStyles.translateX}
+        />
+      </S.Wrapper>
     </S.Container>
   );
 }
