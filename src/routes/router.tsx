@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import { MainLayout } from "@/layout/MainLayout";
 import { Home } from "@/page/Home";
+import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
 
 export const router = createBrowserRouter([
   {
@@ -30,4 +31,5 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  { path: "/kakao/auth", element: <KakaoLoginRedirect /> },
 ]);
