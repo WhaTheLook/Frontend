@@ -4,10 +4,14 @@ export const Container = styled.div`
   min-width: 180px;
   height: fit-content;
   padding: 10px 14px;
+  margin-top: 20px;
 
   border-radius: 18px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+  position: sticky;
+  top: 40px;
 `;
 
 export const List = styled.ul`
@@ -26,7 +30,7 @@ export const Item = styled.li`
   border-radius: 10px;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.05);
   }
 `;
 
