@@ -1,11 +1,15 @@
 import * as S from "./style";
 
-export function Logo() {
+interface Props {
+  size: number;
+}
+
+export function LogoIcon({ size }: Props) {
   return (
     <S.Container>
       <svg
-        width="38"
-        height="38"
+        width={String(size)}
+        height={String(size)}
         viewBox="0 0 207 225"
         xmlns="http://www.w3.org/2000/svg"
         overflow="hidden"
