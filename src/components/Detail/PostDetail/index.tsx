@@ -1,8 +1,11 @@
-import * as S from "./style";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import { ImageWrapper } from "../ImageWrapper";
 import { InfoWrapper } from "../InfoWrapper";
 import { CommentWrapper } from "../CommentWrapper";
+
+import * as S from "./style";
 
 const mockImage = [
   "https://images.unsplash.com/photo-1626356843860-358c51b44f3e?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -23,6 +26,17 @@ const mockData = {
 };
 
 export function PostDetail() {
+  const { postId } = useParams(); // URL를 통한 렌더링 시
+  const { state: modalPostId } = history; // 모달를 통한 렌더링 시
+
+  useEffect(() => {
+    if (postId) {
+      // URL를 통한 렌더링 시, postId로 API 요청
+    } else if (modalPostId) {
+      // 모달을 통한 렌더링 시, modalPostId로 API 요청
+    }
+  }, [postId, modalPostId]);
+
   return (
     <S.Container>
       <ImageWrapper images={mockImage} />

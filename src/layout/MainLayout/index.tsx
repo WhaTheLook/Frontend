@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { Header } from "@/components/common/Header";
 import { Navigation } from "@/components/common/Navigation";
@@ -6,12 +6,16 @@ import { Navigation } from "@/components/common/Navigation";
 import * as S from "./style";
 
 export function MainLayout() {
+  const location = useLocation();
+
+  const isPostPath = location.pathname.startsWith("/post");
+
   return (
     <S.Container>
       <Header />
       <S.Wrapper>
         <S.Box>
-          <Navigation />
+          {!isPostPath && <Navigation />}
           <S.Main>
             <Outlet />
           </S.Main>

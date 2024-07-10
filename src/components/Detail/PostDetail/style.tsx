@@ -9,6 +9,7 @@ export const Container = styled.div`
   align-items: center;
 
   border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.13);
 `;
 
 export const InfoWrapper = styled.div`

@@ -21,4 +21,7 @@ export const Box = styled.div`
 
 export const Main = styled.main`
   width: 100%;
+
+  display: flex;
+  justify-content: center;
 `;
