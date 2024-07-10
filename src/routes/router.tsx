@@ -1,8 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { MainLayout } from "@/layout/MainLayout";
+
 import { Home } from "@/page/Home";
 import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
+import { PostDetail } from "@/components/Detail/PostDetail";
 
 export const router = createBrowserRouter([
   {
@@ -26,8 +28,12 @@ export const router = createBrowserRouter([
         element: <>Mypage</>,
       },
       {
-        path: "post",
-        element: <>Post</>,
+        path: "upload",
+        element: <>Upload</>,
+      },
+      {
+        path: "post/:postId",
+        element: <PostDetail />,
       },
     ],
   },

@@ -1,3 +1,8 @@
+import { useState } from "react";
+import { createPortal } from "react-dom";
+
+import { DetailModal } from "@/components/Detail/DetailModal";
+import { PostDetail } from "@/components/Detail/PostDetail";
 import { SharedItem } from "../SharedItem";
 
 import * as S from "./style";
@@ -78,18 +83,41 @@ const mockData = [
 ];
 
 export function SharedList() {
+  const [showModal, setShowModal] = useState(false);
+  const element = document.getElementById("modal") as HTMLElement;
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    history.replaceState({}, "", "/");
+  };
+
+  const handleItemClick = (id: number) => {
+    setShowModal(true);
+    history.replaceState({ modalPostId: id }, "", `/post/${id}`);
+  };
+
   return (
-    <S.Container>
-      {mockData.map(({ id, imageUrl, title, writter, date, like }) => (
-        <SharedItem
-          key={id}
-          imageUrl={imageUrl}
-          title={title}
-          writter={writter}
-          date={date}
-          like={like}
-        />
-      ))}
-    </S.Container>
+    <>
+      <S.Container>
+        {mockData.map(({ id, imageUrl, title, writter, date, like }) => (
+          <SharedItem
+            key={id}
+            imageUrl={imageUrl}
+            title={title}
+            writter={writter}
+            date={date}
+            like={like}
+            onItemClick={() => handleItemClick(id)}
+          />
+        ))}
+      </S.Container>
+      {showModal &&
+        createPortal(
+          <DetailModal onOutSideClick={handleCloseModal}>
+            <PostDetail />
+          </DetailModal>,
+          element
+        )}
+    </>
   );
 }
