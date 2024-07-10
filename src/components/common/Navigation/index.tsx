@@ -15,7 +15,7 @@ const navigationList = [
     pathUrl: "/",
   },
   {
-    icon: <SearchIcon size={22} />,
+    icon: <SearchIcon size={22} color="#000" />,
     text: "검색",
     pathUrl: "/search",
   },

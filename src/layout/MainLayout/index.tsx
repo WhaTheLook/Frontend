@@ -16,7 +16,7 @@ export function MainLayout() {
       <S.Wrapper>
         <S.Box>
           {!isPostPath && <Navigation />}
-          <S.Main>
+          <S.Main $isCenter={isPostPath}>
             <Outlet />
           </S.Main>
         </S.Box>

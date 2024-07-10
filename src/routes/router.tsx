@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "@/layout/MainLayout";
 
 import { Home } from "@/page/Home";
+import { Search } from "@/page/Search";
 import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
 import { PostDetail } from "@/components/Detail/PostDetail";
 
@@ -17,7 +18,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "search",
-        element: <>Search</>,
+        element: <Search />,
       },
       {
         path: "saved",
