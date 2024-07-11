@@ -4,7 +4,7 @@ import { ChatIcon } from "@/components/Icons/ChatIcon";
 import * as S from "./style";
 
 interface Props {
-  content: {
+  data: {
     title: string;
     description: string;
     tags: string[];
@@ -14,13 +14,14 @@ interface Props {
     chat: number;
     imageUrl: string;
   };
+  onItemClick: () => void;
 }
 
-export function AskItem({ content }: Props) {
+export function AskItem({ data, onItemClick }: Props) {
   const { title, description, tags, writter, date, like, chat, imageUrl } =
-    content;
+    data;
   return (
-    <S.Container>
+    <S.Container onClick={onItemClick}>
       <S.TextWrapper>
         <S.Title>{title}</S.Title>
         <S.Description>{description}</S.Description>
