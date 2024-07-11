@@ -14,16 +14,16 @@ export function XCircleIcon({ size, color }: Props) {
       <path
         d="M15 9L9 15"
         stroke={color}
-        stroke-width="1"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M9 9L15 15"
         stroke={color}
-        stroke-width="1"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

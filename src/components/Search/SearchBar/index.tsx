@@ -23,6 +23,7 @@ export function SearchBar() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (inputText === "") return;
     navigate(`?search_query=${inputText}`);
     setInputText("");
   };

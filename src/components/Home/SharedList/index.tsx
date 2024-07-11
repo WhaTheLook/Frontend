@@ -15,6 +15,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 2,
@@ -23,6 +24,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 4,
@@ -39,6 +42,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 5,
@@ -47,6 +51,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 6,
@@ -55,6 +60,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 7,
@@ -63,6 +69,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 8,
@@ -71,6 +78,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 9,
@@ -79,6 +87,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
 ];
 
@@ -99,15 +108,11 @@ export function SharedList() {
   return (
     <>
       <S.Container>
-        {mockData.map(({ id, imageUrl, title, writter, date, like }) => (
+        {mockData.map((data) => (
           <SharedItem
-            key={id}
-            imageUrl={imageUrl}
-            title={title}
-            writter={writter}
-            date={date}
-            like={like}
-            onItemClick={() => handleItemClick(id)}
+            key={data.id}
+            data={data}
+            onItemClick={() => handleItemClick(data.id)}
           />
         ))}
       </S.Container>

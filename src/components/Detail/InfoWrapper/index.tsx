@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { Link } from "react-router-dom";
 
 import { HeartIcon } from "@/components/Icons/HeartIcon";
 import { ChatIcon } from "@/components/Icons/ChatIcon";
@@ -39,7 +40,9 @@ export function InfoWrapper({ content }: Props) {
         {tags.length !== 0 && (
           <S.Tags>
             {tags.map((tag) => (
-              <S.Tag key={tag}>#{tag}</S.Tag>
+              <Link to={`/search?search_query=${tag}`} key={tag}>
+                <S.Tag>#{tag}</S.Tag>
+              </Link>
             ))}
           </S.Tags>
         )}
