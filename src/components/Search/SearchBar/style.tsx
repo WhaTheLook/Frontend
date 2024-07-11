@@ -1,25 +1,36 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
   height: 55px;
   margin-bottom: 30px;
 
-  border-radius: 10px;
+  position: relative;
 `;
 
-export const Form = styled.form`
-  width: 100%;
-  height: 100%;
+interface FormProps {
+  $isFocus: boolean;
+}
 
-  position: relative;
+export const Form = styled.form<FormProps>`
+  ${({ $isFocus }) => {
+    return css`
+      width: 100%;
+      height: 100%;
+
+      position: relative;
+
+      border-radius: 12px;
+      border-bottom-left-radius: ${$isFocus ? "0px" : "12px"};
+      border-bottom-right-radius: ${$isFocus ? "0px" : "12px"};
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    `;
+  }}
 `;
 
 export const InputBox = styled.div`
   height: 100%;
   padding: 0px 50px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 export const InputText = styled.input`
