@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 
 export const Container = styled.div``;
 
@@ -19,9 +19,18 @@ export const Box = styled.div`
   gap: 50px;
 `;
 
-export const Main = styled.main`
-  width: 100%;
+interface MainProps {
+  $isCenter: boolean;
+}
 
-  display: flex;
-  justify-content: center;
+export const Main = styled.main<MainProps>`
+  ${({ $isCenter }) => {
+    return css`
+      width: 100%;
+      margin-top: 20px;
+
+      display: flex;
+      justify-content: ${$isCenter ? "center" : "baseline"};
+    `;
+  }}
 `;

@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { createPortal } from "react-dom";
+import { Fragment } from "react";
 
 import { DetailModal } from "@/components/Detail/DetailModal";
 import { PostDetail } from "@/components/Detail/PostDetail";
 import { SharedItem } from "../SharedItem";
+
+import { useDetailModal } from "@/hooks/useDetailModal";
 
 import * as S from "./style";
 
@@ -15,6 +16,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 2,
@@ -23,6 +25,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 3,
@@ -31,6 +34,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 4,
@@ -39,6 +43,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 5,
@@ -47,6 +52,7 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
+    category: false,
   },
   {
     id: 6,
@@ -55,69 +61,27 @@ const mockData = [
     writter: "어나니머스",
     date: "20분전",
     like: 20,
-  },
-  {
-    id: 7,
-    imageUrl: "https://i1.sndcdn.com/artworks-000227430562-am04j1-t500x500.jpg",
-    title: "지디가 입은 옷 궁금해요",
-    writter: "어나니머스",
-    date: "20분전",
-    like: 20,
-  },
-  {
-    id: 8,
-    imageUrl: "https://i1.sndcdn.com/artworks-000227430562-am04j1-t500x500.jpg",
-    title: "지디가 입은 옷 궁금해요",
-    writter: "어나니머스",
-    date: "20분전",
-    like: 20,
-  },
-  {
-    id: 9,
-    imageUrl: "https://i1.sndcdn.com/artworks-000227430562-am04j1-t500x500.jpg",
-    title: "지디가 입은 옷 궁금해요",
-    writter: "어나니머스",
-    date: "20분전",
-    like: 20,
+    category: false,
   },
 ];
 
 export function SharedList() {
-  const [showModal, setShowModal] = useState(false);
-  const element = document.getElementById("modal") as HTMLElement;
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    history.replaceState({}, "", "/");
-  };
-
-  const handleItemClick = (id: number) => {
-    setShowModal(true);
-    history.replaceState({ modalPostId: id }, "", `/post/${id}`);
-  };
+  const { isOpen, handleOpen, handleClose } = useDetailModal();
 
   return (
-    <>
+    <Fragment>
       <S.Container>
-        {mockData.map(({ id, imageUrl, title, writter, date, like }) => (
+        {mockData.map((data) => (
           <SharedItem
-            key={id}
-            imageUrl={imageUrl}
-            title={title}
-            writter={writter}
-            date={date}
-            like={like}
-            onItemClick={() => handleItemClick(id)}
+            key={data.id}
+            data={data}
+            onItemClick={() => handleOpen(data.id, `post/${data.id}`)}
           />
         ))}
       </S.Container>
-      {showModal &&
-        createPortal(
-          <DetailModal onOutSideClick={handleCloseModal}>
-            <PostDetail />
-          </DetailModal>,
-          element
-        )}
-    </>
+      <DetailModal isOpen={isOpen} onOutSideClick={() => handleClose("/")}>
+        <PostDetail />
+      </DetailModal>
+    </Fragment>
   );
 }
