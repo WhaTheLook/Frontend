@@ -1,8 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   background-color: #fff;
   width: 750px;
+  min-height: 85px;
 
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -36,19 +37,27 @@ export const InfoSubTextDiv = styled.div`
   gap: 5px;
 `;
 
-export const SubButton = styled.button`
-  background-color: transparent;
+interface SubButtonProps {
+  $isDisabled: boolean;
+}
 
-  font-size: 13px;
-  letter-spacing: -0.2px;
+export const SubButton = styled.button<SubButtonProps>`
+  ${({ $isDisabled }) => {
+    return css`
+      background-color: transparent;
 
-  border: none;
+      font-size: 13px;
+      letter-spacing: -0.2px;
 
-  cursor: pointer;
+      border: none;
 
-  &:hover {
-    text-decoration: underline;
-  }
+      cursor: ${$isDisabled ? "default" : "pointer"};
+
+      &:hover {
+        text-decoration: ${$isDisabled ? "" : "underline"};
+      }
+    `;
+  }}
 `;
 
 export const Tags = styled.div`
@@ -90,4 +99,10 @@ export const XButton = styled.button`
   border: none;
 
   cursor: pointer;
+`;
+
+export const MainText = styled.span`
+  text-align: center;
+  font-size: 16px;
+  color: #a9a9a9;
 `;
