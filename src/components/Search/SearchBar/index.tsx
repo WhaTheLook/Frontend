@@ -68,7 +68,8 @@ export function SearchBar() {
     const searchHist = JSON.parse(
       getLocalStorageItem(SEARCHED_HISTORY) || "[]"
     );
-    const copyedSearchHist = [...searchHist];
+    const copyedSearchHist = [...searchHist].filter((tag) => tag !== text); // 중복 제거
+
     if (copyedSearchHist.length === SEARCHED_HISTORY_MAX_LENGTH) {
       copyedSearchHist.pop();
     }
