@@ -6,6 +6,7 @@ import { Home } from "@/page/Home";
 import { Search } from "@/page/Search";
 import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
 import { PostDetail } from "@/components/Detail/PostDetail";
+import { Upload } from "@/page/Upload";
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "upload",
-        element: <>Upload</>,
+        element: <Upload />,
       },
       {
         path: "post/:postId",
