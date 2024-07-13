@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { MainLayout } from "@/layout/MainLayout";
+import { UploadLayout } from "@/layout/UploadLayout";
 
 import { Home } from "@/page/Home";
 import { Search } from "@/page/Search";
@@ -30,12 +31,18 @@ export const router = createBrowserRouter([
         element: <>Mypage</>,
       },
       {
-        path: "upload",
-        element: <Upload />,
-      },
-      {
         path: "post/:postId",
         element: <PostDetail />,
+      },
+    ],
+  },
+  {
+    path: "upload",
+    element: <UploadLayout />,
+    children: [
+      {
+        path: "",
+        element: <Upload />,
       },
     ],
   },

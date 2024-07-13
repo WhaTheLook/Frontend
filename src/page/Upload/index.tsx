@@ -1,16 +1,17 @@
+import { ImageInput } from "@/components/Upload/ImageInput";
 import { TitleInput } from "@/components/Upload/TitleInput";
-import { DescriptionInput } from "@/components/Upload/DescriptionInput";
 import { TagInput } from "@/components/Upload/TagInput";
+import { DescriptionInput } from "@/components/Upload/DescriptionInput";
 
 import * as S from "./style";
 
 export function Upload() {
   return (
     <S.Container>
-      <S.Title>글 생성하기</S.Title>
+      <ImageInput />
       <TitleInput />
-      <TagInput />
       <DescriptionInput />
+      <TagInput />
     </S.Container>
   );
 }
