@@ -1,9 +1,14 @@
 import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
+  background-color: #f3f3f3;
+  padding: 20px;
+
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
+
+  border-radius: 8px;
 
   position: relative;
 `;
@@ -25,7 +30,7 @@ const scaleUp = keyframes`
 `;
 
 export const Tag = styled.div`
-  background-color: #424242;
+  background-color: #525252;
   padding: 9px 12px;
 
   font-size: 15px;
@@ -40,30 +45,61 @@ export const Tag = styled.div`
 `;
 
 export const Input = styled.input`
+  background-color: transparent;
   padding: 7px 0;
 
-  font-size: 18px;
+  font-size: 17px;
 
   border: none;
 
   outline: none;
 `;
 
+const translateIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  } to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
 export const InfoTextBox = styled.div`
-  background-color: #424242;
-  padding: 15px;
+  width: 200px;
+  padding: 20px;
 
   display: flex;
   flex-direction: column;
   gap: 8px;
 
-  font-size: 14px;
-  color: #ffffff;
+  border-radius: 12px;
 
   position: absolute;
-  top: 110%;
+  top: 0;
+  left: 103%;
+
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  animation: ${translateIn} 0.3s ease-out;
 `;
 
-export const InfoText = styled.span`
-  white-space: nowrap;
+export const Bold = styled.span`
+  font-size: 15px;
+  font-weight: 600;
+`;
+
+export const InfoText = styled.li`
+  font-size: 15px;
+  line-height: 1.5;
+
+  margin: 7px 0;
+  position: relative;
+  padding-left: 12px;
+
+  &::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 `;

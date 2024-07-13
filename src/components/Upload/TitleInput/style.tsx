@@ -7,12 +7,12 @@ export const Container = styled.div`
 `;
 
 export const Input = styled.input`
-  padding: 12px 14px;
 
-  font-size: 18px;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.5;
 
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: none;
 
   outline: none;
 `;

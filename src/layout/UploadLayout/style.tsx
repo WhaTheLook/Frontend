@@ -12,8 +12,8 @@ export const Wrapper = styled.div`
 
 export const Box = styled.div`
   width: 100%;
-  max-width: 750px;
-  padding: 0 20px;
+  max-width: 650px;
+  padding: 0 20px 150px 20px;
 
   display: flex;
   gap: 50px;

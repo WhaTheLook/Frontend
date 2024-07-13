@@ -7,14 +7,14 @@ export const Container = styled.div`
 `;
 
 export const Textarea = styled.textarea`
-  padding: 12px 14px;
-
+  padding: 10px 0;
+  height: auto;
   font-size: 18px;
   font-family: sans-serif;
-
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  line-height: 1.5;
+  border: none;
 
   outline: none;
   resize: none;
+  overflow: hidden;
 `;

@@ -38,7 +38,7 @@ export function TagInput() {
 
   return (
     <S.Container>
-      <Label text="해시태그" htmlFor="tag" />
+      <Label text="태그" htmlFor="tag" />
       <S.TagBox>
         {tags.map((tag) => (
           <S.Tag key={tag} onClick={() => handleTagClick(tag)}>
@@ -60,9 +60,11 @@ export function TagInput() {
       </S.TagBox>
       {isFocus && (
         <S.InfoTextBox>
-          <S.InfoText>엔터를 입력하면 태그를 등록할 수 있습니다.</S.InfoText>
-          <S.InfoText>등록된 태그를 클릭하면 삭제됩니다.</S.InfoText>
-          <S.InfoText>(최대 5개까지 입력 가능)</S.InfoText>
+          <ul>
+            <S.InfoText>엔터로 태그를 등록할 수 있어요.</S.InfoText>
+            <S.InfoText>등록된 태그를 클릭하면 삭제돼요.</S.InfoText>
+            <S.InfoText>최대 5개까지 입력 가능</S.InfoText>
+          </ul>
         </S.InfoTextBox>
       )}
     </S.Container>
