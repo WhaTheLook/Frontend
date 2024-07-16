@@ -1,3 +1,4 @@
+import { UploadActionType } from "@/constants";
 import { Dispatch } from "react";
 
 export interface ImageUploadType {
@@ -14,19 +15,19 @@ export interface UploadDataType {
 
 export type ActionType =
   | {
-      type: "IMAGES";
+      type: UploadActionType.IMAGES;
       payload: ImageUploadType[];
     }
   | {
-      type: "TITLE";
+      type: UploadActionType.TITLE;
       payload: string;
     }
   | {
-      type: "DESCRITPTION";
+      type: UploadActionType.DESCRITPTION;
       payload: string;
     }
   | {
-      type: "TAGS";
+      type: UploadActionType.TAGS;
       payload: string[];
     };
 

@@ -2,12 +2,14 @@ import { ChangeEvent, KeyboardEvent, memo, useState } from "react";
 
 import { Label } from "../Label";
 
+import { TAGS_MAX_COUNT } from "@/constants";
+
+import * as S from "./style";
+
 interface Props {
   tags: string[];
   dispatcher: (args: string[]) => void;
 }
-
-import * as S from "./style";
 
 export const TagInput = memo(function TagInput({ tags, dispatcher }: Props) {
   const [inputText, setInputText] = useState("");
@@ -25,7 +27,7 @@ export const TagInput = memo(function TagInput({ tags, dispatcher }: Props) {
     if (copyedTags.includes(newTag)) return;
     copyedTags.push(newTag);
     dispatcher(copyedTags);
-    if (copyedTags.length === 5) setIsFocus(false);
+    if (copyedTags.length === TAGS_MAX_COUNT) setIsFocus(false);
   };
 
   const handleKeyDown = ({ key }: KeyboardEvent<HTMLInputElement>) => {
@@ -49,7 +51,7 @@ export const TagInput = memo(function TagInput({ tags, dispatcher }: Props) {
             {tag}
           </S.Tag>
         ))}
-        {tags.length < 5 && (
+        {tags.length < TAGS_MAX_COUNT && (
           <S.Input
             id="tag"
             type="text"
@@ -67,7 +69,7 @@ export const TagInput = memo(function TagInput({ tags, dispatcher }: Props) {
           <ul>
             <S.InfoText>엔터로 태그를 등록할 수 있어요.</S.InfoText>
             <S.InfoText>등록된 태그를 클릭하면 삭제돼요.</S.InfoText>
-            <S.InfoText>최대 5개까지 입력 가능</S.InfoText>
+            <S.InfoText>최대 {TAGS_MAX_COUNT}개까지 입력 가능</S.InfoText>
           </ul>
         </S.InfoTextBox>
       )}

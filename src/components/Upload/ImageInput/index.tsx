@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { XCircleIcon } from "@/components/Icons/XCircleIcon";
 
+import { ALERT_MESSAGE, IMAGE_UPLOAD_MAX_COUNT } from "@/constants";
 import { ImageUploadType } from "@/types";
 
 import * as S from "./style";
@@ -30,8 +31,8 @@ export const ImageInput = memo(function ImageInput({
     const fileArray = Array.from(files).map((file) => ({ id: uuidv4(), file }));
     const totalFiles = images.length + fileArray.length;
 
-    if (totalFiles > 5) {
-      alert("이미지 최대 5개까지 업로드 가능해요.");
+    if (totalFiles > IMAGE_UPLOAD_MAX_COUNT) {
+      alert(ALERT_MESSAGE.IMAGE_UPLOAD_COUNT_OVER);
       return;
     }
 

@@ -7,6 +7,7 @@ import { TagInput } from "@/components/Upload/TagInput";
 import { DescriptionInput } from "@/components/Upload/DescriptionInput";
 
 import { ImageUploadType, UploadLayoutContextProps } from "@/types";
+import { UploadActionType } from "@/constants";
 
 import * as S from "./style";
 
@@ -16,28 +17,31 @@ export function Upload() {
 
   const handleSetImages = useCallback(
     (newImages: ImageUploadType[]) => {
-      dispatch({ type: "IMAGES", payload: newImages });
+      dispatch({ type: UploadActionType.IMAGES, payload: newImages });
     },
     [dispatch]
   );
 
   const handleSetTitle = useCallback(
     (newTitle: string) => {
-      dispatch({ type: "TITLE", payload: newTitle });
+      dispatch({ type: UploadActionType.TITLE, payload: newTitle });
     },
     [dispatch]
   );
 
   const handleSetDescription = useCallback(
     (newDescription: string) => {
-      dispatch({ type: "DESCRITPTION", payload: newDescription });
+      dispatch({
+        type: UploadActionType.DESCRITPTION,
+        payload: newDescription,
+      });
     },
     [dispatch]
   );
 
   const handleSetTags = useCallback(
     (newTags: string[]) => {
-      dispatch({ type: "TAGS", payload: newTags });
+      dispatch({ type: UploadActionType.TAGS, payload: newTags });
     },
     [dispatch]
   );
