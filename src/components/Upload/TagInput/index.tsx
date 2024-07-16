@@ -1,18 +1,22 @@
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, memo, useState } from "react";
 
 import { Label } from "../Label";
 
+interface Props {
+  tags: string[];
+  dispatcher: (args: string[]) => void;
+}
+
 import * as S from "./style";
 
-export function TagInput() {
+export const TagInput = memo(function TagInput({ tags, dispatcher }: Props) {
   const [inputText, setInputText] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
   const [isFocus, setIsFocus] = useState(false);
 
   const handleTagClick = (text: string) => {
     const copyedTags = [...tags];
     const newTags = copyedTags.filter((tag) => tag !== text);
-    setTags(newTags);
+    dispatcher(newTags);
   };
 
   const addNewTag = (newTag: string) => {
@@ -20,7 +24,7 @@ export function TagInput() {
     const copyedTags = [...tags];
     if (copyedTags.includes(newTag)) return;
     copyedTags.push(newTag);
-    setTags(copyedTags);
+    dispatcher(copyedTags);
     if (copyedTags.length === 5) setIsFocus(false);
   };
 
@@ -69,4 +73,4 @@ export function TagInput() {
       )}
     </S.Container>
   );
-}
+});

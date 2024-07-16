@@ -1,21 +1,26 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, memo, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { XCircleIcon } from "@/components/Icons/XCircleIcon";
 
+import { ImageUploadType } from "@/types";
+
 import * as S from "./style";
 
-interface ImagesType {
-  id: string;
-  file: File;
+interface Props {
+  images: ImageUploadType[];
+  dispatcher: (args: ImageUploadType[]) => void;
 }
 
-export function ImageInput() {
-  const [images, setImages] = useState<ImagesType[]>([]);
+export const ImageInput = memo(function ImageInput({
+  images,
+  dispatcher,
+}: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleDeleteBtnClick = (imageId: string) => {
-    setImages((prevImages) => prevImages.filter(({ id }) => id !== imageId));
+    const filteredImages = [...images].filter(({ id }) => id !== imageId);
+    dispatcher(filteredImages);
   };
 
   const handleUploadImages = ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +36,7 @@ export function ImageInput() {
     }
 
     const copyedImages = [...images, ...fileArray];
-    setImages(copyedImages);
+    dispatcher(copyedImages);
   };
 
   const handleUploadBtnClick = () => {
@@ -62,4 +67,4 @@ export function ImageInput() {
       ))}
     </S.Container>
   );
-}
+});

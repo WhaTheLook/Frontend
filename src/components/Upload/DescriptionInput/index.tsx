@@ -1,14 +1,23 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, memo, useEffect, useRef } from "react";
 
 import * as S from "./style";
 
-export function DescriptionInput() {
-  const [inputText, setInputText] = useState("");
+interface Props {
+  description: string;
+  dispatcher: (arg: string) => void;
+}
+
+export const DescriptionInput = memo(function DescriptionInput({
+  description,
+  dispatcher,
+}: Props) {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeDescription = ({
+    target,
+  }: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = target;
-    setInputText(value);
+    dispatcher(value.trim());
   };
 
   useEffect(() => {
@@ -16,7 +25,7 @@ export function DescriptionInput() {
       textAreaRef.current.style.height = "auto";
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
-  }, [inputText]);
+  }, [description]);
 
   return (
     <S.Container>
@@ -26,8 +35,9 @@ export function DescriptionInput() {
         name="description"
         id="description"
         rows={3}
-        onChange={handleChange}
+        value={description}
+        onChange={handleChangeDescription}
       />
     </S.Container>
   );
-}
+});
