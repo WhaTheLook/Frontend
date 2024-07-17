@@ -32,7 +32,7 @@ const navigationList = [
   {
     icon: <UploadIcon size={22} />,
     text: "글 올리기",
-    pathUrl: "/post",
+    pathUrl: "/upload",
   },
 ];
 
