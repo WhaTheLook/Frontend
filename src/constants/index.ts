@@ -19,4 +19,5 @@ export enum UploadActionType {
     "DESCRITPTION" = "DESCRITPTION",
     "TAGS" = "TAGS",
     "IMAGES" = "IMAGES",
+    "VALIDATE" = "VALIDATE",
 }

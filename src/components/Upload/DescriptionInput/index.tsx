@@ -1,15 +1,19 @@
 import { ChangeEvent, memo, useEffect, useRef } from "react";
 
+import { ErrorMessage } from "@/components/common/ErrorMessage";
+
 import * as S from "./style";
 
 interface Props {
   description: string;
   dispatcher: (arg: string) => void;
+  error: boolean;
 }
 
 export const DescriptionInput = memo(function DescriptionInput({
   description,
   dispatcher,
+  error,
 }: Props) {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -17,7 +21,7 @@ export const DescriptionInput = memo(function DescriptionInput({
     target,
   }: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = target;
-    dispatcher(value.trim());
+    dispatcher(value);
   };
 
   useEffect(() => {
@@ -38,6 +42,7 @@ export const DescriptionInput = memo(function DescriptionInput({
         value={description}
         onChange={handleChangeDescription}
       />
+      {error && <ErrorMessage message="내용을 입력해주세요." />}
     </S.Container>
   );
 });

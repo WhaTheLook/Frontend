@@ -48,13 +48,26 @@ export function Upload() {
 
   return (
     <S.Container>
-      <ImageInput images={images} dispatcher={handleSetImages} />
-      <TitleInput title={title} dispatcher={handleSetTitle} />
-      <DescriptionInput
-        description={description}
-        dispatcher={handleSetDescription}
+      <ImageInput
+        images={images.data}
+        dispatcher={handleSetImages}
+        error={images.validation}
       />
-      <TagInput tags={tags} dispatcher={handleSetTags} />
+      <TitleInput
+        title={title.data}
+        dispatcher={handleSetTitle}
+        error={title.validation}
+      />
+      <DescriptionInput
+        description={description.data}
+        dispatcher={handleSetDescription}
+        error={description.validation}
+      />
+      <TagInput
+        tags={tags.data}
+        dispatcher={handleSetTags}
+        error={tags.validation}
+      />
     </S.Container>
   );
 }

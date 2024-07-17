@@ -1,5 +1,6 @@
 import { ChangeEvent, KeyboardEvent, memo, useState } from "react";
 
+import { ErrorMessage } from "@/components/common/ErrorMessage";
 import { Label } from "../Label";
 
 import { TAGS_MAX_COUNT } from "@/constants";
@@ -9,9 +10,14 @@ import * as S from "./style";
 interface Props {
   tags: string[];
   dispatcher: (args: string[]) => void;
+  error: boolean;
 }
 
-export const TagInput = memo(function TagInput({ tags, dispatcher }: Props) {
+export const TagInput = memo(function TagInput({
+  tags,
+  dispatcher,
+  error,
+}: Props) {
   const [inputText, setInputText] = useState("");
   const [isFocus, setIsFocus] = useState(false);
 
@@ -73,6 +79,7 @@ export const TagInput = memo(function TagInput({ tags, dispatcher }: Props) {
           </ul>
         </S.InfoTextBox>
       )}
+      {error && <ErrorMessage message="태그 1개 이상 입력해주세요." />}
     </S.Container>
   );
 });

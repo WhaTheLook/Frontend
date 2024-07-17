@@ -6,12 +6,19 @@ export interface ImageUploadType {
     file: File;
 } 
 
-export interface UploadDataType {
-    images: ImageUploadType[];
-    title: string;
-    description: string;
-    tags: string[];
+export interface UploadDataValidationType<T> {
+  data: T;
+  validation: boolean;
 }
+
+export interface UploadDataType {
+    images: UploadDataValidationType<ImageUploadType[]>;
+    title: UploadDataValidationType<string>;
+    description: UploadDataValidationType<string>;
+    tags: UploadDataValidationType<string[]>;
+}
+
+export type UploadErrorKeys = (keyof UploadDataType)[];
 
 export type ActionType =
   | {
@@ -29,7 +36,11 @@ export type ActionType =
   | {
       type: UploadActionType.TAGS;
       payload: string[];
-    };
+    }
+  | {
+      type: UploadActionType.VALIDATE;
+      payload: UploadErrorKeys;
+    }
 
   
 export interface UploadLayoutContextProps {

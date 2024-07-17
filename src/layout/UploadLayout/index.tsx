@@ -8,10 +8,10 @@ import { ActionType, UploadDataType } from "@/types";
 import * as S from "./style";
 
 const initState: UploadDataType = {
-  images: [],
-  title: "",
-  description: "",
-  tags: [],
+  images: { data: [], validation: false },
+  title: { data: "", validation: false },
+  description: { data: "", validation: false },
+  tags: { data: [], validation: false },
 };
 
 function reducer(state: UploadDataType, action: ActionType): UploadDataType {
@@ -21,23 +21,28 @@ function reducer(state: UploadDataType, action: ActionType): UploadDataType {
     case "IMAGES":
       return {
         ...state,
-        images: payload,
+        images: { data: payload, validation: false },
       };
     case "TITLE":
       return {
         ...state,
-        title: payload,
+        title: { data: payload, validation: false },
       };
     case "DESCRITPTION":
       return {
         ...state,
-        description: payload,
+        description: { data: payload, validation: false },
       };
     case "TAGS":
       return {
         ...state,
-        tags: payload,
+        tags: { data: payload, validation: false },
       };
+    case "VALIDATE": {
+      const updatedState = { ...state };
+      payload.forEach((key) => (updatedState[key].validation = true));
+      return updatedState;
+    }
     default:
       return state;
   }
@@ -48,7 +53,7 @@ export function UploadLayout() {
 
   return (
     <S.Container>
-      <UploadHeader data={data} />
+      <UploadHeader data={data} dispatch={dispatch} />
       <S.Wrapper>
         <S.Box>
           <S.Main>
