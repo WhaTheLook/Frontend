@@ -42,6 +42,10 @@ export type ActionType =
       type: UploadActionType.VALIDATE;
       payload: UploadErrorKeys[];
     }
+  | {
+      type: UploadActionType.RESET;
+      payload: null;
+    }
 
   
 export interface UploadLayoutContextProps {

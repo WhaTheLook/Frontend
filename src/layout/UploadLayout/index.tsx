@@ -1,9 +1,10 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { Outlet } from "react-router-dom";
 
 import { UploadHeader } from "@/components/common/UploadHeader";
 
 import { ActionType, UploadDataType } from "@/types";
+import { UploadActionType } from "@/constants";
 
 import * as S from "./style";
 
@@ -43,6 +44,8 @@ function reducer(state: UploadDataType, action: ActionType): UploadDataType {
       payload.forEach((key) => (updatedState[key].validation = true));
       return updatedState;
     }
+    case "RESET":
+      return JSON.parse(JSON.stringify(initState));
     default:
       return state;
   }
@@ -50,6 +53,10 @@ function reducer(state: UploadDataType, action: ActionType): UploadDataType {
 
 export function UploadLayout() {
   const [data, dispatch] = useReducer(reducer, initState);
+
+  useEffect(() => {
+    dispatch({ type: UploadActionType.RESET, payload: null });
+  }, []);
 
   return (
     <S.Container>

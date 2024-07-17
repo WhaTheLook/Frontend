@@ -20,4 +20,5 @@ export enum UploadActionType {
     "TAGS" = "TAGS",
     "IMAGES" = "IMAGES",
     "VALIDATE" = "VALIDATE",
+    "RESET" = "RESET",
 }
