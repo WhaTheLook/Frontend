@@ -22,24 +22,31 @@ export function UploadHeader({ data, dispatch }: Props) {
     navigate(-1);
   };
 
-  const handleSubmitBtnClick = () => {
-    const errorKeys = [] as UploadErrorKeys;
-    if (images.data.length === 0) {
-      errorKeys.push("images");
+  const checkAndAddError = (
+    condition: boolean,
+    errorKey: UploadErrorKeys,
+    errorKeys: UploadErrorKeys[]
+  ) => {
+    if (condition) {
+      errorKeys.push(errorKey);
     }
-    if (title.data === "") {
-      errorKeys.push("title");
-    }
-    if (description.data.trim() === "") {
-      errorKeys.push("description");
-    }
-    if (tags.data.length === 0) {
-      errorKeys.push("tags");
-    }
-    dispatch({ type: UploadActionType.VALIDATE, payload: errorKeys });
+  };
 
-    // To do
-    // description.trim()
+  const validateForm = () => {
+    const errorKeys: UploadErrorKeys[] = [];
+
+    checkAndAddError(images.data.length === 0, "images", errorKeys);
+    checkAndAddError(title.data === "", "title", errorKeys);
+    checkAndAddError(description.data.trim() === "", "description", errorKeys);
+    checkAndAddError(tags.data.length === 0, "tags", errorKeys);
+
+    return errorKeys;
+  };
+
+  const handleSubmitBtnClick = () => {
+    const errorKeys = validateForm();
+    dispatch({ type: UploadActionType.VALIDATE, payload: errorKeys });
+    // To do: description.trim()
   };
 
   return (

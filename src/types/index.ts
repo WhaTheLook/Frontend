@@ -1,5 +1,6 @@
-import { UploadActionType } from "@/constants";
 import { Dispatch } from "react";
+
+import { UploadActionType } from "@/constants";
 
 export interface ImageUploadType {
     id: string;
@@ -18,7 +19,7 @@ export interface UploadDataType {
     tags: UploadDataValidationType<string[]>;
 }
 
-export type UploadErrorKeys = (keyof UploadDataType)[];
+export type UploadErrorKeys = keyof UploadDataType;
 
 export type ActionType =
   | {
@@ -39,7 +40,7 @@ export type ActionType =
     }
   | {
       type: UploadActionType.VALIDATE;
-      payload: UploadErrorKeys;
+      payload: UploadErrorKeys[];
     }
 
   
