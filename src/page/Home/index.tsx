@@ -4,17 +4,16 @@ import { Menu } from "@/components/common/Menu";
 import { SortTab } from "@/components/Home/SortTab";
 import { PostList } from "@/components/Home/PostList";
 
+import { useMenuType } from "@/hooks/useMenuType";
+
 import { HOME_MENU_LIST } from "@/constants";
 
 import * as S from "./style";
 
 export function Home() {
-  const [currentMenu, setCurrentMenu] = useState(0);
   const [sortType, setSortType] = useState(0);
 
-  function handleMenuClick(id: number) {
-    setCurrentMenu(id);
-  }
+  const { menuType, handleMenuClick } = useMenuType();
 
   function handleSortTypeClick(id: number) {
     setSortType(id);
@@ -23,12 +22,12 @@ export function Home() {
   return (
     <S.Container>
       <Menu
-        currentMenu={currentMenu}
+        currentMenu={menuType}
         onMenuClick={handleMenuClick}
         menuList={HOME_MENU_LIST}
       />
       <SortTab sortType={sortType} onSortTypeClick={handleSortTypeClick} />
-      <PostList menuType={currentMenu} sortType={sortType} />
+      <PostList menuType={menuType} sortType={sortType} />
     </S.Container>
   );
 }
