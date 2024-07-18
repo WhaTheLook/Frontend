@@ -2,9 +2,15 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 export const ProfileWrapper = styled.div`
+  margin-bottom: 20px;
+
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -67,11 +73,16 @@ export const InfoTextDiv = styled.div`
 `;
 
 export const InfoText = styled.span`
-  font-size: 18px;
+  font-size: 16px;
+  white-space: nowrap;
 `;
 
 export const Bold = styled.b`
   font-weight: 600;
 `;
 
-export const PostWrapper = styled.div``;
+export const PostWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;

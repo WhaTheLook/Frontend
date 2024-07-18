@@ -5,6 +5,8 @@ import { SortTab } from "@/components/Home/SortTab";
 import { SharedList } from "@/components/Home/SharedList";
 import { AskList } from "@/components/Home/AskList";
 
+import { HOME_MENU_LIST } from "@/constants";
+
 import * as S from "./style";
 
 export function Home() {
@@ -21,7 +23,11 @@ export function Home() {
 
   return (
     <S.Container>
-      <Menu currentMenu={currentMenu} onMenuClick={handleMenuClick} />
+      <Menu
+        currentMenu={currentMenu}
+        onMenuClick={handleMenuClick}
+        menuList={HOME_MENU_LIST}
+      />
       <SortTab sortType={sortType} onSortTypeClick={handleSortTypeClick} />
       {currentMenu === 1 ? <SharedList /> : <AskList />}
     </S.Container>

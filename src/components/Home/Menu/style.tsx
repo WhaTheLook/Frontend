@@ -4,7 +4,7 @@ export const Container = styled.nav`
   background-color: #ffffff;
   width: 100%;
   margin-top: -20px;
-  padding-top: 25px;
+  padding-top: 30px;
 
   border-bottom: 1.5px solid #eaebec;
 

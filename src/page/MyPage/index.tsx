@@ -1,6 +1,20 @@
+import { useState } from "react";
+
+import { Menu } from "@/components/Home/Menu";
+import { MyPosts } from "@/components/Mypage/MyPosts";
+import { MyChats } from "@/components/Mypage/MyChats";
+
+import { MYPAGE_MENU_LIST } from "@/constants";
+
 import * as S from "./style";
 
 export function MyPage() {
+  const [currentMenu, setCurrentMenu] = useState(0);
+
+  function handleMenuClick(id: number) {
+    setCurrentMenu(id);
+  }
+
   return (
     <S.Container>
       <S.ProfileWrapper>
@@ -22,7 +36,14 @@ export function MyPage() {
           <S.EditButton>프로필 수정</S.EditButton>
         </S.ProfileImageBox>
       </S.ProfileWrapper>
-      <S.PostWrapper></S.PostWrapper>
+      <S.PostWrapper>
+        <Menu
+          currentMenu={currentMenu}
+          onMenuClick={handleMenuClick}
+          menuList={MYPAGE_MENU_LIST}
+        />
+        {currentMenu === 0 ? <MyPosts /> : <MyChats />}
+      </S.PostWrapper>
     </S.Container>
   );
 }

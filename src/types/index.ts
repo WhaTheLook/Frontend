@@ -2,6 +2,11 @@ import { Dispatch } from "react";
 
 import { UploadActionType } from "@/constants";
 
+export interface MenuListType {
+  id: number;
+  text: string;
+}
+
 export interface ImageUploadType {
     id: string;
     file: File;

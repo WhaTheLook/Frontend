@@ -22,3 +22,13 @@ export enum UploadActionType {
     "VALIDATE" = "VALIDATE",
     "RESET" = "RESET",
 }
+
+export const HOME_MENU_LIST = [
+    { id: 0, text: "정보 질문" },
+    { id: 1, text: "정보 공유" },
+];
+
+export const MYPAGE_MENU_LIST = [
+    { id: 0, text: "내 게시글" },
+    { id: 1, text: "내 댓글" },
+];

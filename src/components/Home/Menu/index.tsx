@@ -1,25 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 
-import * as S from "./style";
+import { MenuListType } from "@/types";
 
-const menuList = [
-  { id: 0, text: "알려주세요" },
-  { id: 1, text: "알려줄게요" },
-];
+import * as S from "./style";
 
 interface Props {
   currentMenu: number;
   onMenuClick: (id: number) => void;
+  menuList: MenuListType[];
 }
 
-export function Menu({ currentMenu, onMenuClick }: Props) {
+export function Menu({ currentMenu, onMenuClick, menuList }: Props) {
   const textRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const [tabLineStyles, setTabLineStyles] = useState({
     width: 0,
     translateX: 0,
   });
 
-  useEffect(() => {
+  const updateTabLineStyles = () => {
     if (textRefs.current[currentMenu]) {
       const paddingOffset = 30;
       const selectedText = textRefs.current[currentMenu];
@@ -29,7 +27,9 @@ export function Menu({ currentMenu, onMenuClick }: Props) {
         .reduce((acc, el) => acc + ((el?.offsetWidth || 0) + paddingOffset), 0);
       setTabLineStyles({ width, translateX });
     }
-  }, [currentMenu]);
+  };
+
+  useEffect(updateTabLineStyles, [currentMenu]);
 
   return (
     <S.Container>
