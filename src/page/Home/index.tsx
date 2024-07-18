@@ -2,8 +2,7 @@ import { useState } from "react";
 
 import { Menu } from "@/components/common/Menu";
 import { SortTab } from "@/components/Home/SortTab";
-import { SharedList } from "@/components/Home/SharedList";
-import { AskList } from "@/components/Home/AskList";
+import { PostList } from "@/components/Home/PostList";
 
 import { HOME_MENU_LIST } from "@/constants";
 
@@ -11,7 +10,7 @@ import * as S from "./style";
 
 export function Home() {
   const [currentMenu, setCurrentMenu] = useState(0);
-  const [sortType, setSortType] = useState(1);
+  const [sortType, setSortType] = useState(0);
 
   function handleMenuClick(id: number) {
     setCurrentMenu(id);
@@ -29,7 +28,7 @@ export function Home() {
         menuList={HOME_MENU_LIST}
       />
       <SortTab sortType={sortType} onSortTypeClick={handleSortTypeClick} />
-      {currentMenu === 1 ? <SharedList /> : <AskList />}
+      <PostList menuType={currentMenu} sortType={sortType} />
     </S.Container>
   );
 }

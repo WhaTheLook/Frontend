@@ -32,3 +32,8 @@ export const MYPAGE_MENU_LIST = [
     { id: 0, text: "내 게시글" },
     { id: 1, text: "내 댓글" },
 ];
+
+export const SORT_LIST = [
+    { id: 0, text: "최신순" },
+    { id: 1, text: "인기순" },
+];

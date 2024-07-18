@@ -54,6 +54,19 @@ export type ActionType =
 
   
 export interface UploadLayoutContextProps {
-    data: UploadDataType,
-    dispatch: Dispatch<ActionType>
+    data: UploadDataType;
+    dispatch: Dispatch<ActionType>;
+}
+
+export interface PostListType {
+  id: number;
+  title: string;
+  content: string; 
+  tags: string[]; 
+  writter: string;
+  date: string;
+  like: number;
+  chat: number;
+  category: string;
+  imageUrl: string[]; 
 }

@@ -1,30 +1,22 @@
 import { HeartIcon } from "@/components/Icons/HeartIcon";
 import { ChatIcon } from "@/components/Icons/ChatIcon";
 
+import { PostListType } from "@/types";
+
 import * as S from "./style";
 
 interface Props {
-  data: {
-    title: string;
-    description: string;
-    tags: string[];
-    writter: string;
-    date: string;
-    like: number;
-    chat: number;
-    imageUrl: string;
-  };
+  data: PostListType;
   onItemClick: () => void;
 }
 
 export function AskItem({ data, onItemClick }: Props) {
-  const { title, description, tags, writter, date, like, chat, imageUrl } =
-    data;
+  const { title, content, tags, writter, date, like, chat, imageUrl } = data;
   return (
     <S.Container onClick={onItemClick}>
       <S.TextWrapper>
         <S.Title>{title}</S.Title>
-        <S.Description>{description}</S.Description>
+        <S.Description>{content}</S.Description>
         <S.TagsBox>
           {tags.map((tag) => (
             <S.Tag key={tag}>#{tag}</S.Tag>
@@ -47,7 +39,7 @@ export function AskItem({ data, onItemClick }: Props) {
         </S.SubInfoBox>
       </S.TextWrapper>
       <S.ImageWrapper>
-        <S.Image src={imageUrl} />
+        <S.Image src={imageUrl[0]} />
       </S.ImageWrapper>
     </S.Container>
   );
