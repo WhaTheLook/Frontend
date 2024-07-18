@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { DetailModal } from "@/components/Detail/DetailModal";
 import { PostDetail } from "@/components/Detail/PostDetail";
 import { Divider } from "@/components/common/Divider";
-import { AskItem } from "../AskItem";
+import { FlatItem } from "../FlatItem";
 
 import { useDetailModal } from "@/hooks/useDetailModal";
 
@@ -15,7 +15,7 @@ interface Props {
   data: PostListType[];
 }
 
-export function AskList({ data }: Props) {
+export function FlatList({ data }: Props) {
   const { isOpen, handleClose, handleOpen } = useDetailModal();
 
   return (
@@ -23,7 +23,7 @@ export function AskList({ data }: Props) {
       <S.Container>
         {data.map((conetent, index) => (
           <Fragment key={conetent.id}>
-            <AskItem
+            <FlatItem
               data={conetent}
               onItemClick={() =>
                 handleOpen(conetent.id, `/post/${conetent.id}`)

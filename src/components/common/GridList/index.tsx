@@ -2,7 +2,7 @@ import { Fragment } from "react";
 
 import { DetailModal } from "@/components/Detail/DetailModal";
 import { PostDetail } from "@/components/Detail/PostDetail";
-import { SharedItem } from "../SharedItem";
+import { GridItem } from "../GridItem";
 
 import { useDetailModal } from "@/hooks/useDetailModal";
 
@@ -14,14 +14,14 @@ interface Props {
   data: PostListType[];
 }
 
-export function SharedList({ data }: Props) {
+export function GridList({ data }: Props) {
   const { isOpen, handleOpen, handleClose } = useDetailModal();
 
   return (
     <Fragment>
       <S.Container>
         {data.map((content) => (
-          <SharedItem
+          <GridItem
             key={content.id}
             data={content}
             onItemClick={() => handleOpen(content.id, `post/${content.id}`)}

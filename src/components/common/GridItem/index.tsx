@@ -9,7 +9,7 @@ interface Props {
   onItemClick: () => void;
 }
 
-export function SharedItem({ data, onItemClick }: Props) {
+export function GridItem({ data, onItemClick }: Props) {
   const { title, imageUrl, writter, date, like } = data;
   return (
     <S.Container $imageUrl={imageUrl[0]} onClick={onItemClick}>

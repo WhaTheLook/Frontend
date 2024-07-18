@@ -10,7 +10,7 @@ interface Props {
   onItemClick: () => void;
 }
 
-export function AskItem({ data, onItemClick }: Props) {
+export function FlatItem({ data, onItemClick }: Props) {
   const { title, content, tags, writter, date, like, chat, imageUrl } = data;
   return (
     <S.Container onClick={onItemClick}>
