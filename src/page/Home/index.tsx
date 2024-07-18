@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Menu } from "@/components/Home/Menu";
+import { Menu } from "@/components/common/Menu";
 import { SortTab } from "@/components/Home/SortTab";
 import { SharedList } from "@/components/Home/SharedList";
 import { AskList } from "@/components/Home/AskList";
