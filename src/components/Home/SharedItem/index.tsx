@@ -1,22 +1,18 @@
 import { HeartIcon } from "@/components/Icons/HeartIcon";
 
+import { PostListType } from "@/types";
+
 import * as S from "./style";
 
 interface Props {
-  data: {
-    imageUrl: string;
-    title: string;
-    writter: string;
-    date: string;
-    like: number;
-  };
+  data: PostListType;
   onItemClick: () => void;
 }
 
 export function SharedItem({ data, onItemClick }: Props) {
   const { title, imageUrl, writter, date, like } = data;
   return (
-    <S.Container $imageUrl={imageUrl} onClick={onItemClick}>
+    <S.Container $imageUrl={imageUrl[0]} onClick={onItemClick}>
       <S.InfoWrapper>
         <S.InfoBox>
           <S.Title>{title}</S.Title>

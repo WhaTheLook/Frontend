@@ -3,12 +3,12 @@ import { PostListType } from "@/types";
 import { AskList } from "@/components/common/AskList";
 import { NothingInfo } from "../NothingInfo";
 
-import { MyPageMockData } from "@/mock";
+import mock from "@/mock";
 
 import * as S from "./style";
 
 export function MyPosts() {
-  const data = MyPageMockData as PostListType[];
+  const data = mock.MyPageMockData as PostListType[];
 
   return (
     <S.Container>

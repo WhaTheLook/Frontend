@@ -6,76 +6,25 @@ import { SharedItem } from "../SharedItem";
 
 import { useDetailModal } from "@/hooks/useDetailModal";
 
+import { PostListType } from "@/types";
+
 import * as S from "./style";
 
-const mockData = [
-  {
-    id: 1,
-    imageUrl: "https://i1.sndcdn.com/artworks-000227430562-am04j1-t500x500.jpg",
-    title: "지디가 입은 옷 궁금해요",
-    writter: "어나니머스",
-    date: "20분전",
-    like: 20,
-    category: false,
-  },
-  {
-    id: 2,
-    imageUrl: "https://i1.sndcdn.com/artworks-000227430562-am04j1-t500x500.jpg",
-    title: "지디가 입은 옷 궁금해요",
-    writter: "어나니머스",
-    date: "20분전",
-    like: 20,
-    category: false,
-  },
-  {
-    id: 3,
-    imageUrl: "https://i1.sndcdn.com/artworks-000227430562-am04j1-t500x500.jpg",
-    title: "지디가 입은 옷 궁금해요",
-    writter: "어나니머스",
-    date: "20분전",
-    like: 20,
-    category: false,
-  },
-  {
-    id: 4,
-    imageUrl: "https://i1.sndcdn.com/artworks-000227430562-am04j1-t500x500.jpg",
-    title: "지디가 입은 옷 궁금해요",
-    writter: "어나니머스",
-    date: "20분전",
-    like: 20,
-    category: false,
-  },
-  {
-    id: 5,
-    imageUrl: "https://i1.sndcdn.com/artworks-000227430562-am04j1-t500x500.jpg",
-    title: "지디가 입은 옷 궁금해요",
-    writter: "어나니머스",
-    date: "20분전",
-    like: 20,
-    category: false,
-  },
-  {
-    id: 6,
-    imageUrl: "https://i1.sndcdn.com/artworks-000227430562-am04j1-t500x500.jpg",
-    title: "지디가 입은 옷 궁금해요",
-    writter: "어나니머스",
-    date: "20분전",
-    like: 20,
-    category: false,
-  },
-];
+interface Props {
+  data: PostListType[];
+}
 
-export function SharedList() {
+export function SharedList({ data }: Props) {
   const { isOpen, handleOpen, handleClose } = useDetailModal();
 
   return (
     <Fragment>
       <S.Container>
-        {mockData.map((data) => (
+        {data.map((content) => (
           <SharedItem
-            key={data.id}
-            data={data}
-            onItemClick={() => handleOpen(data.id, `post/${data.id}`)}
+            key={content.id}
+            data={content}
+            onItemClick={() => handleOpen(content.id, `post/${content.id}`)}
           />
         ))}
       </S.Container>
