@@ -5,9 +5,11 @@ import { UploadLayout } from "@/layout/UploadLayout";
 
 import { Home } from "@/page/Home";
 import { Search } from "@/page/Search";
-import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
-import { PostDetail } from "@/components/Detail/PostDetail";
 import { Upload } from "@/page/Upload";
+import { MyPage } from "@/page/MyPage";
+import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
+
+import { PostDetail } from "@/components/Detail/PostDetail";
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +30,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "mypage",
-        element: <>Mypage</>,
+        element: <MyPage />,
       },
       {
         path: "post/:postId",
