@@ -42,3 +42,5 @@ export const SORT_LIST = [
     { id: 0, text: "최신순" },
     { id: 1, text: "인기순" },
 ];
+
+export const MAX_LENGTH_USER_NAME = 20;

@@ -7,18 +7,19 @@ import { UploadHeader } from "@/components/common/UploadHeader";
 import { InputLabel } from "@/components/ProfileEdit/InputLabel";
 
 import { ProfileEditType, ProfileFormValues } from "@/types";
+import { MAX_LENGTH_USER_NAME } from "@/constants";
 
 import * as S from "./style";
 
 export function ProfileEdit() {
-  const { register, handleSubmit, setValue } = useForm<ProfileFormValues>();
-  const inputSubmitRef = useRef<HTMLInputElement | null>(null);
-
   const location = useLocation();
-
   const {
     user: { name, profile_image },
   } = location.state as ProfileEditType;
+
+  const { register, handleSubmit, setValue, control } =
+    useForm<ProfileFormValues>();
+  const inputSubmitRef = useRef<HTMLInputElement | null>(null);
 
   const handleHeaderBtnClick = () => {
     if (inputSubmitRef.current) {
@@ -31,8 +32,10 @@ export function ProfileEdit() {
   };
 
   useEffect(() => {
+    // fetch된 데이터 가져오기 (이미지 URL, 이름)
+    // setValue("profileImage", fetchedImage)
     setValue("profileName", name);
-  }, [name, setValue]);
+  }, [setValue, name]);
 
   return (
     <S.Container>
@@ -52,11 +55,13 @@ export function ProfileEdit() {
                 label="이름"
                 type="text"
                 placeholder="이름을 입력해주세요"
-                maxLength={20}
+                maxLength={MAX_LENGTH_USER_NAME}
                 {...register("profileName", {
                   required: true,
-                  maxLength: 20,
+                  maxLength: MAX_LENGTH_USER_NAME,
                 })}
+                control={control}
+                setValue={setValue}
               />
               <S.SubmitButton type="submit" ref={inputSubmitRef} />
             </S.Form>
