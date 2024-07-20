@@ -2,6 +2,11 @@ import { Dispatch } from "react";
 
 import { UploadActionType } from "@/constants";
 
+export interface MenuListType {
+  id: number;
+  text: string;
+}
+
 export interface ImageUploadType {
     id: string;
     file: File;
@@ -49,6 +54,31 @@ export type ActionType =
 
   
 export interface UploadLayoutContextProps {
-    data: UploadDataType,
-    dispatch: Dispatch<ActionType>
+    data: UploadDataType;
+    dispatch: Dispatch<ActionType>;
+}
+
+export interface PostListType {
+  id: number;
+  title: string;
+  content: string; 
+  tags: string[]; 
+  writter: string;
+  date: string;
+  like: number;
+  chat: number;
+  category: string;
+  imageUrl: string[]; 
+}
+
+export interface ProfileFormValues {
+  profileImage: File;
+  profileName: string;
+}
+
+export interface ProfileEditType {
+  user: {
+    name: string;
+    profile_image: string;
+  };
 }

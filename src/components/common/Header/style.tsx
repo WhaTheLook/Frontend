@@ -46,21 +46,3 @@ export const LoginMessage = styled.span`
 export const UserName = styled.span`
   font-weight: 600;
 `;
-
-export const LoginButton = styled.button`
-  background-color: #000000;
-  padding: 5px 12px;
-
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffffff;
-
-  border-radius: 117px;
-  border: none;
-
-  cursor: pointer;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-`;

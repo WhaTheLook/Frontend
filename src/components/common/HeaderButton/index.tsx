@@ -1,9 +1,7 @@
-import { ReactNode } from "react";
-
 import * as S from "./style";
 
 interface Props {
-  children: ReactNode;
+  children: string;
   onClick: () => void;
 }
 

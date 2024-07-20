@@ -5,9 +5,12 @@ import { UploadLayout } from "@/layout/UploadLayout";
 
 import { Home } from "@/page/Home";
 import { Search } from "@/page/Search";
-import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
-import { PostDetail } from "@/components/Detail/PostDetail";
 import { Upload } from "@/page/Upload";
+import { MyPage } from "@/page/MyPage";
+import { ProfileEdit } from "@/page/ProfileEdit";
+import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
+
+import { PostDetail } from "@/components/Detail/PostDetail";
 
 export const router = createBrowserRouter([
   {
@@ -27,8 +30,8 @@ export const router = createBrowserRouter([
         element: <>Saved</>,
       },
       {
-        path: "mypage",
-        element: <>Mypage</>,
+        path: "profile",
+        element: <MyPage />,
       },
       {
         path: "post/:postId",
@@ -45,6 +48,10 @@ export const router = createBrowserRouter([
         element: <Upload />,
       },
     ],
+  },
+  {
+    path: "profile/edit",
+    element: <ProfileEdit />,
   },
   { path: "/kakao/auth", element: <KakaoLoginRedirect /> },
 ]);

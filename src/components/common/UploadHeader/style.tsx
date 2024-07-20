@@ -20,16 +20,3 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-
-export const UploadButton = styled.div`
-  background-color: #222222;
-  padding: 10px 14px;
-
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-
-  border-radius: 99px;
-
-  outline: none;
-`;

@@ -1,9 +1,6 @@
-import * as S from "./style";
+import { SORT_LIST } from "@/constants";
 
-const SORT_TABS = [
-  { id: 1, text: "최신순" },
-  { id: 2, text: "인기순" },
-];
+import * as S from "./style";
 
 interface Props {
   sortType: number;
@@ -15,7 +12,7 @@ export function SortTab({ sortType, onSortTypeClick }: Props) {
     <S.Container>
       <S.Wrapper>
         <S.ButtonBox>
-          {SORT_TABS.map(({ id, text }) => {
+          {SORT_LIST.map(({ id, text }) => {
             const isSelected = id === sortType;
             return (
               <S.Button
