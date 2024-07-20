@@ -27,7 +27,7 @@ const navigationList = [
   {
     icon: <UserIcon size={22} />,
     text: "마이페이지",
-    pathUrl: "/mypage",
+    pathUrl: "/profile",
   },
   {
     icon: <UploadIcon size={22} />,

@@ -13,3 +13,7 @@ export function setLocalStorageItem(key: string, value: string) {
 export function removeLocalStorageItem(key: string) {
     localStorage.removeItem(key);
 }
+
+export function getImageURL(file: File) {
+    return URL.createObjectURL(file);
+}

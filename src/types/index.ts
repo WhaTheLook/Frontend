@@ -70,3 +70,15 @@ export interface PostListType {
   category: string;
   imageUrl: string[]; 
 }
+
+export interface ProfileFormValues {
+  profileImage: File;
+  profileName: string;
+}
+
+export interface ProfileEditType {
+  user: {
+    name: string;
+    profile_image: string;
+  };
+}
