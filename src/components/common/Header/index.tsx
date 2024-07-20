@@ -5,6 +5,7 @@ import { LogoIcon } from "@/components/Icons/LogoIcon";
 import { PopupModal } from "../PopupModal";
 import { ModalPortal } from "../ModalPortal";
 import { LoginModal } from "../LoginModal";
+import { HeaderButton } from "../HeaderButton";
 
 import { useModalContext } from "@/hooks/useModalContext";
 
@@ -32,7 +33,7 @@ export function Header() {
                 <S.UserName>{userName}</S.UserName>님 안녕하세요!
               </S.LoginMessage>
             ) : (
-              <S.LoginButton onClick={handleOpen}>로그인</S.LoginButton>
+              <HeaderButton onClick={handleOpen}>로그인</HeaderButton>
             )}
           </S.InfoBox>
         </S.Wrapper>

@@ -15,12 +15,17 @@ export const ALERT_MESSAGE = {
 }
 
 export enum UploadActionType {
-    "TITLE" = "TITLE",
-    "DESCRITPTION" = "DESCRITPTION",
-    "TAGS" = "TAGS",
-    "IMAGES" = "IMAGES",
-    "VALIDATE" = "VALIDATE",
-    "RESET" = "RESET",
+    TITLE = "TITLE",
+    DESCRITPTION = "DESCRITPTION",
+    TAGS = "TAGS",
+    IMAGES = "IMAGES",
+    VALIDATE = "VALIDATE",
+    RESET = "RESET",
+}
+
+export enum PathnameType {
+    UPLOAD = "/upload",
+    PROFILE = "/profile/edit",
 }
 
 export const HOME_MENU_LIST = [
