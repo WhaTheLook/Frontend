@@ -6,26 +6,28 @@ import { BookMarkIcon } from "@/components/Icons/BookmarkIcon";
 import { UserIcon } from "@/components/Icons/UserIcon";
 import { UploadButton } from "../UploadButton";
 
+import { ICON_SIZE } from "@/constants/style";
+
 import * as S from "./style";
 
 const navigationList = [
   {
-    icon: <HomeIcon size={22} />,
+    icon: <HomeIcon size={ICON_SIZE.MEDIUM_SMALL} />,
     text: "홈",
     pathUrl: "/",
   },
   {
-    icon: <SearchIcon size={22} color="#000" />,
+    icon: <SearchIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000" />,
     text: "검색",
     pathUrl: "/search",
   },
   {
-    icon: <BookMarkIcon size={22} />,
+    icon: <BookMarkIcon size={ICON_SIZE.MEDIUM_SMALL} />,
     text: "저장한 글",
     pathUrl: "/saved",
   },
   {
-    icon: <UserIcon size={22} />,
+    icon: <UserIcon size={ICON_SIZE.MEDIUM_SMALL} />,
     text: "마이페이지",
     pathUrl: "/profile",
   },

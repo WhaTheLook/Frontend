@@ -5,6 +5,7 @@ import { XCircleIcon } from "@/components/Icons/XCircleIcon";
 import { ErrorMessage } from "@/components/common/ErrorMessage";
 
 import { ALERT_MESSAGE, IMAGE_UPLOAD_MAX_COUNT } from "@/constants";
+import { ICON_SIZE } from "@/constants/style";
 import { ImageUploadType } from "@/types";
 
 import * as S from "./style";
@@ -66,7 +67,7 @@ export const ImageInput = memo(function ImageInput({
         {images.map(({ id, file }) => (
           <S.SamleImage key={id} $imageUrl={URL.createObjectURL(file)}>
             <S.DeleteButton onClick={() => handleDeleteBtnClick(id)}>
-              <XCircleIcon size={25} color="#FFF" />
+              <XCircleIcon size={ICON_SIZE.MEDIUM} color="#FFF" />
             </S.DeleteButton>
           </S.SamleImage>
         ))}

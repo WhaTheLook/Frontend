@@ -7,6 +7,8 @@ import { ModalPortal } from "../ModalPortal";
 import { LoginModal } from "../LoginModal";
 import { HeaderButton } from "../HeaderButton";
 
+import { ICON_SIZE } from "@/constants/style";
+
 import { useModalContext } from "@/hooks/useModalContext";
 
 import * as S from "./style";
@@ -23,7 +25,7 @@ export function Header() {
         <S.Wrapper>
           <Link to="/">
             <S.TitleBox>
-              <LogoIcon size={38} />
+              <LogoIcon size={ICON_SIZE.LARGE} />
               <S.Title>WHATHELOOK</S.Title>
             </S.TitleBox>
           </Link>

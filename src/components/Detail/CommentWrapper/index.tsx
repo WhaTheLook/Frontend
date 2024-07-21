@@ -2,6 +2,8 @@ import { Fragment } from "react";
 
 import { SendIcon } from "@/components/Icons/SendIcon";
 
+import { ICON_SIZE } from "@/constants/style";
+
 import * as S from "./style";
 
 export function CommentWrapper() {
@@ -11,7 +13,7 @@ export function CommentWrapper() {
         <S.Form>
           <S.TextInput placeholder="정보 제공하기..."></S.TextInput>
           <S.SubmitButton>
-            <SendIcon size={20} color="#FFFFFF" />
+            <SendIcon size={ICON_SIZE.SMALL} color="#FFFFFF" />
           </S.SubmitButton>
         </S.Form>
       </S.CommentBox>

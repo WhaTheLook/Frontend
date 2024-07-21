@@ -1,5 +1,7 @@
 import { AlertIcon } from "@/components/Icons/AlertIcon";
 
+import { ICON_SIZE } from "@/constants/style";
+
 import * as S from "./style";
 
 interface Props {
@@ -9,7 +11,8 @@ interface Props {
 export function ErrorMessage({ message }: Props) {
   return (
     <S.Container>
-      <AlertIcon size={14} color="#d11f1f" /> <S.Text>{message}</S.Text>
+      <AlertIcon size={ICON_SIZE.TINY} color="#d11f1f" />{" "}
+      <S.Text>{message}</S.Text>
     </S.Container>
   );
 }

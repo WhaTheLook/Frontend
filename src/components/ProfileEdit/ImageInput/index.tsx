@@ -17,6 +17,7 @@ import { useConvertImgToFile } from "@/hooks/useConvertImgToFile";
 
 import { getImageURL } from "@/utils";
 import { ProfileFormValues } from "@/types";
+import { ICON_SIZE } from "@/constants/style";
 
 import * as S from "./style";
 
@@ -106,7 +107,7 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
           onClick={handleToggle}
         >
           <S.Icon>
-            <PlusIcon size={20} color="#FFFFFF" />
+            <PlusIcon size={ICON_SIZE.SMALL} color="#FFFFFF" />
           </S.Icon>
         </S.UploadBox>
         {menuVisible && (

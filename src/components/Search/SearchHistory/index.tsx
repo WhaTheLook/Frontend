@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { XCircleIcon } from "@/components/Icons/XCircleIcon";
 
 import { SEARCHED_HISTORY } from "@/constants";
+import { ICON_SIZE } from "@/constants/style";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
@@ -81,7 +82,7 @@ export function SearchHistory({
               <S.Tag key={tag}>
                 <S.Text onClick={() => handleTagClick(tag)}>{tag}</S.Text>
                 <S.XButton onClick={() => handleTagDeleteBtnClick(index)}>
-                  <XCircleIcon size={28} color="#595959" />
+                  <XCircleIcon size={ICON_SIZE.MEDIUM_LARGE} color="#595959" />
                 </S.XButton>
               </S.Tag>
             ))}

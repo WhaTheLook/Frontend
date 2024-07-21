@@ -2,6 +2,7 @@ import { HeartIcon } from "@/components/Icons/HeartIcon";
 import { ChatIcon } from "@/components/Icons/ChatIcon";
 
 import { PostListType } from "@/types";
+import { ICON_SIZE } from "@/constants/style";
 
 import * as S from "./style";
 
@@ -29,11 +30,11 @@ export function FlatItem({ data, onItemClick }: Props) {
         </S.InfoBox>
         <S.SubInfoBox>
           <S.SubInfoDiv>
-            <HeartIcon size={14} color="rgba(0, 0, 0, 0.5)" />
+            <HeartIcon size={ICON_SIZE.TINY} color="rgba(0, 0, 0, 0.5)" />
             <S.SubInfoText>{like}</S.SubInfoText>
           </S.SubInfoDiv>
           <S.SubInfoDiv>
-            <ChatIcon size={14} color="rgba(0, 0, 0, 0.5)" />
+            <ChatIcon size={ICON_SIZE.TINY} color="rgba(0, 0, 0, 0.5)" />
             <S.SubInfoText>{chat}</S.SubInfoText>
           </S.SubInfoDiv>
         </S.SubInfoBox>
