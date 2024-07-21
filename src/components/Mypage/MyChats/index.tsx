@@ -1,11 +1,11 @@
-import { NothingInfo } from "../NothingInfo";
+import { NothingInfo } from "../../common/NothingInfo";
 
 import * as S from "./style";
 
 export function MyChats() {
   return (
     <S.Container>
-      <NothingInfo menu="comment" />
+      <NothingInfo contentType="comment" />
     </S.Container>
   );
 }

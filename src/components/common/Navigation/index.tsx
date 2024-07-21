@@ -22,7 +22,7 @@ const navigationList = [
     pathUrl: "/search",
   },
   {
-    icon: <BookMarkIcon size={ICON_SIZE.MEDIUM_SMALL} />,
+    icon: <BookMarkIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000" />,
     text: "저장한 글",
     pathUrl: "/saved",
   },

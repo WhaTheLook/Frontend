@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { GridList } from "@/components/common/GridList";
+import { NothingInfo } from "@/components/common/NothingInfo";
 
 import { PostListType } from "@/types";
 
@@ -19,7 +20,11 @@ export function Bookmark() {
   return (
     <S.Container>
       <S.Title>북마크</S.Title>
-      <GridList data={data} />
+      {data.length === 0 ? (
+        <NothingInfo contentType="bookmark" />
+      ) : (
+        <GridList data={data} />
+      )}
     </S.Container>
   );
 }

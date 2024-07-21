@@ -1,6 +1,7 @@
 export enum modalType {
     SIGNOUT = "SIGNOUT",
-    DELETE = "DELETE",
+    DELETE_POST = "DELETE_POST",
+    DELETE_ACCOUNT = "DELETE_ACCOUNT",
 }
 
 export const TOGGLE_SEARCH_HISTORY = "toggleSearchHistory";

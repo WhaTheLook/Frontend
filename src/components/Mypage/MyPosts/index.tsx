@@ -1,7 +1,7 @@
 import { PostListType } from "@/types";
 
 import { FlatList } from "@/components/common/FlatList";
-import { NothingInfo } from "../NothingInfo";
+import { NothingInfo } from "../../common/NothingInfo";
 
 import mock from "@/mock";
 
@@ -13,7 +13,7 @@ export function MyPosts() {
   return (
     <S.Container>
       {data.length === 0 ? (
-        <NothingInfo menu="post" />
+        <NothingInfo contentType="post" />
       ) : (
         <FlatList data={data} />
       )}
