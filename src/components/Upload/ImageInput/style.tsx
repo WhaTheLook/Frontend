@@ -37,6 +37,8 @@ export const UploadButton = styled.button`
 export const ButtonText = styled.span`
   font-size: 16px;
   color: #828282;
+
+  user-select: none;
 `;
 
 interface SampleImageProps {

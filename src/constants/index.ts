@@ -15,6 +15,7 @@ export const ALERT_MESSAGE = {
 }
 
 export enum UploadActionType {
+    POSTTYPE = "POSTTYPE",
     TITLE = "TITLE",
     DESCRITPTION = "DESCRITPTION",
     TAGS = "TAGS",
@@ -41,6 +42,11 @@ export const MYPAGE_MENU_LIST = [
 export const SORT_LIST = [
     { id: 0, text: "최신순" },
     { id: 1, text: "인기순" },
+];
+
+export const POST_TYPE_LIST = [
+    { id: 0, text: "정보 공유 글" },
+    { id: 1, text: "정보 질문 글" },
 ];
 
 export const MAX_LENGTH_USER_NAME = 20;
