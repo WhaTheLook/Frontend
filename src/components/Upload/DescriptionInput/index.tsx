@@ -35,7 +35,7 @@ export const DescriptionInput = memo(function DescriptionInput({
     <S.Container>
       <S.Textarea
         ref={textAreaRef}
-        placeholder="알고싶은 룩을 설명해주세요. "
+        placeholder="사진에 대해 설명해주세요. "
         name="description"
         id="description"
         rows={3}

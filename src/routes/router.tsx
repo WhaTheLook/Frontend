@@ -6,6 +6,7 @@ import { UploadLayout } from "@/layout/UploadLayout";
 import { Home } from "@/page/Home";
 import { Search } from "@/page/Search";
 import { Upload } from "@/page/Upload";
+import { Bookmark } from "@/page/Bookmark";
 import { MyPage } from "@/page/MyPage";
 import { ProfileEdit } from "@/page/ProfileEdit";
 import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "saved",
-        element: <>Saved</>,
+        element: <Bookmark />,
       },
       {
         path: "profile",

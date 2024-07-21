@@ -4,7 +4,7 @@ import { HomeIcon } from "@/components/Icons/HomeIcon";
 import { SearchIcon } from "@/components/Icons/SearchIcon";
 import { BookMarkIcon } from "@/components/Icons/BookmarkIcon";
 import { UserIcon } from "@/components/Icons/UserIcon";
-import { UploadIcon } from "@/components/Icons/UploadIcon";
+import { UploadButton } from "../UploadButton";
 
 import * as S from "./style";
 
@@ -29,26 +29,24 @@ const navigationList = [
     text: "마이페이지",
     pathUrl: "/profile",
   },
-  {
-    icon: <UploadIcon size={22} />,
-    text: "글 올리기",
-    pathUrl: "/upload",
-  },
 ];
 
 export function Navigation() {
   return (
     <S.Container>
-      <S.List>
-        {navigationList.map(({ icon, text, pathUrl }) => (
-          <Link to={pathUrl} key={text}>
-            <S.Item>
-              <S.Icon>{icon}</S.Icon>
-              <S.Text>{text}</S.Text>
-            </S.Item>
-          </Link>
-        ))}
-      </S.List>
+      <S.Wrapper>
+        <S.List>
+          {navigationList.map(({ icon, text, pathUrl }) => (
+            <Link to={pathUrl} key={text}>
+              <S.Item>
+                <S.Icon>{icon}</S.Icon>
+                <S.Text>{text}</S.Text>
+              </S.Item>
+            </Link>
+          ))}
+        </S.List>
+      </S.Wrapper>
+      <UploadButton />
     </S.Container>
   );
 }

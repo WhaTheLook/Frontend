@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useOutletContext } from "react-router-dom";
 
+import { PostTypeInput } from "@/components/Upload/PostTypeInput";
 import { ImageInput } from "@/components/Upload/ImageInput";
 import { TitleInput } from "@/components/Upload/TitleInput";
 import { TagInput } from "@/components/Upload/TagInput";
@@ -13,7 +14,14 @@ import * as S from "./style";
 
 export function Upload() {
   const { data, dispatch } = useOutletContext<UploadLayoutContextProps>();
-  const { images, title, description, tags } = data;
+  const { postType, images, title, description, tags } = data;
+
+  const handleSetPostType = useCallback(
+    (newPostType: number) => {
+      dispatch({ type: UploadActionType.POSTTYPE, payload: newPostType });
+    },
+    [dispatch]
+  );
 
   const handleSetImages = useCallback(
     (newImages: ImageUploadType[]) => {
@@ -48,6 +56,11 @@ export function Upload() {
 
   return (
     <S.Container>
+      <PostTypeInput
+        postType={postType.data}
+        dispatcher={handleSetPostType}
+        error={postType.validation}
+      />
       <ImageInput
         images={images.data}
         dispatcher={handleSetImages}

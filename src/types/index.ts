@@ -18,6 +18,7 @@ export interface UploadDataValidationType<T> {
 }
 
 export interface UploadDataType {
+    postType: UploadDataValidationType<number | null>;
     images: UploadDataValidationType<ImageUploadType[]>;
     title: UploadDataValidationType<string>;
     description: UploadDataValidationType<string>;
@@ -27,6 +28,10 @@ export interface UploadDataType {
 export type UploadErrorKeys = keyof UploadDataType;
 
 export type ActionType =
+  | {
+      type: UploadActionType.POSTTYPE;
+      payload: number;
+    }
   | {
       type: UploadActionType.IMAGES;
       payload: ImageUploadType[];

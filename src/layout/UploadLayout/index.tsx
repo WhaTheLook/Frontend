@@ -9,6 +9,7 @@ import { UploadActionType } from "@/constants";
 import * as S from "./style";
 
 const initState: UploadDataType = {
+  postType: { data: null, validation: false },
   images: { data: [], validation: false },
   title: { data: "", validation: false },
   description: { data: "", validation: false },
@@ -19,6 +20,11 @@ function reducer(state: UploadDataType, action: ActionType): UploadDataType {
   const { type, payload } = action;
 
   switch (type) {
+    case "POSTTYPE":
+      return {
+        ...state,
+        postType: { data: payload, validation: false },
+      };
     case "IMAGES":
       return {
         ...state,
@@ -54,7 +60,7 @@ function reducer(state: UploadDataType, action: ActionType): UploadDataType {
 export function UploadLayout() {
   const [data, dispatch] = useReducer(reducer, initState);
 
-  const { images, title, description, tags } = data;
+  const { postType, images, title, description, tags } = data;
 
   const checkAndAddError = (
     condition: boolean,
@@ -69,6 +75,7 @@ export function UploadLayout() {
   const validateForm = () => {
     const errorKeys: UploadErrorKeys[] = [];
 
+    checkAndAddError(postType.data === null, "postType", errorKeys);
     checkAndAddError(images.data.length === 0, "images", errorKeys);
     checkAndAddError(title.data === "", "title", errorKeys);
     checkAndAddError(description.data.trim() === "", "description", errorKeys);
