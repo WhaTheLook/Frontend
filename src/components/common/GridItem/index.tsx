@@ -1,6 +1,7 @@
 import { HeartIcon } from "@/components/Icons/HeartIcon";
 
 import { PostListType } from "@/types";
+import { ICON_SIZE } from "@/constants/style";
 
 import * as S from "./style";
 
@@ -21,7 +22,7 @@ export function GridItem({ data, onItemClick }: Props) {
           </S.InfoTextBox>
         </S.InfoBox>
         <S.SubInfoBox>
-          <HeartIcon size={20} color="#FFFFFF" />
+          <HeartIcon size={ICON_SIZE.SMALL} color="#FFFFFF" />
           <S.HeartCount>{like}</S.HeartCount>
         </S.SubInfoBox>
       </S.InfoWrapper>

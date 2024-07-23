@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { NextArrowIcon } from "@/components/Icons/NextArrowIcon";
 import { PrevArrowIcon } from "@/components/Icons/PrevArrowIcon";
 
+import { ICON_SIZE } from "@/constants/style";
+
 import * as S from "./style";
 
 interface Props {
@@ -50,12 +52,12 @@ export function ImageWrapper({ images }: Props) {
       </S.Wrapper>
       {images.length !== 1 && currentIndex !== images.length - 1 && (
         <S.NextButton onClick={goNextImage}>
-          <NextArrowIcon size={20} color="#000000" />
+          <NextArrowIcon size={ICON_SIZE.SMALL} color="#000000" />
         </S.NextButton>
       )}
       {images.length !== 1 && currentIndex !== 0 && (
         <S.PrevButton onClick={goPriviousImage}>
-          <PrevArrowIcon size={20} color="#000000" />
+          <PrevArrowIcon size={ICON_SIZE.SMALL} color="#000000" />
         </S.PrevButton>
       )}
       <S.OrderBox>

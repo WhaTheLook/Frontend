@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 
 import { HeartIcon } from "@/components/Icons/HeartIcon";
 import { ChatIcon } from "@/components/Icons/ChatIcon";
-import { BookMarkIcon } from "@/components/Icons/BookmarkIcon";
+
+import { ICON_SIZE } from "@/constants/style";
 
 import * as S from "./style";
 
@@ -50,15 +51,14 @@ export function InfoWrapper({ content }: Props) {
       <S.SubInfoBox>
         <S.IconBox>
           <S.Icons>
-            <HeartIcon size={23} color="#000000" />
+            <HeartIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000000" />
             <S.IconInfoText>{like}</S.IconInfoText>
           </S.Icons>
           <S.Icons>
-            <ChatIcon size={23} color="#000000" />
+            <ChatIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000000" />
             <S.IconInfoText>{chat}</S.IconInfoText>
           </S.Icons>
         </S.IconBox>
-        <BookMarkIcon size={28} />
       </S.SubInfoBox>
     </Fragment>
   );

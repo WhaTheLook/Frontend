@@ -18,6 +18,7 @@ import {
   TOGGLE_SEARCH_HISTORY,
 } from "@/constants";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils";
+import { ICON_SIZE } from "@/constants/style";
 
 import * as S from "./style";
 
@@ -133,10 +134,10 @@ export function SearchBar() {
             onFocus={() => setIsFocus(true)}
           />
           <S.SubmitButton type="submit">
-            <SearchIcon size={24} color="#A2A2A2" />
+            <SearchIcon size={ICON_SIZE.MEDIUM} color="#A2A2A2" />
           </S.SubmitButton>
           <S.ResetButton onClick={handleResetBtnClick}>
-            <XCircleIcon size={22} color="#FFF" />
+            <XCircleIcon size={ICON_SIZE.MEDIUM_SMALL} color="#FFF" />
           </S.ResetButton>
         </S.InputBox>
       </S.Form>

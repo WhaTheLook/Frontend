@@ -1,7 +1,11 @@
 import { ReactNode } from "react";
 
-import { useModalContext } from "@/hooks/useModalContext";
+import { AlertIcon } from "@/components/Icons/AlertIcon";
+
 import { modalType } from "@/constants";
+import { ICON_SIZE } from "@/constants/style";
+
+import { useModalContext } from "@/hooks/useModalContext";
 
 import * as S from "./style";
 
@@ -23,10 +27,15 @@ export function PopupModal({ type, onClick, children }: Props) {
           text: "로그아웃",
           content: <SignoutContent />,
         };
-      case modalType.DELETE:
+      case modalType.DELETE_POST:
         return {
           text: "삭제",
           content: <DeletePostContent />,
+        };
+      case modalType.DELETE_ACCOUNT:
+        return {
+          text: "삭제",
+          content: <DeleteAccountContent />,
         };
     }
   })();
@@ -51,7 +60,18 @@ export function PopupModal({ type, onClick, children }: Props) {
   function DeletePostContent() {
     return (
       <S.TextWrapper>
-        <S.Text>해당 게시물을 삭제할까요?</S.Text>
+        <S.Title>게시글 삭제</S.Title>
+        <S.Text>해당 게시글을 삭제할까요?</S.Text>
+      </S.TextWrapper>
+    );
+  }
+
+  function DeleteAccountContent() {
+    return (
+      <S.TextWrapper>
+        <AlertIcon size={ICON_SIZE.LARGE} color="#e72c2c" />
+        <S.Title>계정 삭제</S.Title>
+        <S.Text>정말로 계정을 삭제할까요?</S.Text>
       </S.TextWrapper>
     );
   }
@@ -59,6 +79,7 @@ export function PopupModal({ type, onClick, children }: Props) {
   function SignoutContent() {
     return (
       <S.TextWrapper>
+        <S.Title>로그아웃</S.Title>
         <S.Text>로그아웃 할까요?</S.Text>
       </S.TextWrapper>
     );

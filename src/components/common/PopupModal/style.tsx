@@ -15,27 +15,38 @@ export const Container = styled.div`
 `;
 
 export const TextWrapper = styled.div`
-  height: 66px;
+  padding: 20px 0;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 18px;
+`;
+
+export const Title = styled.span`
+  font-weight: 600;
+  font-size: 20px;
 `;
 
 export const Text = styled.span`
-  font-size: 18px;
+  font-size: 16px;
 `;
 
 export const ButtonWrapper = styled.div`
+  width: 80%;
   display: flex;
   gap: 10px;
 `;
 
-export const CancleButton = styled.button`
-  padding: 10px 14px;
+const BaseButton = styled.button`
+  width: 100%;
+  padding: 10px 24px;
+
   text-align: center;
-  font-size: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
 
   border-radius: 8px;
   border: none;
@@ -43,14 +54,20 @@ export const CancleButton = styled.button`
   cursor: pointer;
 `;
 
-export const ConfirmButton = styled.button`
-  padding: 10px 14px;
+export const CancleButton = styled(BaseButton)`
+  background-color: #e2e2e2;
+  color: #000;
 
-  text-align: center;
-  font-size: 18px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+`;
 
-  border-radius: 8px;
-  border: none;
+export const ConfirmButton = styled(BaseButton)`
+  background-color: #222222;
+  color: #fff;
 
-  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
 `;

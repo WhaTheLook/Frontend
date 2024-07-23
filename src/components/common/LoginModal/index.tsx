@@ -1,5 +1,7 @@
 import { LogoIcon } from "@/components/Icons/LogoIcon";
 
+import { ICON_SIZE } from "@/constants/style";
+
 import * as S from "./style";
 
 export function LoginModal() {
@@ -11,7 +13,7 @@ export function LoginModal() {
   return (
     <S.Container>
       <S.LogoWrapper>
-        <LogoIcon size={60} />
+        <LogoIcon size={ICON_SIZE.HUGE} />
         <S.LogoText>WHATHELOOK</S.LogoText>
       </S.LogoWrapper>
       <S.Text>로그인</S.Text>

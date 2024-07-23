@@ -24,7 +24,10 @@ export const Main = styled.main`
   margin-top: 20px;
 
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   justify-content: "center";
+  gap: 50px;
 `;
 
 export const Form = styled.form`
@@ -38,4 +41,19 @@ export const Form = styled.form`
 
 export const SubmitButton = styled.input`
   display: none;
+`;
+
+export const AccountDeleteDiv = styled.div`
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
+export const AccountDeleteText = styled.span`
+  white-space: nowrap;
+  font-size: 16px;
+  color: #828282;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
