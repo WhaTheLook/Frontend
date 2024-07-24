@@ -51,3 +51,5 @@ export const POST_TYPE_LIST = [
 ];
 
 export const MAX_LENGTH_USER_NAME = 20;
+
+export const API_URL = "http://43.201.58.243:8080"

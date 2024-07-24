@@ -5,8 +5,6 @@ import { NothingInfo } from "@/components/common/NothingInfo";
 
 import { PostListType } from "@/types";
 
-import mock from "@/mock";
-
 import * as S from "./style";
 
 export function Bookmark() {
@@ -14,7 +12,7 @@ export function Bookmark() {
 
   useEffect(() => {
     // Todo: 북마크 데이터 요청
-    setData(mock.BookMarkData);
+    setData([]);
   }, []);
 
   return (

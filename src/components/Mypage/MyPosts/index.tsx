@@ -1,14 +1,12 @@
-import { PostListType } from "@/types";
-
 import { FlatList } from "@/components/common/FlatList";
-import { NothingInfo } from "../../common/NothingInfo";
+import { NothingInfo } from "@/components/common/NothingInfo";
 
-import mock from "@/mock";
+import { PostListType } from "@/types";
 
 import * as S from "./style";
 
 export function MyPosts() {
-  const data = mock.MyPageMockData as PostListType[];
+  const data = [] as PostListType[];
 
   return (
     <S.Container>
