@@ -87,3 +87,9 @@ export interface ProfileEditType {
     profile_image: string;
   };
 }
+
+export interface UserInfoType {
+  name: string;
+  profileImage: string;
+  kakaoId: string;
+}

@@ -1,27 +1,24 @@
-import { http } from "msw";
+import { http, HttpResponse } from "msw";
 
 import { API_URL } from "@/constants";
 
 export const loginHandlers = [
-    http.post(`${API_URL}/user/login`, (req, res, ctx) => {
-        const code = req.url.searchParams.get('code');
+    http.post(`${API_URL}/user/login`, ({ request }) => {
+        const { url } = request;
+        const parsedUrl = new URL(url);
+        const code = parsedUrl.searchParams.get('code'); 
 
         if (!code) {
-            return res(
-                ctx.status(400),
-                ctx.json({
+            return HttpResponse.json({
+                    status: 400,
                     error: 'Code parameter is required'
-                })
-            );
-        }
-
-        // 로그인을 성공한 경우
-        return res(
-            ctx.status(200),
-            ctx.json({ 
-                refreshToken: "refreshToken",
-                accessToken: "accessToken"
             })
-        );
+        }
+        
+        return HttpResponse.json({ 
+            status: 200,
+            refreshToken: "refreshToken",
+            accessToken: "accessToken"
+        });
     })
 ];

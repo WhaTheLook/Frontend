@@ -1,4 +1,5 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { LogoIcon } from "@/components/Icons/LogoIcon";
@@ -8,16 +9,31 @@ import { LoginModal } from "../LoginModal";
 import { HeaderButton } from "../HeaderButton";
 
 import { ICON_SIZE } from "@/constants/style";
+import { UserInfoType } from "@/types";
+import { removeLocalStorageItem } from "@/utils";
 
 import { useModalContext } from "@/hooks/useModalContext";
+
+import {
+  logout,
+  selectCurrentSignStatus,
+  selectCurrentUser,
+} from "@/store/slice/authSlice";
 
 import * as S from "./style";
 
 export function Header() {
-  const [isLogin, setIsLogin] = useState(false);
-  const [userName, setUserName] = useState("홍길동");
+  const dispatch = useDispatch();
+  const isSignIn = useSelector(selectCurrentSignStatus);
+  const user = useSelector(selectCurrentUser) as UserInfoType | null;
 
   const { handleOpen } = useModalContext();
+
+  const handleLogoutBtnClick = () => {
+    dispatch(logout());
+    removeLocalStorageItem("accessToken");
+    removeLocalStorageItem("refreshToken");
+  };
 
   return (
     <Fragment>
@@ -30,10 +46,15 @@ export function Header() {
             </S.TitleBox>
           </Link>
           <S.InfoBox>
-            {isLogin ? (
-              <S.LoginMessage>
-                <S.UserName>{userName}</S.UserName>님 안녕하세요!
-              </S.LoginMessage>
+            {isSignIn ? (
+              <Fragment>
+                <S.LoginMessage>
+                  <S.UserName>{user?.name}</S.UserName>님 안녕하세요!
+                </S.LoginMessage>
+                <HeaderButton onClick={handleLogoutBtnClick}>
+                  로그아웃
+                </HeaderButton>
+              </Fragment>
             ) : (
               <HeaderButton onClick={handleOpen}>로그인</HeaderButton>
             )}
