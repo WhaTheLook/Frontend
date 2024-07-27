@@ -12,6 +12,7 @@ export const Container = styled.div<ContainerProps>`
       background-image: url(${$imageUrl});
       background-size: 100%;
       background-position: center;
+      background-size: cover;
 
       border-radius: 8px;
 
@@ -24,7 +25,6 @@ export const Container = styled.div<ContainerProps>`
             rgba(0, 0, 0, 0.6)
           ),
           url(${$imageUrl});
-        background-size: 110%;
       }
     `;
   }}

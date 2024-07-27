@@ -52,9 +52,22 @@ export const POST_TYPE_LIST = [
 
 export const MAX_LENGTH_USER_NAME = 20;
 
-export const API_URL = "http://43.201.58.243:8080"
+export const API_URL = "http://43.201.58.243:8080";
+
+export enum sortOption {
+    LATEST = "latest",
+    POPULAR = "popular",
+}
+interface GetPostAPIArgType {
+    sortBy: sortOption;
+    page: number;
+    size: number;
+}
 
 export const API_PATH = {
     login: (code: string) => `${API_URL}/user/login?code=${code}`,
-    userInfo: () => `${API_URL}/user/info`
+    userInfo: () => `${API_URL}/user/info`,
+    postList: ({ sortBy, page, size }: GetPostAPIArgType) => `${API_URL}/post/postList/${sortBy}?page=${page}&size=${size}`
 }
+
+export const MAX_FETCH_LEGNTH = 3;

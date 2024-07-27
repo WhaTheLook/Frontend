@@ -3,8 +3,8 @@ import { http, HttpResponse } from "msw";
 import { API_URL } from "@/constants";
 import { data } from "./data";
 
-export const qnaLatestHandlers = [
-    http.get(`${API_URL}/post/postList/latest`, ({ request }) => {
+export const qnaPopularHandlers = [
+    http.get(`${API_URL}/post/postList/popular`, ({ request }) => {
         const url = new URL(request.url);
         const params = new URLSearchParams(url.search);
         const page = Number(params.get('page'));
