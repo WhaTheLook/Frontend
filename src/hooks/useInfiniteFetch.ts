@@ -1,44 +1,43 @@
-import { MutableRefObject, useEffect, useState } from "react";
+import { MutableRefObject, useCallback, useEffect, useState } from "react";
 
 import { PostListType } from "@/types";
 
 interface Props {
   url: string;
-  sortType: number;
   currentPage: MutableRefObject<number>;
   intersecting: boolean;
 }
 
-export function useInfiniteFetch({ url, sortType, currentPage, intersecting }: Props) {
-    const [data, setData] = useState<PostListType[]>([]);
-    const [hasNext, setHasNext] = useState(true);
+export function useInfiniteFetch({ url, currentPage, intersecting }: Props) {
+  const [data, setData] = useState<PostListType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasNext, setHasNext] = useState(true);
 
-    async function fetcher() {
-      const response = await fetch(url);
+  const fetcher = useCallback(async function () {
+    const response = await fetch(url);
 
-      const { content, nextPage } = await response.json();
+    const { content, nextPage } = await response.json();
 
-      currentPage.current = nextPage;
-      if (nextPage === null) {
-        setHasNext(false);
-      }
-      
-      setData((prev) => [...prev, ...content]);
+    currentPage.current = nextPage;
+    if (nextPage === null) {
+      setHasNext(false);
     }
-
+    
+    setIsLoading(false);
+    setData((prev) => [...prev, ...content]);
+  }, [currentPage, url])
 
   useEffect(() => {
-    if (intersecting && hasNext) {
+    if (intersecting && hasNext && !isLoading) {
+      setIsLoading(true);
       fetcher();
     }
-  }, [hasNext, intersecting]);
+  }, [hasNext, intersecting, fetcher, isLoading]);
 
   useEffect(() => {
-    setData([]);
-    setHasNext(true);
-    currentPage.current = 0;
-  }, [sortType, currentPage]);
+    setIsLoading(true);
+    fetcher();
+  }, []);
     
-    
-  return data;
+  return { data, isLoading };
 }

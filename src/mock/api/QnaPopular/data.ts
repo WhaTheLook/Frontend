@@ -11,7 +11,7 @@ export const data = {
             chat: 20,
             category: "정보 질문",
             imageUrl: [
-                "https://image.xportsnews.com/contents/images/upload/article/2023/0531/mb_1685508498644952.jpg",
+                "https://dimg.donga.com/wps/NEWS/IMAGE/2023/11/12/122137849.2.jpg",
             ],
         },
         {
@@ -25,7 +25,7 @@ export const data = {
             chat: 20,
             category: "정보 질문",
             imageUrl: [
-                "https://image.xportsnews.com/contents/images/upload/article/2023/0531/mb_1685508498644952.jpg",
+                "https://dimg.donga.com/wps/NEWS/IMAGE/2023/11/12/122137849.2.jpg",
             ],
         },
         {
@@ -39,7 +39,7 @@ export const data = {
             chat: 20,
             category: "정보 질문",
             imageUrl: [
-                "https://image.xportsnews.com/contents/images/upload/article/2023/0531/mb_1685508498644952.jpg",
+                "https://dimg.donga.com/wps/NEWS/IMAGE/2023/11/12/122137849.2.jpg",
             ],
         },
         {
@@ -53,7 +53,7 @@ export const data = {
             chat: 20,
             category: "정보 질문",
             imageUrl: [
-                "https://image.xportsnews.com/contents/images/upload/article/2023/0531/mb_1685508498644952.jpg",
+                "https://dimg.donga.com/wps/NEWS/IMAGE/2023/11/12/122137849.2.jpg",
             ],
         },
         {
@@ -67,7 +67,7 @@ export const data = {
             chat: 20,
             category: "정보 질문",
             imageUrl: [
-                "https://image.xportsnews.com/contents/images/upload/article/2023/0531/mb_1685508498644952.jpg",
+                "https://dimg.donga.com/wps/NEWS/IMAGE/2023/11/12/122137849.2.jpg",
             ],
         },
         {
@@ -81,7 +81,7 @@ export const data = {
             chat: 20,
             category: "정보 질문",
             imageUrl: [
-                "https://image.xportsnews.com/contents/images/upload/article/2023/0531/mb_1685508498644952.jpg",
+                "https://dimg.donga.com/wps/NEWS/IMAGE/2023/11/12/122137849.2.jpg",
             ],
         },
         {
@@ -95,7 +95,7 @@ export const data = {
             chat: 20,
             category: "정보 질문",
             imageUrl: [
-                "https://image.xportsnews.com/contents/images/upload/article/2023/0531/mb_1685508498644952.jpg",
+                "https://dimg.donga.com/wps/NEWS/IMAGE/2023/11/12/122137849.2.jpg",
             ],
         },
         {
@@ -109,7 +109,7 @@ export const data = {
             chat: 20,
             category: "정보 질문",
             imageUrl: [
-                "https://image.xportsnews.com/contents/images/upload/article/2023/0531/mb_1685508498644952.jpg",
+                "https://dimg.donga.com/wps/NEWS/IMAGE/2023/11/12/122137849.2.jpg",
             ],
         },
         {
@@ -123,7 +123,7 @@ export const data = {
             chat: 20,
             category: "정보 질문",
             imageUrl: [
-                "https://image.xportsnews.com/contents/images/upload/article/2023/0531/mb_1685508498644952.jpg",
+                "https://dimg.donga.com/wps/NEWS/IMAGE/2023/11/12/122137849.2.jpg",
             ],
         },
     ],

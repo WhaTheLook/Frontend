@@ -71,3 +71,4 @@ export const API_PATH = {
 }
 
 export const MAX_FETCH_LEGNTH = 3;
+export const FLATITEM_SKELETON_COUNT = 3;

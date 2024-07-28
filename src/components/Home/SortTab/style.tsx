@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 export const ButtonBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 `;
 
 interface ButtonProps {
@@ -24,17 +24,23 @@ export const Button = styled.button<ButtonProps>`
   ${({ $isSelected }) => {
     return css`
       background-color: ${$isSelected ? "#2d3436" : "transparent"};
-      padding: 6px 16px;
+      padding: 5px 15px;
 
       font-size: 15px;
       font-weight: ${$isSelected && "700"};
       color: ${$isSelected ? "#FFFFFF" : "#000000"};
+      white-space: nowrap;
 
       outline: none;
-      border: none;
+      border: 1.4px solid transparent;
       border-radius: 999px;
 
       cursor: pointer;
+      user-select: none;
+
+      &:hover {
+        border: 1.4px solid rgba(0, 0, 0, 0.1);
+      }
     `;
   }}
 `;
