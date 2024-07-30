@@ -8,6 +8,7 @@ import {
   API_PATH,
   FLATITEM_SKELETON_COUNT,
   MAX_FETCH_LEGNTH,
+  menuOption,
   sortOption,
 } from "@/constants";
 
@@ -21,6 +22,7 @@ export function QnaLatest() {
   const intersecting = useInfiniteScoll(fetchMoreElement);
   const { data, isLoading } = useInfiniteFetch({
     url: API_PATH.postList({
+      menu: menuOption.QNA,
       sortBy: sortOption.LATEST,
       page: currentPage.current,
       size: MAX_FETCH_LEGNTH,

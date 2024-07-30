@@ -3,10 +3,10 @@ import { http, HttpResponse } from "msw";
 import { API_URL } from "@/constants";
 
 export const loginHandlers = [
-    http.post(`${API_URL}/user/login`, ({ request }) => {
+    http.post(`${API_URL}/user/token/login`, ({ request }) => {
         const { url } = request;
         const parsedUrl = new URL(url);
-        const code = parsedUrl.searchParams.get('code'); 
+        const code = parsedUrl.searchParams.get('accessToken'); 
 
         if (!code) {
             return HttpResponse.json({

@@ -4,7 +4,7 @@ import { API_URL } from "@/constants";
 import { data } from "./data";
 
 export const qnaPopularHandlers = [
-    http.get(`${API_URL}/post/postList/popular`, async ({ request }) => {
+    http.get(`${API_URL}/post/postList/qna/popular`, async ({ request }) => {
         const url = new URL(request.url);
         const params = new URLSearchParams(url.search);
         const page = Number(params.get('page'));

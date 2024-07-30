@@ -3,8 +3,8 @@ import { http, HttpResponse } from "msw";
 import { API_URL } from "@/constants";
 import { data } from "./data";
 
-export const shareLatestHandlers = [
-    http.get(`${API_URL}/post/postList/share/latest`, async ({ request }) => {
+export const sharePopularHandlers = [
+    http.get(`${API_URL}/post/postList/share/popular`, async ({ request }) => {
         const url = new URL(request.url);
         const params = new URLSearchParams(url.search);
         const page = Number(params.get('page'));

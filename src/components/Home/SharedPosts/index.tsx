@@ -1,19 +1,14 @@
-import { useState, Fragment } from "react";
+import { Fragment } from "react";
 
-import { GridList } from "@/components/common/GridList";
-
-import { PostListType } from "@/types";
+import { SharedLatest } from "@/components/Home/SharedLatest";
+import { SharedPopular } from "@/components/Home/SharedPopular";
 
 interface Props {
   sortType: number;
 }
 
 export function SharedPosts({ sortType }: Props) {
-  const [data, setData] = useState<PostListType[]>([]);
-
   return (
-    <Fragment>
-      <GridList data={data} />
-    </Fragment>
+    <Fragment>{sortType === 0 ? <SharedLatest /> : <SharedPopular />}</Fragment>
   );
 }

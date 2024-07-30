@@ -52,22 +52,28 @@ export const POST_TYPE_LIST = [
 
 export const MAX_LENGTH_USER_NAME = 20;
 
-export const API_URL = "http://43.201.58.243:8080";
+export const API_URL = "https://43.201.58.243.nip.io";
 
 export enum sortOption {
     LATEST = "latest",
     POPULAR = "popular",
 }
+
+export enum menuOption {
+    QNA = "qna",
+    SHARE = "share",
+}
 interface GetPostAPIArgType {
+    menu: menuOption;
     sortBy: sortOption;
     page: number;
     size: number;
 }
 
 export const API_PATH = {
-    login: (code: string) => `${API_URL}/user/login?code=${code}`,
+    login: (code: string) => `${API_URL}/user/token/login?accessToken=${code}`,
     userInfo: () => `${API_URL}/user/info`,
-    postList: ({ sortBy, page, size }: GetPostAPIArgType) => `${API_URL}/post/postList/${sortBy}?page=${page}&size=${size}`
+    postList: ({ menu, sortBy, page, size }: GetPostAPIArgType) => `${API_URL}/post/postList/${menu}/${sortBy}?page=${page}&size=${size}`
 }
 
 export const MAX_FETCH_LEGNTH = 3;
