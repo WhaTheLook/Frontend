@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Menu } from "@/components/common/Menu";
 import { SortTab } from "@/components/Home/SortTab";
 import { PostList } from "@/components/Home/PostList";
+import { PostProvider } from "@/components/common/PostProvider";
 
 import { useMenuType } from "@/hooks/useMenuType";
 
@@ -27,7 +28,9 @@ export function Home() {
         menuList={HOME_MENU_LIST}
       />
       <SortTab sortType={sortType} onSortTypeClick={handleSortTypeClick} />
-      <PostList menuType={menuType} sortType={sortType} />
+      <PostProvider>
+        <PostList menuType={menuType} sortType={sortType} />
+      </PostProvider>
     </S.Container>
   );
 }

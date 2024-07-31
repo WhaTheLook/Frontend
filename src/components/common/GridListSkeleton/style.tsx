@@ -23,7 +23,7 @@ const skeletonGradient = keyframes`
 export const GridItemSkeleton = styled.div`
   background-color: #f2f2f2;
   width: 100%;
-  padding-bottom: 100%;
+  height: 250px;
 
   border-radius: 8px;
 
