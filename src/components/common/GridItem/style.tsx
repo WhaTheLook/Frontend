@@ -7,11 +7,12 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   ${({ $imageUrl }) => {
     return css`
-      width: 240px;
-      height: 240px;
+      width: 100%;
+      padding-bottom: 100%;
       background-image: url(${$imageUrl});
       background-size: 100%;
       background-position: center;
+      background-size: cover;
 
       border-radius: 8px;
 
@@ -24,7 +25,6 @@ export const Container = styled.div<ContainerProps>`
             rgba(0, 0, 0, 0.6)
           ),
           url(${$imageUrl});
-        background-size: 110%;
       }
     `;
   }}

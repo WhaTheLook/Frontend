@@ -1,31 +1,14 @@
-import { useEffect, useState, Fragment } from "react";
+import { Fragment } from "react";
 
-import { GridList } from "@/components/common/GridList";
-
-import { PostListType } from "@/types";
-
-import mock from "@/mock";
+import { SharedLatest } from "@/components/Home/SharedLatest";
+import { SharedPopular } from "@/components/Home/SharedPopular";
 
 interface Props {
   sortType: number;
 }
 
 export function SharedPosts({ sortType }: Props) {
-  const [data, setData] = useState<PostListType[]>([]);
-
-  useEffect(() => {
-    // Todo: sortType에 따른 fetch 요청 구분
-    if (sortType === 0) {
-      setData(mock.HomeShareLatestData);
-    }
-    if (sortType === 1) {
-      setData(mock.HomeSharePopularData);
-    }
-  }, [sortType]);
-
   return (
-    <Fragment>
-      <GridList data={data} />
-    </Fragment>
+    <Fragment>{sortType === 0 ? <SharedLatest /> : <SharedPopular />}</Fragment>
   );
 }

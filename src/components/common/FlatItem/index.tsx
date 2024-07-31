@@ -39,9 +39,7 @@ export function FlatItem({ data, onItemClick }: Props) {
           </S.SubInfoDiv>
         </S.SubInfoBox>
       </S.TextWrapper>
-      <S.ImageWrapper>
-        <S.Image src={imageUrl[0]} />
-      </S.ImageWrapper>
+      <S.ImageWrapper $imageUrl={imageUrl[0]} />
     </S.Container>
   );
 }

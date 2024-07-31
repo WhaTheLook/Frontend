@@ -1,28 +1,28 @@
-import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+import { UserInfoType } from "@/types";
+
+import { selectCurrentUser } from "@/store/slice/authSlice";
 
 import * as S from "./style";
 
 export function Profile() {
-  const [user, setUser] = useState({
-    profile_image:
-      "https://images.unsplash.com/photo-1721205834757-c69d5def190a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    name: "홍길동",
-  });
+  const userInfo = useSelector(selectCurrentUser) as UserInfoType | null;
 
   const navigate = useNavigate();
 
   const handleEditBtnClick = () => {
-    navigate("/profile/edit", { state: { user } });
+    navigate("/profile/edit");
   };
 
   return (
     <S.ProfileWrapper>
       <S.ProfileImageBox>
         <S.ProfileInfoDiv>
-          <S.ProfileImage src={user.profile_image} />
+          <S.ProfileImage src={userInfo?.profileImage} />
           <S.ProfileTextBox>
-            <S.UserName>{user.name}</S.UserName>
+            <S.UserName>{userInfo?.name}</S.UserName>
             <S.InfoTextDiv>
               <S.InfoText>
                 게시글 <S.Bold>1</S.Bold>

@@ -28,6 +28,7 @@ export const Main = styled.main<MainProps>`
     return css`
       width: 100%;
       margin-top: 20px;
+      padding-bottom: 40px;
 
       display: flex;
       justify-content: ${$isCenter ? "center" : "baseline"};

@@ -47,6 +47,7 @@ export const Text = styled.span<TextProps>`
       font-size: 18px;
       font-weight: ${$isSelected && "600"};
       color: ${!$isSelected && "rgba(0, 0, 0, 0.3)"};
+      white-space: nowrap;
 
       user-select: none;
     `;
