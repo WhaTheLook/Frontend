@@ -13,19 +13,22 @@ export function useInfiniteFetch({ url, currentPage, intersecting }: Props) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasNext, setHasNext] = useState(true);
 
-  const fetcher = useCallback(async function () {
-    const response = await fetch(url);
+  const controller = new AbortController();
+  const signal = controller.signal;
 
+  const fetcher = useCallback(async function () {
+    const response = await fetch(url, { signal });
+    
     const { content, nextPage } = await response.json();
 
     currentPage.current = nextPage;
     if (nextPage === null) {
       setHasNext(false);
     }
-    
+
     setIsLoading(false);
     setData((prev) => [...prev, ...content]);
-  }, [currentPage, url])
+  }, [currentPage, url, signal])
 
   useEffect(() => {
     if (intersecting && hasNext && !isLoading) {
@@ -37,7 +40,9 @@ export function useInfiniteFetch({ url, currentPage, intersecting }: Props) {
   useEffect(() => {
     setIsLoading(true);
     fetcher();
+
+    return () => controller.abort();
   }, []);
-    
+
   return { data, isLoading };
 }

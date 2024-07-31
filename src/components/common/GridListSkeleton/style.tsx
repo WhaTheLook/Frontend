@@ -1,6 +1,8 @@
 import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
+  width: 100%;
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -20,8 +22,8 @@ const skeletonGradient = keyframes`
 
 export const GridItemSkeleton = styled.div`
   background-color: #f2f2f2;
-  width: 240px;
-  height: 240px;
+  width: 100%;
+  padding-bottom: 100%;
 
   border-radius: 8px;
 
