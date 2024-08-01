@@ -26,7 +26,7 @@ export function QnaPopularFetcher({ children }: Props) {
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement);
 
-  const { data, isLoading } = useInfiniteFetch({
+  const { data, isLoading, error } = useInfiniteFetch({
     url: API_PATH.postList({
       menu: menuOption.QNA,
       sortBy: sortOption.POPULAR,
@@ -36,6 +36,10 @@ export function QnaPopularFetcher({ children }: Props) {
     currentPage,
     intersecting,
   });
+
+  if (error) {
+    throw error;
+  }
 
   useEffect(() => {
     handleSetData(data);

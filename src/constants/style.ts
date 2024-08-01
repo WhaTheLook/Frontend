@@ -5,6 +5,7 @@ export const ICON_SIZE = {
     MEDIUM: 25,
     MEDIUM_LARGE: 30,
     LARGE: 40,
+    LARGER: 50,
     HUGE: 60,
 }
 

@@ -4,6 +4,7 @@ import { Menu } from "@/components/common/Menu";
 import { SortTab } from "@/components/Home/SortTab";
 import { PostList } from "@/components/Home/PostList";
 import { PostProvider } from "@/components/common/PostProvider";
+import { ApiErrorBoundary } from "@/components/common/ApiErrorBoundary";
 
 import { useMenuType } from "@/hooks/useMenuType";
 
@@ -28,9 +29,11 @@ export function Home() {
         menuList={HOME_MENU_LIST}
       />
       <SortTab sortType={sortType} onSortTypeClick={handleSortTypeClick} />
-      <PostProvider>
-        <PostList menuType={menuType} sortType={sortType} />
-      </PostProvider>
+      <ApiErrorBoundary>
+        <PostProvider>
+          <PostList menuType={menuType} sortType={sortType} />
+        </PostProvider>
+      </ApiErrorBoundary>
     </S.Container>
   );
 }
