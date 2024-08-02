@@ -11,6 +11,7 @@ import {
   menuOption,
   sortOption,
 } from "@/constants";
+import { PostListType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
@@ -26,7 +27,7 @@ export function QnaPopularFetcher({ children }: Props) {
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement);
 
-  const { data, isLoading, error } = useInfiniteFetch({
+  const { data, isLoading, error } = useInfiniteFetch<PostListType>({
     url: API_PATH.postList({
       menu: menuOption.QNA,
       sortBy: sortOption.POPULAR,

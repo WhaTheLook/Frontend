@@ -1,6 +1,5 @@
 import { MutableRefObject, useCallback, useEffect, useState } from "react";
 
-import { PostListType } from "@/types";
 import { CommoneError } from "@/utils/CommonError";
 
 interface Props {
@@ -9,8 +8,14 @@ interface Props {
   intersecting: boolean;
 }
 
-export function useInfiniteFetch({ url, currentPage, intersecting }: Props) {
-  const [data, setData] = useState<PostListType[]>([]);
+
+export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
+  interface Props {
+    content: T[],
+    nextPage: number | null;
+  }
+
+  const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasNext, setHasNext] = useState(true);
   const [error, setError] = useState<Error | null>(null)
@@ -27,12 +32,11 @@ export function useInfiniteFetch({ url, currentPage, intersecting }: Props) {
         throw new CommoneError(status);
       }
       
-      const { content, nextPage } = await response.json();
+      const { content, nextPage } = (await response.json()) as Props;
   
-      currentPage.current = nextPage;
-      if (nextPage === null) {
-        setHasNext(false);
-      }
+      nextPage 
+      ? currentPage.current = nextPage
+      : setHasNext(false);
   
       setIsLoading(false);
       setData((prev) => [...prev, ...content]);

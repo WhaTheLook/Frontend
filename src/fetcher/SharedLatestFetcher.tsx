@@ -1,12 +1,13 @@
 import { Fragment, ReactNode, useContext, useEffect, useRef } from "react";
 
+import { GridListSkeleton } from "@/components/common/GridListSkeleton";
 import { PostContext } from "@/components/common/PostProvider";
 
 import { API_PATH, menuOption, sortOption } from "@/constants";
+import { PostListType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
-import { GridListSkeleton } from "@/components/common/GridListSkeleton";
 
 interface Props {
   children: ReactNode;
@@ -19,7 +20,7 @@ export function SharedLatestFetcher({ children }: Props) {
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement);
 
-  const { data, isLoading, error } = useInfiniteFetch({
+  const { data, isLoading, error } = useInfiniteFetch<PostListType>({
     url: API_PATH.postList({
       menu: menuOption.SHARE,
       sortBy: sortOption.LATEST,

@@ -4,6 +4,7 @@ import { PostContext } from "@/components/common/PostProvider";
 import { GridListSkeleton } from "@/components/common/GridListSkeleton";
 
 import { API_PATH, menuOption, sortOption } from "@/constants";
+import { PostListType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
@@ -19,7 +20,7 @@ export function SharedPopularFetcher({ children }: Props) {
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement);
 
-  const { data, isLoading, error } = useInfiniteFetch({
+  const { data, isLoading, error } = useInfiniteFetch<PostListType>({
     url: API_PATH.postList({
       menu: menuOption.SHARE,
       sortBy: sortOption.POPULAR,
