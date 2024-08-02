@@ -8,7 +8,7 @@ export const Container = styled.div<ContainerProps>`
   ${({ $imageUrl }) => {
     return css`
       width: 100%;
-      padding-bottom: 100%;
+      height: 250px;
       background-image: url(${$imageUrl});
       background-size: 100%;
       background-position: center;

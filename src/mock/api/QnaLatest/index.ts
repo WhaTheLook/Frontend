@@ -18,6 +18,6 @@ export const qnaLatestHandlers = [
 
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        return HttpResponse.json({ status: 200, content: currentContent, nextPage });
+        return HttpResponse.json({ content: currentContent, nextPage }, { status: 200 });
     })
 ]

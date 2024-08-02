@@ -1,5 +1,8 @@
 import { Component, PropsWithChildren, ReactNode } from "react";
-import { UnknownError } from "../UnknownError";
+
+import { UnknownError } from "@/components/common/UnknownError";
+
+import { CommoneError } from "@/utils/CommonError";
 
 interface Props {
   children: ReactNode;
@@ -11,7 +14,10 @@ interface State {
   error?: Error;
 }
 
-export class ErrorBoundary extends Component<PropsWithChildren<Props>, State> {
+export class ApiErrorBoundary extends Component<
+  PropsWithChildren<Props>,
+  State
+> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -22,7 +28,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<Props>, State> {
   }
 
   static getDerivedStateFromError(error: Error) {
-    if (!(error instanceof Error)) {
+    if (!(error instanceof CommoneError)) {
       return {
         shouldRethrow: true,
         shouldhandleError: false,

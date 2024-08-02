@@ -1,6 +1,6 @@
 import { MutableRefObject, useCallback, useEffect, useState } from "react";
 
-import { PostListType } from "@/types";
+import { CommoneError } from "@/utils/CommonError";
 
 interface Props {
   url: string;
@@ -8,26 +8,45 @@ interface Props {
   intersecting: boolean;
 }
 
-export function useInfiniteFetch({ url, currentPage, intersecting }: Props) {
-  const [data, setData] = useState<PostListType[]>([]);
+
+export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
+  interface Props {
+    content: T[],
+    nextPage: number | null;
+  }
+
+  const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasNext, setHasNext] = useState(true);
+  const [error, setError] = useState<Error | null>(null)
 
   const controller = new AbortController();
   const signal = controller.signal;
 
   const fetcher = useCallback(async function () {
-    const response = await fetch(url, { signal });
-    
-    const { content, nextPage } = await response.json();
+    try {
+      const response = await fetch(url, { signal });
 
-    currentPage.current = nextPage;
-    if (nextPage === null) {
-      setHasNext(false);
+      if (!response.ok) {
+        const { status } = response;
+        throw new CommoneError(status);
+      }
+      
+      const { content, nextPage } = (await response.json()) as Props;
+  
+      nextPage 
+      ? currentPage.current = nextPage
+      : setHasNext(false);
+  
+      setIsLoading(false);
+      setData((prev) => [...prev, ...content]);
+    } catch (error) {
+      if (error instanceof CommoneError) {
+        setError(error);
+        return;
+      }
+      setError(new Error());
     }
-
-    setIsLoading(false);
-    setData((prev) => [...prev, ...content]);
   }, [currentPage, url, signal])
 
   useEffect(() => {
@@ -44,5 +63,5 @@ export function useInfiniteFetch({ url, currentPage, intersecting }: Props) {
     return () => controller.abort();
   }, []);
 
-  return { data, isLoading };
+  return { data, isLoading, error };
 }
