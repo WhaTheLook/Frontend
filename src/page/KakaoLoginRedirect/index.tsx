@@ -19,18 +19,22 @@ export function KakaoLoginRedirect() {
       const authorizeCode = params.get("code");
       if (!authorizeCode) return;
 
-      const response = await fetch(API_PATH.login(authorizeCode), {
+      const response = await fetch(API_PATH.login(), {
         method: "POST",
         headers: {
-          "Content-type": "application/json",
+          Accept: "*/*",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          code: authorizeCode,
+        }),
       });
 
       if (!response.ok) {
         throw new Error("로그인 에러");
       }
 
-      const { refreshToken, accessToken } = await response.json();
+      const { accessToken, refreshToken } = await response.json();
 
       const response2 = await fetch(API_PATH.userInfo(), {
         method: "GET",
@@ -43,8 +47,7 @@ export function KakaoLoginRedirect() {
         throw new Error("회원정보 불러올수 없음.");
       }
 
-      const { data } = await response2.json();
-      const { name, kakaoId, profileImage } = data;
+      const { kakaoId, name, profileImage } = await response2.json();
 
       dispatch(
         setCredential({

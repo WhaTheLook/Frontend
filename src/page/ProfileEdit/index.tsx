@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 import { ImageInput } from "@/components/ProfileEdit/ImageInput";
 import { UploadHeader } from "@/components/common/UploadHeader";
@@ -8,18 +8,17 @@ import { InputLabel } from "@/components/ProfileEdit/InputLabel";
 import { ModalPortal } from "@/components/common/ModalPortal";
 import { PopupModal } from "@/components/common/PopupModal";
 
-import { ProfileEditType, ProfileFormValues } from "@/types";
+import { ProfileFormValues, UserInfoType } from "@/types";
 import { MAX_LENGTH_USER_NAME, modalType } from "@/constants";
 
 import { useModalContext } from "@/hooks/useModalContext";
 
+import { selectCurrentUser } from "@/store/slice/authSlice";
+
 import * as S from "./style";
 
 export function ProfileEdit() {
-  const location = useLocation();
-  const {
-    user: { name, profile_image },
-  } = location.state as ProfileEditType;
+  const userInfo = useSelector(selectCurrentUser) as UserInfoType;
 
   const { register, handleSubmit, setValue, control } =
     useForm<ProfileFormValues>();
@@ -43,8 +42,8 @@ export function ProfileEdit() {
   useEffect(() => {
     // fetch된 데이터 가져오기 (이미지 URL, 이름)
     // setValue("profileImage", fetchedImage)
-    setValue("profileName", name);
-  }, [setValue, name]);
+    setValue("profileName", userInfo.name);
+  }, [setValue, userInfo]);
 
   return (
     <Fragment>
@@ -55,7 +54,7 @@ export function ProfileEdit() {
             <S.Main>
               <S.Form onSubmit={handleSubmit(onSubmit)}>
                 <ImageInput
-                  profileImage={profile_image}
+                  profileImage={userInfo.profileImage}
                   type="file"
                   accept="image/*"
                   setValue={setValue}

@@ -71,7 +71,7 @@ interface GetPostAPIArgType {
 }
 
 export const API_PATH = {
-    login: (code: string) => `${API_URL}/user/token/login?accessToken=${code}`,
+    login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
     postList: ({ menu, sortBy, page, size }: GetPostAPIArgType) => `${API_URL}/post/postList/${menu}/${sortBy}?page=${page}&size=${size}`
 }

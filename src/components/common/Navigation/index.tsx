@@ -27,7 +27,7 @@ const navigationList = [
     pathUrl: "/saved",
   },
   {
-    icon: <UserIcon size={ICON_SIZE.MEDIUM_SMALL} />,
+    icon: <UserIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000" />,
     text: "마이페이지",
     pathUrl: "/profile",
   },
