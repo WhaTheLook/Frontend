@@ -5,29 +5,31 @@ import { PostDetail } from "@/components/Detail/PostDetail";
 import { Divider } from "@/components/common/Divider";
 import { FlatItem } from "../FlatItem";
 
-import { useDetailModal } from "@/hooks/useDetailModal";
+import { PostListContentType } from "@/types";
 
-import { PostListType } from "@/types";
+import { useDetailModal } from "@/hooks/useDetailModal";
 
 import * as S from "./style";
 
 interface Props {
-  data: PostListType[];
+  data: PostListContentType[];
 }
 
 export function FlatList({ data }: Props) {
   const { isOpen, handleClose, handleOpen } = useDetailModal();
 
+  const handlePostItemClick = (postId: number) => {
+    handleOpen(postId, `/post/${postId}`);
+  };
+
   return (
     <Fragment>
       <S.Container>
-        {data.map((conetent, index) => (
-          <Fragment key={conetent.id}>
+        {data.map((content, index) => (
+          <Fragment key={content.id}>
             <FlatItem
-              data={conetent}
-              onItemClick={() =>
-                handleOpen(conetent.id, `/post/${conetent.id}`)
-              }
+              data={content}
+              onItemClick={() => handlePostItemClick(content.id)}
             />
             {index < data.length - 1 && <Divider />}
           </Fragment>

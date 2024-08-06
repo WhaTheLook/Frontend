@@ -9,8 +9,6 @@ export const Container = styled.div`
   justify-content: space-between;
 
   border-radius: 10px;
-
-  cursor: pointer;
 `;
 
 export const TextWrapper = styled.div`
@@ -20,6 +18,17 @@ export const TextWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
+`;
+
+export const TitleBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
 `;
 
 export const Title = styled.span`
@@ -65,7 +74,35 @@ export const InfoBox = styled.div`
   gap: 5px;
 `;
 
-export const InfoBoxText = styled.span`
+export const UserInfoBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  cursor: pointer;
+`;
+
+export const UserProfile = styled.div`
+  width: 25px;
+  height: 25px;
+`;
+
+export const ProfileImage = styled.img`
+  width: 100%;
+  height: 100%;
+
+  border-radius: 50%;
+`;
+
+export const UserName = styled.span`
+  font-size: 12px;
+
+  ${UserInfoBox}:hover & {
+    text-decoration: underline;
+  }
+`;
+
+export const DateText = styled.span`
   font-size: 12px;
 `;
 
@@ -102,6 +139,22 @@ export const ImageWrapper = styled.div<ImageWrapperProps>`
       height: 140px;
 
       border-radius: 8px;
+
+      position: relative;
     `;
   }}
+`;
+
+export const ImageCount = styled.div`
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 4px 10px;
+
+  font-size: 16px;
+  color: #fff;
+
+  border-radius: 99px;
+
+  position: absolute;
+  top: 4px;
+  right: 4px;
 `;

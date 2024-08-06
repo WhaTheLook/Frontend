@@ -59,22 +59,26 @@ export enum sortOption {
     POPULAR = "popular",
 }
 
-export enum menuOption {
-    QNA = "qna",
-    SHARE = "share",
+export enum categoryOption {
+    QNA = '질문하기',
+    SHARE = '정보공유',
 }
 interface GetPostAPIArgType {
-    menu: menuOption;
+    category: categoryOption;
     sortBy: sortOption;
     page: number;
     size: number;
+    userId?: string;
 }
 
 export const API_PATH = {
     login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
-    postList: ({ menu, sortBy, page, size }: GetPostAPIArgType) => `${API_URL}/post/postList/${menu}/${sortBy}?page=${page}&size=${size}`
+    postList: ({ category, sortBy, page, size, userId }: GetPostAPIArgType) => {
+        const baseUrl = `${API_URL}/post/postList?page=${page}&size=${size}&category=${category}`;
+        return userId ? `${baseUrl}&kakaoId=${userId}` : baseUrl;
+    }
 }
 
-export const MAX_FETCH_LEGNTH = 3;
+export const MAX_FETCH_LEGNTH = 10;
 export const FLATITEM_SKELETON_COUNT = 3;

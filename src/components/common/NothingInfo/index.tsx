@@ -9,10 +9,14 @@ import { ICON_SIZE } from "@/constants/style";
 import * as S from "./style";
 
 interface Props {
-  contentType: "post" | "comment" | "bookmark";
+  contentType: "post" | "comment" | "bookmark" | "home";
 }
 
 const ICONS_AND_TEXTS = {
+  home: {
+    Icon: FileIcon,
+    text: "현재 게시글이 없어요.",
+  },
   post: {
     Icon: FileIcon,
     text: "아직 작성한 게시글이 없어요.",

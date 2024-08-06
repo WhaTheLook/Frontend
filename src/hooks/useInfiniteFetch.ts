@@ -10,9 +10,12 @@ interface Props {
 
 
 export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
-  interface Props {
-    content: T[],
-    nextPage: number | null;
+  interface ResponseType {
+    content: T[];
+    last: boolean;
+    pageable: {
+      pageNumber: number;
+    };
   }
 
   const [data, setData] = useState<T[]>([]);
@@ -32,12 +35,12 @@ export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
         throw new CommoneError(status);
       }
       
-      const { content, nextPage } = (await response.json()) as Props;
+      const { content, last, pageable: { pageNumber } } = (await response.json()) as ResponseType;
   
-      nextPage 
-      ? currentPage.current = nextPage
-      : setHasNext(false);
-  
+      last 
+      ? setHasNext(false)
+      : currentPage.current = pageNumber + 1;
+
       setIsLoading(false);
       setData((prev) => [...prev, ...content]);
     } catch (error) {
