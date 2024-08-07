@@ -2,7 +2,7 @@ import { Component, PropsWithChildren, ReactNode } from "react";
 
 import { UnknownError } from "@/components/common/UnknownError";
 
-import { CommoneError } from "@/utils/CommonError";
+import { CommonError } from "@/utils/CommonError";
 import { NotFoundError } from "../NotFoundError";
 
 interface Props {
@@ -29,7 +29,7 @@ export class ApiErrorBoundary extends Component<
   }
 
   static getDerivedStateFromError(error: Error) {
-    if (!(error instanceof CommoneError)) {
+    if (!(error instanceof CommonError)) {
       return {
         shouldRethrow: true,
         shouldhandleError: false,
@@ -51,7 +51,7 @@ export class ApiErrorBoundary extends Component<
       return this.props.children;
     }
     if (
-      this.state.error instanceof CommoneError &&
+      this.state.error instanceof CommonError &&
       this.state.error.statusCode === 404
     ) {
       return <NotFoundError />;

@@ -1,6 +1,6 @@
 import { MutableRefObject, useCallback, useEffect, useState } from "react";
 
-import { CommoneError } from "@/utils/CommonError";
+import { CommonError } from "@/utils/CommonError";
 
 interface Props {
   url: string;
@@ -32,7 +32,7 @@ export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
 
       if (!response.ok) {
         const { status } = response;
-        throw new CommoneError(status);
+        throw new CommonError(status);
       }
       
       const { content, last, pageable: { pageNumber } } = (await response.json()) as ResponseType;
@@ -44,7 +44,7 @@ export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
       setIsLoading(false);
       setData((prev) => [...prev, ...content]);
     } catch (error) {
-      if (error instanceof CommoneError) {
+      if (error instanceof CommonError) {
         setError(error);
         return;
       }

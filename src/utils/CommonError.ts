@@ -1,4 +1,4 @@
-export class CommoneError extends Error {
+export class CommonError extends Error {
     statusCode: number;
 
     constructor(status: number) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { CommoneError } from "@/utils/CommonError";
+import { CommonError } from "@/utils/CommonError";
 
 interface Props {
   url: string;
@@ -27,13 +27,13 @@ export function useFetch<T>({ url, method, body }: Props) {
 
         if (!response.ok) {
           const { status } = response;
-          throw new CommoneError(status);
+          throw new CommonError(status);
         }
 
         const result = await response.json();
         setData(result);
       } catch (error) {
-        if (error instanceof CommoneError) {
+        if (error instanceof CommonError) {
           setError(error);
           return;
         }

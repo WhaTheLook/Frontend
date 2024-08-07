@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { LogoIcon } from "@/components/Icons/LogoIcon";
 import { PopupModal } from "../PopupModal";
@@ -23,6 +23,7 @@ import {
 import * as S from "./style";
 
 export function Header() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSignIn = useSelector(selectCurrentSignStatus);
   const user = useSelector(selectCurrentUser) as UserInfoType | null;
@@ -33,6 +34,7 @@ export function Header() {
     dispatch(logout());
     removeLocalStorageItem("accessToken");
     removeLocalStorageItem("refreshToken");
+    navigate("/login");
   };
 
   return (
