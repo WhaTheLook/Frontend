@@ -77,6 +77,10 @@ export const API_PATH = {
     postList: ({ category, sortBy, page, size, userId }: GetPostAPIArgType) => {
         const baseUrl = `${API_URL}/post/postList?page=${page}&size=${size}&category=${category}`;
         return userId ? `${baseUrl}&kakaoId=${userId}` : baseUrl;
+    },
+    postDetailInfo: ({ postId, userId }: { postId: number, userId?: string}) => {
+        const baseUrl = `${API_URL}/post/${postId}`;
+        return userId ? `${baseUrl}&kakaoId=${userId}` : baseUrl;
     }
 }
 

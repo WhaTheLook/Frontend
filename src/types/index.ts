@@ -82,6 +82,15 @@ export interface UserInfoType {
   kakaoId: string;
 }
 
+export interface CommentsType {
+  id: number;
+  author: string;
+  content: string;
+  date: string;
+  depth: number;
+  order: number;
+}
+
 export interface PostListContentType {
     id: number;
     author: UserInfoType;
@@ -94,6 +103,11 @@ export interface PostListContentType {
     commentCount: number;
     hashtags: string[];
     photoUrls: string[];
+}
+
+export interface PostDetailInfoType extends PostListContentType {
+  deleteYN: boolean;
+  comments: CommentsType[];
 }
 
 export interface PostListFetchType {

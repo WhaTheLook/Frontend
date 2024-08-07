@@ -14,6 +14,7 @@ import { Login } from "@/page/Login";
 
 import { AuthBoundary } from "@/components/common/AuthBoundary";
 import { PostDetail } from "@/components/Detail/PostDetail";
+import { ApiErrorBoundary } from "@/components/common/ApiErrorBoundary";
 
 export const router = createBrowserRouter([
   {
@@ -50,7 +51,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "post/:postId",
-        element: <PostDetail />,
+        element: (
+          <ApiErrorBoundary>
+            <PostDetail />
+          </ApiErrorBoundary>
+        ),
       },
     ],
   },
