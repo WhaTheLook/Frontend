@@ -5,12 +5,12 @@ import { BookMarkIcon } from "@/components/Icons/BookmarkIcon";
 import { UserIcon } from "@/components/Icons/UserIcon";
 import { UploadIcon } from "@/components/Icons/UploadIcon";
 import { LogoIcon } from "@/components/Icons/LogoIcon";
+import { LogoutIcon } from "@/components/Icons/LogoutIcon";
 
 import { ICON_SIZE } from "@/constants/style";
+import { ProtectedPathname } from "@/types";
 
 import * as S from "./style";
-
-type ProtectedPathname = "saved" | "upload" | "profile";
 
 const iconProps = { size: ICON_SIZE.HUGE, color: "#525252" };
 
@@ -34,6 +34,11 @@ const protectedRoutes = {
     icon: <LogoIcon {...iconProps} />,
     title: "WHATHELOOK",
     text: "로그인하기",
+  },
+  tokenExpired: {
+    icon: <LogoutIcon {...iconProps} />,
+    title: "로그인 세션 만료",
+    text: "보안을 위해 다시 로그인해주세요",
   },
 };
 

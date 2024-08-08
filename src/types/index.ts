@@ -138,3 +138,10 @@ export interface PostListFetchType {
   last: true;
   empty: true
 }
+
+export type ProtectedPathname =
+  | "saved"
+  | "upload"
+  | "profile"
+  | "tokenExpired"
+  | "login";

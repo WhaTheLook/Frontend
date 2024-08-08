@@ -1,6 +1,6 @@
 import { Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { LogoIcon } from "@/components/Icons/LogoIcon";
 import { PopupModal } from "../PopupModal";
@@ -10,12 +10,11 @@ import { HeaderButton } from "../HeaderButton";
 
 import { ICON_SIZE } from "@/constants/style";
 import { UserInfoType } from "@/types";
-import { removeLocalStorageItem } from "@/utils";
 
 import { useModalContext } from "@/hooks/useModalContext";
+import { useLogout } from "@/hooks/useLogout";
 
 import {
-  logout,
   selectCurrentSignStatus,
   selectCurrentUser,
 } from "@/store/slice/authSlice";
@@ -23,19 +22,11 @@ import {
 import * as S from "./style";
 
 export function Header() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const isSignIn = useSelector(selectCurrentSignStatus);
   const user = useSelector(selectCurrentUser) as UserInfoType | null;
 
   const { handleOpen } = useModalContext();
-
-  const handleLogoutBtnClick = () => {
-    dispatch(logout());
-    removeLocalStorageItem("accessToken");
-    removeLocalStorageItem("refreshToken");
-    navigate("/login");
-  };
+  const { handleLogout } = useLogout();
 
   return (
     <Fragment>
@@ -53,7 +44,7 @@ export function Header() {
                 <S.LoginMessage>
                   <S.UserName>{user?.name}</S.UserName>님 안녕하세요!
                 </S.LoginMessage>
-                <HeaderButton onClick={handleLogoutBtnClick}>
+                <HeaderButton onClick={() => handleLogout("login")}>
                   로그아웃
                 </HeaderButton>
               </Fragment>

@@ -55,7 +55,7 @@ export const MAX_LENGTH_USER_NAME = 20;
 export const API_URL = "https://43.201.58.243.nip.io";
 
 export enum sortOption {
-    LATEST = "latest",
+    LATEST = "recent",
     POPULAR = "popular",
 }
 
@@ -75,14 +75,20 @@ export const API_PATH = {
     login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
     postList: ({ category, sortBy, page, size, userId }: GetPostAPIArgType) => {
-        const baseUrl = `${API_URL}/post/postList?page=${page}&size=${size}&category=${category}`;
+        const baseUrl = `${API_URL}/post/postList?page=${page}&size=${size}&category=${category}&sortBy=${sortBy}`;
         return userId ? `${baseUrl}&kakaoId=${userId}` : baseUrl;
     },
     postDetailInfo: ({ postId, userId }: { postId: number, userId?: string}) => {
         const baseUrl = `${API_URL}/post/${postId}`;
         return userId ? `${baseUrl}&kakaoId=${userId}` : baseUrl;
-    }
+    },
+    tokenCheck: () => `${API_URL}/user/token/check`,
+    tokenReIssue: () => `${API_URL}/user/refresh`,
+    createPost: () => `${API_URL}/post/create`,
 }
 
 export const MAX_FETCH_LEGNTH = 10;
 export const FLATITEM_SKELETON_COUNT = 3;
+
+export const ACCESS_TOKEN = "accessToken";
+export const REFRESH_TOKEN = "refreshToken";
