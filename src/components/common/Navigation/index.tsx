@@ -10,24 +10,26 @@ import { ICON_SIZE } from "@/constants/style";
 
 import * as S from "./style";
 
+const iconProps = { size: ICON_SIZE.MEDIUM_SMALL, color: "#000" };
+
 const navigationList = [
   {
-    icon: <HomeIcon size={ICON_SIZE.MEDIUM_SMALL} />,
+    icon: <HomeIcon {...iconProps} />,
     text: "홈",
     pathUrl: "/",
   },
   {
-    icon: <SearchIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000" />,
+    icon: <SearchIcon {...iconProps} />,
     text: "검색",
     pathUrl: "/search",
   },
   {
-    icon: <BookMarkIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000" />,
+    icon: <BookMarkIcon {...iconProps} />,
     text: "저장한 글",
     pathUrl: "/saved",
   },
   {
-    icon: <UserIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000" />,
+    icon: <UserIcon {...iconProps} />,
     text: "마이페이지",
     pathUrl: "/profile",
   },

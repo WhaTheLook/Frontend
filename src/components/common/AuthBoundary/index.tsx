@@ -19,6 +19,7 @@ interface ResponseType {
 
 export function AuthBoundary({ children }: Props) {
   const [isSignIn, setIsSignIn] = useState(false);
+  const [prevPathname, setPrevPathname] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,6 +27,8 @@ export function AuthBoundary({ children }: Props) {
   const path = pathname.split("/")[1] as ProtectedPathname;
 
   const { handleLogout } = useLogout();
+
+  const isSamePath = prevPathname === pathname;
 
   useEffect(() => {
     const accessToken = getLocalStorageItem(ACCESS_TOKEN);
@@ -101,8 +104,14 @@ export function AuthBoundary({ children }: Props) {
       }
     }
 
+    if (isSamePath) return;
+
     validateTokenFetcher();
-  }, [handleLogout, navigate, path]);
+  }, [handleLogout, navigate, path, isSamePath]);
+
+  useEffect(() => {
+    setPrevPathname(pathname);
+  }, [pathname, path]);
 
   return isSignIn ? children : null;
 }
