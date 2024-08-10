@@ -1,6 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 
 import { ModalProvider } from "./components/common/ModalProvider";
+import { ToastProvider } from "./components/common/ToastProvider";
 import { AuthProvider } from "./AuthProvider";
 import { router } from "./routes/router";
 
@@ -12,7 +13,9 @@ function App() {
       <GlobalStyle />
       <AuthProvider>
         <ModalProvider>
-          <RouterProvider router={router} />
+          <ToastProvider>
+            <RouterProvider router={router} />
+          </ToastProvider>
         </ModalProvider>
       </AuthProvider>
     </>

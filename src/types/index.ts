@@ -10,7 +10,9 @@ export interface MenuListType {
 export interface ImageUploadType {
     id: string;
     file: File;
-} 
+}
+
+export type postTypeType = "정보공유" | "질문하기";
 
 export interface UploadDataValidationType<T> {
   data: T;
@@ -18,7 +20,7 @@ export interface UploadDataValidationType<T> {
 }
 
 export interface UploadDataType {
-    postType: UploadDataValidationType<number | null>;
+    postType: UploadDataValidationType<postTypeType | null>;
     images: UploadDataValidationType<ImageUploadType[]>;
     title: UploadDataValidationType<string>;
     description: UploadDataValidationType<string>;
@@ -30,7 +32,7 @@ export type UploadErrorKeys = keyof UploadDataType;
 export type ActionType =
   | {
       type: UploadActionType.POSTTYPE;
-      payload: number;
+      payload: postTypeType;
     }
   | {
       type: UploadActionType.IMAGES;

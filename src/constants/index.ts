@@ -1,7 +1,15 @@
+import { postTypeType } from "@/types";
+
 export enum modalType {
     SIGNOUT = "SIGNOUT",
     DELETE_POST = "DELETE_POST",
     DELETE_ACCOUNT = "DELETE_ACCOUNT",
+}
+
+export enum toastType {
+    SUCCESS = "SUCCESS",
+    ERROR = "ERROR", 
+    WARNING = "WARNING",
 }
 
 export const TOGGLE_SEARCH_HISTORY = "toggleSearchHistory";
@@ -45,9 +53,9 @@ export const SORT_LIST = [
     { id: 1, text: "인기순" },
 ];
 
-export const POST_TYPE_LIST = [
-    { id: 0, text: "정보 공유 글" },
-    { id: 1, text: "정보 질문 글" },
+export const POST_TYPE_LIST: { id: postTypeType, text: string}[] = [
+    { id: "정보공유", text: "정보 공유 글" },
+    { id: "질문하기", text: "정보 질문 글" },
 ];
 
 export const MAX_LENGTH_USER_NAME = 20;
@@ -80,7 +88,7 @@ export const API_PATH = {
     },
     postDetailInfo: ({ postId, userId }: { postId: number, userId?: string}) => {
         const baseUrl = `${API_URL}/post/${postId}`;
-        return userId ? `${baseUrl}&kakaoId=${userId}` : baseUrl;
+        return userId ? `${baseUrl}?kakaoId=${userId}` : baseUrl;
     },
     tokenCheck: () => `${API_URL}/user/token/check`,
     tokenReIssue: () => `${API_URL}/user/refresh`,
