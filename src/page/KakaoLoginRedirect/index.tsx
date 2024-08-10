@@ -51,7 +51,6 @@ export function KakaoLoginRedirect() {
 
       dispatch(
         setCredential({
-          accessToken,
           user: {
             name,
             kakaoId,

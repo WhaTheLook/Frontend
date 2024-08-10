@@ -1,12 +1,16 @@
 import { ReactNode, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import { ACCESS_TOKEN, API_PATH, REFRESH_TOKEN } from "@/constants";
-import { getLocalStorageItem, setLocalStorageItem } from "@/utils";
+import { getLocalStorageItem } from "@/utils";
 import { CommonError } from "@/utils/CommonError";
+import { ProtectedPathname } from "@/types";
 
 import { useLogout } from "@/hooks/useLogout";
-import { ProtectedPathname } from "@/types";
+import { useReIssueToken } from "@/hooks/useReIssueToken";
+
+import { selectCurrentSignStatus, setSignIn } from "@/store/slice/authSlice";
 
 interface Props {
   children: ReactNode;
@@ -18,15 +22,16 @@ interface ResponseType {
 }
 
 export function AuthBoundary({ children }: Props) {
-  const [isSignIn, setIsSignIn] = useState(false);
   const [prevPathname, setPrevPathname] = useState<string | null>(null);
+  const isSignIn = useSelector(selectCurrentSignStatus);
 
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const { pathname } = location;
   const path = pathname.split("/")[1] as ProtectedPathname;
 
   const { handleLogout } = useLogout();
+  const { reIssueTokenFetcher } = useReIssueToken();
 
   const isSamePath = prevPathname === pathname;
 
@@ -37,31 +42,6 @@ export function AuthBoundary({ children }: Props) {
     if (!accessToken && !refreshToken) {
       handleLogout(path);
       return;
-    }
-
-    async function renewAccessToken() {
-      try {
-        const response = await fetch(API_PATH.tokenReIssue(), {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-          body: refreshToken,
-        });
-
-        if (!response.ok) {
-          const { status } = response;
-          throw new CommonError(status);
-        }
-
-        const { accessToken } = await response.json();
-
-        setLocalStorageItem(ACCESS_TOKEN, accessToken);
-        setIsSignIn(true);
-      } catch (error) {
-        // 세션 만료 로그아웃
-        handleLogout("tokenExpired");
-      }
     }
 
     async function validateTokenFetcher() {
@@ -85,14 +65,16 @@ export function AuthBoundary({ children }: Props) {
 
         (await response.json()) as ResponseType;
 
-        setIsSignIn(true);
+        dispatch(setSignIn());
       } catch (error) {
         if (error instanceof CommonError) {
           switch (error.statusCode) {
             case 401:
-              await renewAccessToken();
+              // 토큰 만료시 재발급 요청
+              await reIssueTokenFetcher();
               break;
             case 403:
+              // 잘못된 토큰 전송 시 로그아웃
               handleLogout(path);
               break;
             default:
@@ -107,7 +89,7 @@ export function AuthBoundary({ children }: Props) {
     if (isSamePath) return;
 
     validateTokenFetcher();
-  }, [handleLogout, navigate, path, isSamePath]);
+  }, [dispatch, handleLogout, isSamePath, path, reIssueTokenFetcher]);
 
   useEffect(() => {
     setPrevPathname(pathname);
