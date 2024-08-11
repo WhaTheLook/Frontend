@@ -1,10 +1,24 @@
-import { useEffect, useReducer } from "react";
-import { Outlet } from "react-router-dom";
+import { Fragment, useEffect, useReducer } from "react";
+import { useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
 
+import { ToastContainer } from "@/components/common/ToastContainer";
+import { ToastMessage } from "@/components/common/ToastMessage";
 import { UploadHeader } from "@/components/common/UploadHeader";
 
+import { getLocalStorageItem } from "@/utils";
+import { CommonError } from "@/utils/CommonError";
 import { ActionType, UploadDataType, UploadErrorKeys } from "@/types";
-import { UploadActionType } from "@/constants";
+import {
+  ACCESS_TOKEN,
+  API_PATH,
+  toastType,
+  UploadActionType,
+} from "@/constants";
+
+import { useToastContext } from "@/hooks/useToastContex";
+
+import { selectCurrentUser } from "@/store/slice/authSlice";
 
 import * as S from "./style";
 
@@ -59,7 +73,11 @@ function reducer(state: UploadDataType, action: ActionType): UploadDataType {
 
 export function UploadLayout() {
   const [data, dispatch] = useReducer(reducer, initState);
+  const user = useSelector(selectCurrentUser);
 
+  const { handleToastOpen } = useToastContext();
+
+  const navigate = useNavigate();
   const { postType, images, title, description, tags } = data;
 
   const checkAndAddError = (
@@ -84,10 +102,53 @@ export function UploadLayout() {
     return errorKeys;
   };
 
-  const handleSubmitBtnClick = () => {
+  const handleSubmitBtnClick = async () => {
     const errorKeys = validateForm();
-    dispatch({ type: UploadActionType.VALIDATE, payload: errorKeys });
-    // To do: description.trim()
+    if (errorKeys.length !== 0) {
+      dispatch({ type: UploadActionType.VALIDATE, payload: errorKeys });
+      return;
+    }
+
+    try {
+      const accessToken = getLocalStorageItem(ACCESS_TOKEN);
+
+      const formData = new FormData();
+      const postRequestData = new Blob(
+        [
+          JSON.stringify({
+            kakaoId: user?.kakaoId,
+            title: title.data,
+            content: description.data,
+            category: postType.data,
+            hashtags: tags.data.map((tag) => `#${tag}`),
+          }),
+        ],
+        { type: "application/json" }
+      );
+      formData.append("postRequest", postRequestData);
+      images.data
+        .map((image) => image.file)
+        .forEach((image) => formData.append("photos", image as File));
+
+      const response = await fetch(API_PATH.createPost(), {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const { status } = response;
+        throw new CommonError(status);
+      }
+
+      navigate("/");
+    } catch (error) {
+      if (error instanceof CommonError) {
+        handleToastOpen();
+      }
+    }
   };
 
   useEffect(() => {
@@ -95,15 +156,23 @@ export function UploadLayout() {
   }, []);
 
   return (
-    <S.Container>
-      <UploadHeader onSubmitBtnClick={handleSubmitBtnClick} />
-      <S.Wrapper>
-        <S.Box>
-          <S.Main>
-            <Outlet context={{ data, dispatch }} />
-          </S.Main>
-        </S.Box>
-      </S.Wrapper>
-    </S.Container>
+    <Fragment>
+      <S.Container>
+        <UploadHeader onSubmitBtnClick={handleSubmitBtnClick} />
+        <S.Wrapper>
+          <S.Box>
+            <S.Main>
+              <Outlet context={{ data, dispatch }} />
+            </S.Main>
+          </S.Box>
+        </S.Wrapper>
+      </S.Container>
+      <ToastContainer>
+        <ToastMessage
+          type={toastType.WARNING}
+          text="네트워크 에러가 발생했어요. 다시 시도해주세요."
+        ></ToastMessage>
+      </ToastContainer>
+    </Fragment>
   );
 }
