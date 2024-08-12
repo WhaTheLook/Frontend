@@ -112,6 +112,16 @@ export interface PostDetailInfoType extends PostListContentType {
   comments: CommentsType[];
 }
 
+export interface UserInfoFetchType {
+  kakaoId: string;
+  email: string;
+  name: string;
+  profileImage: string;
+  date: string | null;
+  postCount: number;
+  commentCount: number;
+}
+
 export interface PostListFetchType {
   totalPages: number;
   totalElements: number;

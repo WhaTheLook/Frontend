@@ -45,7 +45,9 @@ export const router = createBrowserRouter([
         path: "profile",
         element: (
           <AuthBoundary>
-            <MyPage />
+            <ApiErrorBoundary>
+              <MyPage />
+            </ApiErrorBoundary>
           </AuthBoundary>
         ),
       },

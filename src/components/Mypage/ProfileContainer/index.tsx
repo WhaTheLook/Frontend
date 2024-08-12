@@ -1,16 +1,14 @@
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { UserInfoType } from "@/types";
-
-import { selectCurrentUser } from "@/store/slice/authSlice";
+import { selectUserInfo } from "@/store/slice/myPageSlice";
 
 import * as S from "./style";
 
-export function Profile() {
-  const userInfo = useSelector(selectCurrentUser) as UserInfoType | null;
-
+export function ProfileContainer() {
   const navigate = useNavigate();
+
+  const userInfo = useSelector(selectUserInfo);
 
   const handleEditBtnClick = () => {
     navigate("/profile/edit");
@@ -25,10 +23,10 @@ export function Profile() {
             <S.UserName>{userInfo?.name}</S.UserName>
             <S.InfoTextDiv>
               <S.InfoText>
-                게시글 <S.Bold>1</S.Bold>
+                게시글 <S.Bold>{userInfo?.postCount}</S.Bold>
               </S.InfoText>
               <S.InfoText>
-                댓글 <S.Bold>4</S.Bold>
+                댓글 <S.Bold>{userInfo?.commentCount}</S.Bold>
               </S.InfoText>
             </S.InfoTextDiv>
           </S.ProfileTextBox>
