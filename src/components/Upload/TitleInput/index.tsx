@@ -17,7 +17,7 @@ export const TitleInput = memo(function TitleInput({
 }: Props) {
   const handleChangeTitle = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { value } = target;
-    dispatcher(value.trim());
+    dispatcher(value);
   };
 
   return (

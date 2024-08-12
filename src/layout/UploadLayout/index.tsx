@@ -117,8 +117,8 @@ export function UploadLayout() {
         [
           JSON.stringify({
             kakaoId: user?.kakaoId,
-            title: title.data,
-            content: description.data,
+            title: title.data.trim(),
+            content: description.data.trim(),
             category: postType.data,
             hashtags: tags.data.map((tag) => `#${tag}`),
           }),

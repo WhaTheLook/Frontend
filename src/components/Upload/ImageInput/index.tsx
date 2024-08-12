@@ -1,11 +1,10 @@
-import { ChangeEvent, memo, useRef } from "react";
+import { ChangeEvent, memo, useCallback, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { XCircleIcon } from "@/components/Icons/XCircleIcon";
 import { ErrorMessage } from "@/components/common/ErrorMessage";
+import { ImageDragDrop } from "../ImageDragDrop";
 
 import { ALERT_MESSAGE, IMAGE_UPLOAD_MAX_COUNT } from "@/constants";
-import { ICON_SIZE } from "@/constants/style";
 import { ImageUploadType } from "@/types";
 
 import * as S from "./style";
@@ -23,10 +22,13 @@ export const ImageInput = memo(function ImageInput({
 }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleDeleteBtnClick = (imageId: string) => {
-    const filteredImages = [...images].filter(({ id }) => id !== imageId);
-    dispatcher(filteredImages);
-  };
+  const handleDeleteBtnClick = useCallback(
+    (imageId: string) => {
+      const filteredImages = [...images].filter(({ id }) => id !== imageId);
+      dispatcher(filteredImages);
+    },
+    [dispatcher, images]
+  );
 
   const handleUploadImages = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { files } = target;
@@ -42,6 +44,8 @@ export const ImageInput = memo(function ImageInput({
 
     const copyedImages = [...images, ...fileArray];
     dispatcher(copyedImages);
+
+    target.value = ""; // 동일한 파일을 다시 선택 허용
   };
 
   const handleUploadBtnClick = () => {
@@ -64,13 +68,11 @@ export const ImageInput = memo(function ImageInput({
           <S.ButtonText>사진추가</S.ButtonText>
           <S.ButtonText>{images.length}/5</S.ButtonText>
         </S.UploadButton>
-        {images.map(({ id, file }) => (
-          <S.SamleImage key={id} $imageUrl={URL.createObjectURL(file)}>
-            <S.DeleteButton onClick={() => handleDeleteBtnClick(id)}>
-              <XCircleIcon size={ICON_SIZE.MEDIUM} color="#FFF" />
-            </S.DeleteButton>
-          </S.SamleImage>
-        ))}
+        <ImageDragDrop
+          images={images}
+          dispatcher={dispatcher}
+          handleDeleteBtnClick={handleDeleteBtnClick}
+        />
       </S.Wrapper>
       {error && <ErrorMessage message="사진 1개 이상 업로드해주세요." />}
     </S.Container>

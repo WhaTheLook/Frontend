@@ -7,7 +7,11 @@ import { TitleInput } from "@/components/Upload/TitleInput";
 import { TagInput } from "@/components/Upload/TagInput";
 import { DescriptionInput } from "@/components/Upload/DescriptionInput";
 
-import { ImageUploadType, UploadLayoutContextProps } from "@/types";
+import {
+  ImageUploadType,
+  postTypeType,
+  UploadLayoutContextProps,
+} from "@/types";
 import { UploadActionType } from "@/constants";
 
 import * as S from "./style";
@@ -17,7 +21,7 @@ export function Upload() {
   const { postType, images, title, description, tags } = data;
 
   const handleSetPostType = useCallback(
-    (newPostType: number) => {
+    (newPostType: postTypeType) => {
       dispatch({ type: UploadActionType.POSTTYPE, payload: newPostType });
     },
     [dispatch]
