@@ -74,17 +74,16 @@ export enum categoryOption {
 interface GetPostAPIArgType {
     category: categoryOption;
     sortBy: sortOption;
-    page: number;
     size: number;
-    userId?: string;
+    lastPostId?: number;
 }
 
 export const API_PATH = {
     login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
-    postList: ({ category, sortBy, page, size, userId }: GetPostAPIArgType) => {
-        const baseUrl = `${API_URL}/post/postList?page=${page}&size=${size}&category=${category}&sortBy=${sortBy}`;
-        return userId ? `${baseUrl}&kakaoId=${userId}` : baseUrl;
+    postList: ({ category, sortBy, lastPostId, size }: GetPostAPIArgType) => {
+        const baseUrl = `${API_URL}/post/postList?size=${size}&category=${category}&sortBy=${sortBy}`;
+        return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
     },
     postDetailInfo: ({ postId, userId }: { postId: number, userId?: string}) => {
         const baseUrl = `${API_URL}/post/${postId}`;
@@ -93,6 +92,7 @@ export const API_PATH = {
     tokenCheck: () => `${API_URL}/user/token/check`,
     tokenReIssue: () => `${API_URL}/user/refresh`,
     createPost: () => `${API_URL}/post/create`,
+    likePost: () => `${API_URL}/post/like`
 }
 
 export const MAX_FETCH_LEGNTH = 10;

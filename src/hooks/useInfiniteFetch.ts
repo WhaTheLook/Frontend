@@ -4,18 +4,15 @@ import { CommonError } from "@/utils/CommonError";
 
 interface Props {
   url: string;
-  currentPage: MutableRefObject<number>;
+  lastPostId: MutableRefObject<number | null>;
   intersecting: boolean;
 }
 
 
-export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
+export function useInfiniteFetch<T extends { id: number}>({ url, lastPostId, intersecting }: Props) {
   interface ResponseType {
     content: T[];
     last: boolean;
-    pageable: {
-      pageNumber: number;
-    };
   }
 
   const [data, setData] = useState<T[]>([]);
@@ -35,11 +32,12 @@ export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
         throw new CommonError(status);
       }
       
-      const { content, last, pageable: { pageNumber } } = (await response.json()) as ResponseType;
+      const { content, last } = (await response.json()) as ResponseType;
   
+      const currentLastPostId = content[content.length - 1].id;
       last 
       ? setHasNext(false)
-      : currentPage.current = pageNumber + 1;
+      : lastPostId.current = currentLastPostId;
 
       setIsLoading(false);
       setData((prev) => [...prev, ...content]);
@@ -50,7 +48,7 @@ export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
       }
       setError(new Error());
     }
-  }, [currentPage, url, signal])
+  }, [lastPostId, url, signal])
 
   useEffect(() => {
     if (intersecting && hasNext && !isLoading) {

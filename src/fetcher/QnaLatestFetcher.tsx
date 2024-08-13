@@ -1,5 +1,4 @@
 import { Fragment, ReactNode, useContext, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
 
 import { PostContext } from "@/components/common/PostProvider";
 import { FlatListSkeleton } from "@/components/common/FlatListSkeleton";
@@ -17,21 +16,14 @@ import { PostListContentType } from "@/types";
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 
-import {
-  selectCurrentSignStatus,
-  selectCurrentUser,
-} from "@/store/slice/authSlice";
-
 interface Props {
   children: ReactNode;
 }
 
 export function QnaLatestFetcher({ children }: Props) {
   const { handleSetData } = useContext(PostContext);
-  const isSignIn = useSelector(selectCurrentSignStatus);
-  const userInfo = useSelector(selectCurrentUser);
 
-  const currentPage = useRef<number>(0);
+  const lastPostIdRef = useRef<number | null>(null);
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement);
 
@@ -39,11 +31,10 @@ export function QnaLatestFetcher({ children }: Props) {
     url: API_PATH.postList({
       category: categoryOption.QNA,
       sortBy: sortOption.LATEST,
-      page: currentPage.current,
       size: MAX_FETCH_LEGNTH,
-      userId: isSignIn ? userInfo?.kakaoId : undefined,
+      lastPostId: lastPostIdRef.current || undefined,
     }),
-    currentPage,
+    lastPostId: lastPostIdRef,
     intersecting,
   });
 
