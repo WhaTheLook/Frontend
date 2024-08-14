@@ -3,12 +3,12 @@ import { createContext, ReactNode, useState } from "react";
 import { PostListContentType } from "@/types";
 
 interface createContextType {
-  data: PostListContentType[];
-  handleSetData: (arg: PostListContentType[]) => void;
+  data: PostListContentType[] | null;
+  handleSetData: (arg: PostListContentType[] | null) => void;
 }
 
 export const PostContext = createContext<createContextType>({
-  data: [],
+  data: null,
   handleSetData: () => {},
 });
 
@@ -17,9 +17,9 @@ interface Props {
 }
 
 export function PostProvider({ children }: Props) {
-  const [data, setData] = useState<PostListContentType[]>([]);
+  const [data, setData] = useState<PostListContentType[] | null>(null);
 
-  const handleSetData = (newData: PostListContentType[]) => {
+  const handleSetData = (newData: PostListContentType[] | null) => {
     setData(newData);
   };
 

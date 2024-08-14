@@ -43,6 +43,18 @@ export function ImageWrapper({ images }: Props) {
     (_, idx) => idx
   );
 
+  const isNotLastImage = (images: string[], currentIndex: number) => {
+    return images.length > 1 && currentIndex !== images.length - 1;
+  };
+
+  const isNotFirstImage = (images: string[], currentIndex: number) => {
+    return images.length > 1 && currentIndex !== 0;
+  };
+
+  const hasOnlyOneImage = (images: string[]) => {
+    return images.length === 1;
+  };
+
   return (
     <S.Container>
       <S.Wrapper ref={slideRef}>
@@ -50,25 +62,27 @@ export function ImageWrapper({ images }: Props) {
           <S.ItemImage key={imageUrl} src={imageUrl} />
         ))}
       </S.Wrapper>
-      {images.length !== 1 && currentIndex !== images.length - 1 && (
+      {isNotLastImage(images, currentIndex) && (
         <S.NextButton onClick={goNextImage}>
           <NextArrowIcon size={ICON_SIZE.SMALL} color="#000000" />
         </S.NextButton>
       )}
-      {images.length !== 1 && currentIndex !== 0 && (
+      {isNotFirstImage(images, currentIndex) && (
         <S.PrevButton onClick={goPriviousImage}>
           <PrevArrowIcon size={ICON_SIZE.SMALL} color="#000000" />
         </S.PrevButton>
       )}
-      <S.OrderBox>
-        {imagesOrderArray.map((value, index) => (
-          <S.Order
-            key={value}
-            $isCurrent={value === currentIndex}
-            onClick={() => goSpecificImage(index)}
-          />
-        ))}
-      </S.OrderBox>
+      {!hasOnlyOneImage(images) && (
+        <S.OrderBox>
+          {imagesOrderArray.map((value, index) => (
+            <S.Order
+              key={value}
+              $isCurrent={value === currentIndex}
+              onClick={() => goSpecificImage(index)}
+            />
+          ))}
+        </S.OrderBox>
+      )}
     </S.Container>
   );
 }

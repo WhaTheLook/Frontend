@@ -24,6 +24,8 @@ export const ImageDragDrop = memo(function ImageDragDrop({
   dispatcher,
   handleDeleteBtnClick,
 }: Props) {
+  const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
+
   const moveImages = (
     arr: ImageUploadType[],
     fromIndex: number,
@@ -47,8 +49,6 @@ export const ImageDragDrop = memo(function ImageDragDrop({
     },
     [dispatcher, images]
   );
-
-  const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const newUrls = images.reduce((acc, { id, file }) => {

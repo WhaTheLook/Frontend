@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
-import { QnaLatest } from "@/components/Home/QnaLatest";
-import { QnaPopular } from "@/components/Home/QnaPopular";
+import { QnaLatestContainer } from "@/components/Home/QnaLatestContainer";
+import { QnaPopularContainer } from "@/components/Home/QnaPopularContainer";
 
 import { QnaLatestFetcher } from "@/fetcher/QnaLatestFetcher";
 import { QnaPopularFetcher } from "@/fetcher/QnaPopularFetcher";
@@ -15,11 +15,11 @@ export function QnaPosts({ sortType }: Props) {
     <Fragment>
       {sortType === 0 ? (
         <QnaLatestFetcher>
-          <QnaLatest />
+          <QnaLatestContainer />
         </QnaLatestFetcher>
       ) : (
         <QnaPopularFetcher>
-          <QnaPopular />
+          <QnaPopularContainer />
         </QnaPopularFetcher>
       )}
     </Fragment>

@@ -43,13 +43,21 @@ export function QnaLatestFetcher({ children }: Props) {
   }
 
   useEffect(() => {
-    handleSetData(data);
+    handleSetData(null);
+  }, [handleSetData]);
+
+  useEffect(() => {
+    if (data) {
+      handleSetData(data);
+    }
   }, [data, handleSetData]);
 
   return (
     <Fragment>
-      {isLoading && <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />}
-      {data.length >= 0 && (
+      {!data && isLoading && (
+        <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />
+      )}
+      {data && data.length >= 0 && (
         <Fragment>
           {children}
           {isLoading && (

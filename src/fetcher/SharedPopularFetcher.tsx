@@ -36,13 +36,19 @@ export function SharedPopularFetcher({ children }: Props) {
   }
 
   useEffect(() => {
-    handleSetData(data);
+    handleSetData(null);
+  }, [handleSetData]);
+
+  useEffect(() => {
+    if (data) {
+      handleSetData(data);
+    }
   }, [data, handleSetData]);
 
   return (
     <Fragment>
-      {isLoading && <GridListSkeleton count={6} />}
-      {data.length >= 0 && (
+      {!data && isLoading && <GridListSkeleton count={6} />}
+      {data && data.length >= 0 && (
         <Fragment>
           {children}
           {isLoading && <GridListSkeleton count={6} />}

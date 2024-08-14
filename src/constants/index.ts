@@ -71,17 +71,25 @@ export enum categoryOption {
     QNA = '질문하기',
     SHARE = '정보공유',
 }
+
 interface GetPostAPIArgType {
-    category: categoryOption;
     sortBy: sortOption;
     size: number;
     lastPostId?: number;
 }
 
+interface PostListArgType extends GetPostAPIArgType{
+    category: categoryOption;
+}
+
+interface UserPostListArgType extends GetPostAPIArgType{
+    userId: string;
+}
+
 export const API_PATH = {
     login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
-    postList: ({ category, sortBy, lastPostId, size }: GetPostAPIArgType) => {
+    postList: ({ category, sortBy, size, lastPostId }: PostListArgType) => {
         const baseUrl = `${API_URL}/post/postList?size=${size}&category=${category}&sortBy=${sortBy}`;
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
     },
@@ -92,11 +100,15 @@ export const API_PATH = {
     tokenCheck: () => `${API_URL}/user/token/check`,
     tokenReIssue: () => `${API_URL}/user/refresh`,
     createPost: () => `${API_URL}/post/create`,
-    likePost: () => `${API_URL}/post/like`
+    likePost: () => `${API_URL}/post/like`,
+    userPostList: ({ userId, sortBy, size, lastPostId }: UserPostListArgType) => {
+        const baseUrl = `${API_URL}/user/${userId}/post?size=${size}&sortBy=${sortBy}`;
+        return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
+    },
 }
 
 export const MAX_FETCH_LEGNTH = 10;
-export const FLATITEM_SKELETON_COUNT = 3;
+export const FLATITEM_SKELETON_COUNT = 4;
 
 export const ACCESS_TOKEN = "accessToken";
 export const REFRESH_TOKEN = "refreshToken";

@@ -8,14 +8,13 @@ interface Props {
   intersecting: boolean;
 }
 
-
 export function useInfiniteFetch<T extends { id: number}>({ url, lastPostId, intersecting }: Props) {
   interface ResponseType {
     content: T[];
     last: boolean;
   }
 
-  const [data, setData] = useState<T[]>([]);
+  const [data, setData] = useState<T[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasNext, setHasNext] = useState(true);
   const [error, setError] = useState<Error | null>(null)
@@ -40,7 +39,7 @@ export function useInfiniteFetch<T extends { id: number}>({ url, lastPostId, int
       : lastPostId.current = currentLastPostId;
 
       setIsLoading(false);
-      setData((prev) => [...prev, ...content]);
+      setData((prev) => !prev ? [...content] : [...prev, ...content]);
     } catch (error) {
       if (error instanceof CommonError) {
         setError(error);

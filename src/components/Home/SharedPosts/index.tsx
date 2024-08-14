@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
-import { SharedLatest } from "@/components/Home/SharedLatest";
-import { SharedPopular } from "@/components/Home/SharedPopular";
+import { SharedLatestContainer } from "@/components/Home/SharedLatestContainer";
+import { SharedPopularContainer } from "@/components/Home/SharedPopularContainer";
 
 import { SharedLatestFetcher } from "@/fetcher/SharedLatestFetcher";
 import { SharedPopularFetcher } from "@/fetcher/SharedPopularFetcher";
@@ -15,11 +15,11 @@ export function SharedPosts({ sortType }: Props) {
     <Fragment>
       {sortType === 0 ? (
         <SharedLatestFetcher>
-          <SharedLatest />
+          <SharedLatestContainer />
         </SharedLatestFetcher>
       ) : (
         <SharedPopularFetcher>
-          <SharedPopular />
+          <SharedPopularContainer />
         </SharedPopularFetcher>
       )}
     </Fragment>

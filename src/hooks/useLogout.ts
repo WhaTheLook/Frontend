@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -11,12 +12,12 @@ export function useLogout() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleLogout = (currentPath: ProtectedPathname) => {
+    const handleLogout = useCallback(function (currentPath: ProtectedPathname) {
         dispatch(logout());
         removeLocalStorageItem(ACCESS_TOKEN);
         removeLocalStorageItem(REFRESH_TOKEN);
         navigate("/login", { state: currentPath });
-    };
+    } , [dispatch, navigate]) 
 
     return { handleLogout };
 }

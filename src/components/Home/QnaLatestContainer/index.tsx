@@ -4,12 +4,15 @@ import { FlatList } from "@/components/common/FlatList";
 import { PostContext } from "@/components/common/PostProvider";
 import { NothingInfo } from "@/components/common/NothingInfo";
 
-export function QnaLatest() {
+export function QnaLatestContainer() {
   const { data } = useContext(PostContext);
-
-  return data.length === 0 ? (
-    <NothingInfo contentType="home" />
-  ) : (
-    <FlatList data={data} />
+  console.log(data);
+  return (
+    data &&
+    (data.length === 0 ? (
+      <NothingInfo contentType="home" />
+    ) : (
+      <FlatList data={data} />
+    ))
   );
 }
