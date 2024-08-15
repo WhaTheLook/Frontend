@@ -11,7 +11,7 @@ import { ICON_SIZE } from "@/constants/style";
 
 import { useReIssueToken } from "@/hooks/useReIssueToken";
 import { useToastContext } from "@/hooks/useToastContex";
-import { useAuthFetch } from "@/hooks/useAuthFetch";
+import { useAuthMutation } from "@/hooks/useAuthMutation";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
@@ -32,7 +32,7 @@ export function LikeWrapper({ likeCount, likeYN, postId }: Props) {
   const { reIssueTokenFetcher } = useReIssueToken();
   const { handleToastOpen } = useToastContext();
 
-  const { fetcher } = useAuthFetch({
+  const { fetcher } = useAuthMutation({
     url: API_PATH.likePost(),
     method: "POST",
     body: JSON.stringify({

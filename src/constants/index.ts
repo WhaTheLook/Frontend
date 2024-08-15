@@ -115,5 +115,6 @@ export const REFRESH_TOKEN = "refreshToken";
 
 export const TOAST_MESSAGE = {
     tokenExpired: () => "세션이 만료되었어요. 로그인 후 다시 시도해주세요.",
-    likeError: () => "게시글 좋아요에 실패했어요. 다시 시도해주세요."
+    likeError: () => "게시글 좋아요에 실패했어요. 다시 시도해주세요.",
+    createPostError: () => "게시글을 작성하는데 실패했어요. 다시 시도해주세요."
 }

@@ -1,22 +1,22 @@
-import { Fragment, useEffect, useReducer } from "react";
+import { Fragment, useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import { ToastContainer } from "@/components/common/ToastContainer";
-import { ToastMessage } from "@/components/common/ToastMessage";
 import { UploadHeader } from "@/components/common/UploadHeader";
 
-import { getLocalStorageItem } from "@/utils";
 import { CommonError } from "@/utils/CommonError";
 import { ActionType, UploadDataType, UploadErrorKeys } from "@/types";
 import {
-  ACCESS_TOKEN,
   API_PATH,
+  TOAST_MESSAGE,
   toastType,
   UploadActionType,
 } from "@/constants";
 
 import { useToastContext } from "@/hooks/useToastContex";
+import { useAuthMutation } from "@/hooks/useAuthMutation";
+import { useReIssueToken } from "@/hooks/useReIssueToken";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
@@ -72,13 +72,21 @@ function reducer(state: UploadDataType, action: ActionType): UploadDataType {
 }
 
 export function UploadLayout() {
-  const [data, dispatch] = useReducer(reducer, initState);
-  const user = useSelector(selectCurrentUser);
-
-  const { handleToastOpen } = useToastContext();
-
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const user = useSelector(selectCurrentUser);
+  const [data, dispatch] = useReducer(reducer, initState);
   const { postType, images, title, description, tags } = data;
+
+  const { reIssueTokenFetcher } = useReIssueToken();
+  const { handleToastOpen } = useToastContext();
+  const { fetcher } = useAuthMutation({
+    url: API_PATH.createPost(),
+    method: "POST",
+    body: getFormData(),
+    isFormData: true,
+  });
 
   const checkAndAddError = (
     condition: boolean,
@@ -102,52 +110,74 @@ export function UploadLayout() {
     return errorKeys;
   };
 
+  function getFormData() {
+    const formData = new FormData();
+    const postRequestData = new Blob(
+      [
+        JSON.stringify({
+          kakaoId: user?.kakaoId,
+          title: title.data.trim(),
+          content: description.data.trim(),
+          category: postType.data,
+          hashtags: tags.data.map((tag) => `#${tag}`),
+        }),
+      ],
+      { type: "application/json" }
+    );
+    formData.append("postRequest", postRequestData);
+    images.data
+      .map((image) => image.file)
+      .forEach((image) => formData.append("photos", image as File));
+
+    return formData;
+  }
+
+  const hasError = (errorKeys: (keyof UploadDataType)[]) => {
+    return errorKeys.length !== 0;
+  };
+
   const handleSubmitBtnClick = async () => {
     const errorKeys = validateForm();
-    if (errorKeys.length !== 0) {
+    if (hasError(errorKeys)) {
       dispatch({ type: UploadActionType.VALIDATE, payload: errorKeys });
       return;
     }
 
     try {
-      const accessToken = getLocalStorageItem(ACCESS_TOKEN);
+      setIsLoading(true);
+      await fetcher();
 
-      const formData = new FormData();
-      const postRequestData = new Blob(
-        [
-          JSON.stringify({
-            kakaoId: user?.kakaoId,
-            title: title.data.trim(),
-            content: description.data.trim(),
-            category: postType.data,
-            hashtags: tags.data.map((tag) => `#${tag}`),
-          }),
-        ],
-        { type: "application/json" }
-      );
-      formData.append("postRequest", postRequestData);
-      images.data
-        .map((image) => image.file)
-        .forEach((image) => formData.append("photos", image as File));
-
-      const response = await fetch(API_PATH.createPost(), {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const { status } = response;
-        throw new CommonError(status);
-      }
-
-      navigate("/");
+      navigate("/profile");
     } catch (error) {
       if (error instanceof CommonError) {
-        handleToastOpen();
+        const { statusCode } = error;
+        switch (statusCode) {
+          case 401:
+            try {
+              await reIssueTokenFetcher();
+              await fetcher();
+            } catch (error) {
+              handleToastOpen({
+                type: toastType.ERROR,
+                content: TOAST_MESSAGE.tokenExpired(),
+              });
+            }
+            break;
+          default:
+            handleToastOpen({
+              type: toastType.ERROR,
+              content: TOAST_MESSAGE.createPostError(),
+            });
+            break;
+        }
+      } else {
+        handleToastOpen({
+          type: toastType.ERROR,
+          content: TOAST_MESSAGE.createPostError(),
+        });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -158,7 +188,10 @@ export function UploadLayout() {
   return (
     <Fragment>
       <S.Container>
-        <UploadHeader onSubmitBtnClick={handleSubmitBtnClick} />
+        <UploadHeader
+          onSubmitBtnClick={handleSubmitBtnClick}
+          disabled={isLoading}
+        />
         <S.Wrapper>
           <S.Box>
             <S.Main>
@@ -167,12 +200,7 @@ export function UploadLayout() {
           </S.Box>
         </S.Wrapper>
       </S.Container>
-      <ToastContainer>
-        <ToastMessage
-          type={toastType.WARNING}
-          text="네트워크 에러가 발생했어요. 다시 시도해주세요."
-        ></ToastMessage>
-      </ToastContainer>
+      <ToastContainer />
     </Fragment>
   );
 }
