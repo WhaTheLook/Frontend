@@ -5,14 +5,10 @@ import { ACCESS_TOKEN, API_PATH, REFRESH_TOKEN } from "@/constants";
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils";
 import { CommonError } from "@/utils/CommonError";
 
-import { useLogout } from "@/hooks/useLogout";
-
 import { setSignIn } from "@/store/slice/authSlice";
 
 export function useReIssueToken() {
     const dispatch = useDispatch();
-
-    const { handleLogout } = useLogout();
 
     const reIssueTokenFetcher = useCallback(async function() {
       const refreshToken = getLocalStorageItem(REFRESH_TOKEN);
@@ -37,9 +33,17 @@ export function useReIssueToken() {
           dispatch(setSignIn())
         } catch (error) {
           // 세션 만료 로그아웃
-          handleLogout("tokenExpired");
+          if (error instanceof CommonError) {
+            const { statusCode } = error;
+            switch (statusCode) {
+              case 401:
+                throw error;
+              case 403:
+                throw error;
+            }
+          }
         }
-  }, [dispatch, handleLogout]) 
+  }, [dispatch]) 
 
     return { reIssueTokenFetcher };
 }

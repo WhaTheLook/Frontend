@@ -1,16 +1,13 @@
-import { ReactNode } from "react";
 import { createPortal } from "react-dom";
+
+import { ToastMessage } from "../ToastMessage";
 
 import { useToastContext } from "@/hooks/useToastContex";
 
 import * as S from "./style";
 
-interface Props {
-  children: ReactNode;
-}
-
-export function ToastContainer({ children }: Props) {
-  const { isOpen, handleToastClose } = useToastContext();
+export function ToastContainer() {
+  const { isOpen, handleToastClose, type, content } = useToastContext();
 
   const element = document.getElementById("modal") as HTMLElement;
 
@@ -20,7 +17,9 @@ export function ToastContainer({ children }: Props) {
 
   return createPortal(
     isOpen && (
-      <S.Container onAnimationEnd={handleAnimationEnd}>{children}</S.Container>
+      <S.Container onAnimationEnd={handleAnimationEnd}>
+        <ToastMessage type={type} text={content} />
+      </S.Container>
     ),
     element
   );

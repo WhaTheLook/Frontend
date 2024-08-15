@@ -98,4 +98,9 @@ export const Icons = styled.div`
 
 export const IconInfoText = styled.span`
   font-size: 14px;
+  user-select: none;
+`;
+
+export const IconDiv = styled.div`
+  cursor: pointer;
 `;

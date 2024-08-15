@@ -29,6 +29,7 @@ export const Container = styled.div<Props>`
 
       position: relative;
 
+      z-index: 99999;
       &::before {
         content: "";
         width: 100%;

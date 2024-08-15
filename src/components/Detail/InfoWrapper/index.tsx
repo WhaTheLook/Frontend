@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { HeartIcon } from "@/components/Icons/HeartIcon";
 import { ChatIcon } from "@/components/Icons/ChatIcon";
+import { LikeWrapper } from "../LikeWrapper";
 
 import { ICON_SIZE } from "@/constants/style";
 import { PostDetailInfoType } from "@/types";
@@ -14,7 +14,17 @@ interface Props {
 }
 
 export function InfoWrapper({ data }: Props) {
-  const { author, date, title, content, hashtags, likeCount, comments } = data;
+  const {
+    author,
+    date,
+    title,
+    content,
+    hashtags,
+    likeCount,
+    comments,
+    likeYN,
+    id,
+  } = data;
   const navigate = useNavigate();
 
   const handleUserProfileClick = (userId: string) => {
@@ -48,8 +58,7 @@ export function InfoWrapper({ data }: Props) {
       <S.SubInfoBox>
         <S.IconBox>
           <S.Icons>
-            <HeartIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000000" />
-            <S.IconInfoText>{likeCount}</S.IconInfoText>
+            <LikeWrapper likeCount={likeCount} likeYN={likeYN} postId={id} />
           </S.Icons>
           <S.Icons>
             <ChatIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000000" />

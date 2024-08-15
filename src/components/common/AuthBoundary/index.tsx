@@ -71,7 +71,12 @@ export function AuthBoundary({ children }: Props) {
           switch (error.statusCode) {
             case 401:
               // 토큰 만료시 재발급 요청
-              await reIssueTokenFetcher();
+              try {
+                await reIssueTokenFetcher();
+              } catch (error) {
+                // 리프레쉬 토큰도 만료되면 로그아웃
+                handleLogout(path);
+              }
               break;
             case 403:
               // 잘못된 토큰 전송 시 로그아웃

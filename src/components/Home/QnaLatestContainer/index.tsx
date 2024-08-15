@@ -6,7 +6,7 @@ import { NothingInfo } from "@/components/common/NothingInfo";
 
 export function QnaLatestContainer() {
   const { data } = useContext(PostContext);
-  console.log(data);
+
   return (
     data &&
     (data.length === 0 ? (

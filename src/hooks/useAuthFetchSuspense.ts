@@ -5,6 +5,7 @@ import { getLocalStorageItem } from "@/utils";
 import { CommonError } from "@/utils/CommonError";
 
 import { useReIssueToken } from "@/hooks/useReIssueToken";
+import { useLogout } from "./useLogout";
 
 interface Props {
     url: string;
@@ -18,6 +19,7 @@ export function useAuthFetchSuspense<T>({ url, body }: Props) {
     const [promise, setPromise] = useState<Promise<void>>();
 
     const { reIssueTokenFetcher } = useReIssueToken();
+    const { handleLogout } = useLogout();
 
     async function fetcher() {
         try {
@@ -50,6 +52,7 @@ export function useAuthFetchSuspense<T>({ url, body }: Props) {
                             await reIssueTokenFetcher();
                             await fetcher();
                         } catch(error) {
+                            handleLogout("tokenExpired");
                             return;
                         }
                         break;
