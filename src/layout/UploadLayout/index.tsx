@@ -136,6 +136,41 @@ export function UploadLayout() {
     return errorKeys.length !== 0;
   };
 
+  const showErrorToast = (message: string) => {
+    handleToastOpen({
+      type: toastType.ERROR,
+      content: message,
+    });
+  };
+
+  const handleError = async (error: unknown) => {
+    if (error instanceof CommonError) {
+      await handleCommonError(error);
+    } else {
+      showErrorToast(TOAST_MESSAGE.createPostError());
+    }
+  };
+
+  const handleCommonError = async (error: CommonError) => {
+    const { statusCode } = error;
+
+    switch (statusCode) {
+      case 401:
+        try {
+          await reIssueTokenFetcher();
+          await fetcher();
+
+          navigate("/profile");
+        } catch {
+          showErrorToast(TOAST_MESSAGE.tokenExpired());
+        }
+        break;
+      default:
+        showErrorToast(TOAST_MESSAGE.createPostError());
+        break;
+    }
+  };
+
   const handleSubmitBtnClick = async () => {
     const errorKeys = validateForm();
     if (hasError(errorKeys)) {
@@ -149,33 +184,7 @@ export function UploadLayout() {
 
       navigate("/profile");
     } catch (error) {
-      if (error instanceof CommonError) {
-        const { statusCode } = error;
-        switch (statusCode) {
-          case 401:
-            try {
-              await reIssueTokenFetcher();
-              await fetcher();
-            } catch (error) {
-              handleToastOpen({
-                type: toastType.ERROR,
-                content: TOAST_MESSAGE.tokenExpired(),
-              });
-            }
-            break;
-          default:
-            handleToastOpen({
-              type: toastType.ERROR,
-              content: TOAST_MESSAGE.createPostError(),
-            });
-            break;
-        }
-      } else {
-        handleToastOpen({
-          type: toastType.ERROR,
-          content: TOAST_MESSAGE.createPostError(),
-        });
-      }
+      await handleError(error);
     } finally {
       setIsLoading(false);
     }
