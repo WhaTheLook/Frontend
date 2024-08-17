@@ -1,6 +1,7 @@
-import { ReactNode } from "react";
+import { useEffect } from "react";
 
 import { AlertIcon } from "@/components/Icons/AlertIcon";
+import { LoginModal } from "@/components/common/LoginModal";
 
 import { modalType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
@@ -10,15 +11,13 @@ import { useModalContext } from "@/hooks/useModalContext";
 import * as S from "./style";
 
 interface Props {
-  type?: modalType;
+  type: modalType;
   onClick?: () => void;
-  children?: ReactNode;
+  handleUnmount?: () => void;
 }
 
-export function PopupModal({ type, onClick, children }: Props) {
+export function PopupModal({ type, onClick, handleUnmount }: Props) {
   const { handleClose } = useModalContext();
-
-  if (children) return children;
 
   const state = (function () {
     switch (type) {
@@ -45,6 +44,18 @@ export function PopupModal({ type, onClick, children }: Props) {
       handleClose();
       onClick();
     }
+  }
+
+  useEffect(() => {
+    return () => {
+      if (handleUnmount) {
+        handleUnmount();
+      }
+    };
+  }, [handleUnmount]);
+
+  if (type === modalType.SIGNIN) {
+    return <LoginModal />;
   }
 
   return (

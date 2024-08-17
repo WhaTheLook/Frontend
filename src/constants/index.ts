@@ -1,6 +1,7 @@
 import { postTypeType } from "@/types";
 
 export enum modalType {
+    SIGNIN = "SIGNIN",
     SIGNOUT = "SIGNOUT",
     DELETE_POST = "DELETE_POST",
     DELETE_ACCOUNT = "DELETE_ACCOUNT",
@@ -105,6 +106,7 @@ export const API_PATH = {
         const baseUrl = `${API_URL}/user/${userId}/post?size=${size}&sortBy=${sortBy}`;
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
     },
+    updateUser: () => `${API_URL}/user/update`
 }
 
 export const MAX_FETCH_LEGNTH = 10;

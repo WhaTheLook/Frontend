@@ -21,6 +21,14 @@ export const Profile = styled.div`
 
 export const ProfileImageDiv = styled.div``;
 
+export const OptionButton = styled.button`
+  background-color: transparent;
+
+  border: none;
+
+  cursor: pointer;
+`;
+
 export const ProfileImage = styled.img`
   width: 28px;
   height: 28px;
@@ -34,8 +42,9 @@ export const Writter = styled.span`
 `;
 
 export const Date = styled.span`
-  font-size: 14px;
+  font-size: 12px;
   color: rgba(0, 0, 0, 0.5);
+  margin-top: -8px;
 `;
 
 export const ContentBox = styled.div`

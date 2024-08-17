@@ -1,11 +1,15 @@
 import { Fragment } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { ChatIcon } from "@/components/Icons/ChatIcon";
+import { OptionButton } from "@/components/Icons/OptionIcon";
 import { LikeWrapper } from "../LikeWrapper";
 
 import { ICON_SIZE } from "@/constants/style";
 import { PostDetailInfoType } from "@/types";
+
+import { selectCurrentUser } from "@/store/slice/authSlice";
 
 import * as S from "./style";
 
@@ -26,6 +30,9 @@ export function InfoWrapper({ data }: Props) {
     id,
   } = data;
   const navigate = useNavigate();
+  const loginUser = useSelector(selectCurrentUser);
+
+  const isOwnLoginUser = author.kakaoId === loginUser?.kakaoId;
 
   const handleUserProfileClick = (userId: string) => {
     navigate(`/profile/${userId}`);
@@ -40,7 +47,11 @@ export function InfoWrapper({ data }: Props) {
           </S.ProfileImageDiv>
           <S.Writter>{author.name}</S.Writter>
         </S.Profile>
-        <S.Date>{date}</S.Date>
+        {isOwnLoginUser && (
+          <S.OptionButton>
+            <OptionButton size={ICON_SIZE.SMALL} color="#000" />
+          </S.OptionButton>
+        )}
       </S.ProfileBox>
       <S.ContentBox>
         <S.Title>{title}</S.Title>
@@ -54,6 +65,7 @@ export function InfoWrapper({ data }: Props) {
             ))}
           </S.Tags>
         )}
+        <S.Date>{date}</S.Date>
       </S.ContentBox>
       <S.SubInfoBox>
         <S.IconBox>

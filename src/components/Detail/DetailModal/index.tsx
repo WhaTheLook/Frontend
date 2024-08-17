@@ -10,7 +10,7 @@ interface Props {
 }
 export function DetailModal({ isOpen, children, onOutSideClick }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const element = document.getElementById("modal") as HTMLElement;
+  const element = document.getElementById("detail-modal") as HTMLElement;
 
   const handleOutsideClick = ({ target }: MouseEvent<HTMLDivElement>) => {
     if (modalRef.current && !modalRef.current.contains(target as Node)) {
