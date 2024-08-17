@@ -18,7 +18,7 @@ export function SharedPopularFetcher({ children }: Props) {
 
   const lastPostIdRef = useRef<number | null>(null);
   const fetchMoreElement = useRef<HTMLDivElement>(null);
-  const intersecting = useInfiniteScoll(fetchMoreElement);
+  const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
   const { data, isLoading, error } = useInfiniteFetch<PostListContentType>({
     url: API_PATH.postList({

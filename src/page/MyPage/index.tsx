@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Provider } from "react-redux";
 
 import { ProfileContainer } from "@/components/Mypage/ProfileContainer";
-import { MyWritting } from "@/components/Mypage/MyWritting";
+import { MyWrittingContainer } from "@/components/Mypage/MyWrittingContainer";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 import { ProfileFetcher } from "@/fetcher/MyPage/ProfileFetcher";
@@ -15,12 +15,12 @@ export function MyPage() {
   return (
     <Provider store={myPageStore}>
       <Suspense fallback={<LoadingSpinner color="#B2B2B2" />}>
-        <S.Container>
-          <ProfileFetcher>
+        <ProfileFetcher>
+          <S.Container>
             <ProfileContainer />
-          </ProfileFetcher>
-          <MyWritting />
-        </S.Container>
+            <MyWrittingContainer />
+          </S.Container>
+        </ProfileFetcher>
       </Suspense>
     </Provider>
   );

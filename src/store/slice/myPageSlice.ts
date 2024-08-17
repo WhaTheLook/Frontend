@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { PostListContentType } from "@/types";
 
-interface MyPageUserInfoType {
+export interface MyPageUserInfoType {
     name: string;
     profileImage: string;
     kakaoId: string;

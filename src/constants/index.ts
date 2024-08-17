@@ -118,3 +118,6 @@ export const TOAST_MESSAGE = {
     likeError: () => "게시글 좋아요에 실패했어요. 다시 시도해주세요.",
     createPostError: () => "게시글을 작성하는데 실패했어요. 다시 시도해주세요."
 }
+
+export const FETCH_TIME = 10_000;
+export const TIMEOUT_ERROR = "TimeoutError";
