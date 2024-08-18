@@ -5,7 +5,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { ToastContainer } from "@/components/common/ToastContainer";
 import { UploadHeader } from "@/components/common/UploadHeader";
 
-import { CommonError } from "@/utils/CommonError";
 import { ActionType, UploadDataType, UploadErrorKeys } from "@/types";
 import {
   API_PATH,
@@ -16,7 +15,6 @@ import {
 
 import { useToastContext } from "@/hooks/useToastContex";
 import { useAuthMutation } from "@/hooks/useAuthMutation";
-import { useReIssueToken } from "@/hooks/useReIssueToken";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
@@ -79,7 +77,6 @@ export function UploadLayout() {
   const [data, dispatch] = useReducer(reducer, initState);
   const { postType, images, title, description, tags } = data;
 
-  const { reIssueTokenFetcher } = useReIssueToken();
   const { handleToastOpen } = useToastContext();
   const { fetcher } = useAuthMutation({
     url: API_PATH.createPost(),
@@ -143,34 +140,6 @@ export function UploadLayout() {
     });
   };
 
-  const handleError = async (error: unknown) => {
-    if (error instanceof CommonError) {
-      await handleCommonError(error);
-    } else {
-      showErrorToast(TOAST_MESSAGE.createPostError());
-    }
-  };
-
-  const handleCommonError = async (error: CommonError) => {
-    const { statusCode } = error;
-
-    switch (statusCode) {
-      case 401:
-        try {
-          await reIssueTokenFetcher();
-          await fetcher();
-
-          navigate("/profile");
-        } catch {
-          showErrorToast(TOAST_MESSAGE.tokenExpired());
-        }
-        break;
-      default:
-        showErrorToast(TOAST_MESSAGE.createPostError());
-        break;
-    }
-  };
-
   const handleSubmitBtnClick = async () => {
     const errorKeys = validateForm();
     if (hasError(errorKeys)) {
@@ -184,7 +153,7 @@ export function UploadLayout() {
 
       navigate("/profile");
     } catch (error) {
-      await handleError(error);
+      showErrorToast(TOAST_MESSAGE.createPostError());
     } finally {
       setIsLoading(false);
     }

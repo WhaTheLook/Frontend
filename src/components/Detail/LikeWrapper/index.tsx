@@ -5,11 +5,9 @@ import { HeartIcon } from "@/components/Icons/HeartIcon";
 import { ToastContainer } from "@/components/common/ToastContainer";
 
 import { getLocalStorageItem } from "@/utils";
-import { CommonError } from "@/utils/CommonError";
 import { ACCESS_TOKEN, API_PATH, TOAST_MESSAGE, toastType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
-import { useReIssueToken } from "@/hooks/useReIssueToken";
 import { useToastContext } from "@/hooks/useToastContex";
 import { useAuthMutation } from "@/hooks/useAuthMutation";
 
@@ -29,7 +27,6 @@ export function LikeWrapper({ likeCount, likeYN, postId }: Props) {
 
   const user = useSelector(selectCurrentUser);
 
-  const { reIssueTokenFetcher } = useReIssueToken();
   const { handleToastOpen } = useToastContext();
 
   const { fetcher } = useAuthMutation({
@@ -74,25 +71,8 @@ export function LikeWrapper({ likeCount, likeYN, postId }: Props) {
 
       changeUI(isLike);
       await fetcher();
-    } catch (error) {
-      if (error instanceof CommonError) {
-        const { statusCode } = error;
-        switch (statusCode) {
-          case 401:
-            try {
-              await reIssueTokenFetcher();
-              await fetcher();
-            } catch (error) {
-              rollBackUI(isLike, TOAST_MESSAGE.tokenExpired());
-            }
-            break;
-          default:
-            rollBackUI(isLike, TOAST_MESSAGE.likeError());
-            break;
-        }
-      } else {
-        rollBackUI(isLike, TOAST_MESSAGE.likeError());
-      }
+    } catch {
+      rollBackUI(isLike, TOAST_MESSAGE.likeError());
     }
   };
 

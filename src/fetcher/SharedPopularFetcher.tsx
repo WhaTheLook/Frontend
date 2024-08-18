@@ -3,7 +3,13 @@ import { Fragment, ReactNode, useContext, useEffect, useRef } from "react";
 import { PostContext } from "@/components/common/PostProvider";
 import { GridListSkeleton } from "@/components/common/GridListSkeleton";
 
-import { API_PATH, categoryOption, sortOption } from "@/constants";
+import {
+  API_PATH,
+  categoryOption,
+  GRIDITEM_SKELETON_COUNT,
+  MAX_FETCH_SIZE_GRID,
+  sortOption,
+} from "@/constants";
 import { PostListContentType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
@@ -24,7 +30,7 @@ export function SharedPopularFetcher({ children }: Props) {
     url: API_PATH.postList({
       category: categoryOption.SHARE,
       sortBy: sortOption.POPULAR,
-      size: 10,
+      size: MAX_FETCH_SIZE_GRID,
       lastPostId: lastPostIdRef.current || undefined,
     }),
     lastPostId: lastPostIdRef,
@@ -47,11 +53,13 @@ export function SharedPopularFetcher({ children }: Props) {
 
   return (
     <Fragment>
-      {!data && isLoading && <GridListSkeleton count={6} />}
+      {!data && isLoading && (
+        <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
+      )}
       {data && data.length >= 0 && (
         <Fragment>
           {children}
-          {isLoading && <GridListSkeleton count={6} />}
+          {isLoading && <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />}
         </Fragment>
       )}
       <div ref={fetchMoreElement}></div>

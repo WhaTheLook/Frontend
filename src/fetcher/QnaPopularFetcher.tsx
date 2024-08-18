@@ -8,7 +8,7 @@ import {
   API_PATH,
   categoryOption,
   FLATITEM_SKELETON_COUNT,
-  MAX_FETCH_LEGNTH,
+  MAX_FETCH_SIZE_FLAT,
   sortOption,
 } from "@/constants";
 import { PostListContentType } from "@/types";
@@ -31,7 +31,7 @@ export function QnaPopularFetcher({ children }: Props) {
     url: API_PATH.postList({
       category: categoryOption.QNA,
       sortBy: sortOption.POPULAR,
-      size: MAX_FETCH_LEGNTH,
+      size: MAX_FETCH_SIZE_FLAT,
       lastPostId: lastPostIdRef.current || undefined,
     }),
     lastPostId: lastPostIdRef,
