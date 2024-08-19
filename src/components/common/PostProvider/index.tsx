@@ -5,11 +5,13 @@ import { PostListContentType } from "@/types";
 interface createContextType {
   data: PostListContentType[] | null;
   handleSetData: (arg: PostListContentType[] | null) => void;
+  handleDeleteData: (arg: number) => void;
 }
 
 export const PostContext = createContext<createContextType>({
   data: null,
   handleSetData: () => {},
+  handleDeleteData: () => {},
 });
 
 interface Props {
@@ -23,8 +25,12 @@ export function PostProvider({ children }: Props) {
     setData(newData);
   };
 
+  const handleDeleteData = (postId: number) => {
+    setData((prev) => prev?.filter((post) => post.id !== postId) || null);
+  };
+
   return (
-    <PostContext.Provider value={{ data, handleSetData }}>
+    <PostContext.Provider value={{ data, handleSetData, handleDeleteData }}>
       {children}
     </PostContext.Provider>
   );

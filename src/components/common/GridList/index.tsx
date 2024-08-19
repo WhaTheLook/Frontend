@@ -7,7 +7,7 @@ import { GridItem } from "../GridItem";
 
 import { PostListContentType } from "@/types";
 
-import { useDetailModal } from "@/hooks/useDetailModal";
+import { useDetailModalContext } from "@/hooks/useDetailModalContext";
 
 import * as S from "./style";
 
@@ -16,10 +16,10 @@ interface Props {
 }
 
 export function GridList({ data }: Props) {
-  const { isOpen, handleOpen, handleClose } = useDetailModal();
+  const { handleDetailOpen } = useDetailModalContext();
 
   const handlePostItemClick = (postId: number) => {
-    handleOpen(postId, `/post/${postId}`);
+    handleDetailOpen(postId, `/post/${postId}`);
   };
 
   return (
@@ -33,7 +33,7 @@ export function GridList({ data }: Props) {
           />
         ))}
       </S.Container>
-      <DetailModal isOpen={isOpen} onOutSideClick={() => handleClose("/")}>
+      <DetailModal>
         <ApiErrorBoundary>
           <PostDetail />
         </ApiErrorBoundary>

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -5,6 +6,7 @@ import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ImageWrapper } from "../ImageWrapper";
 import { InfoWrapper } from "../InfoWrapper";
 import { CommentWrapper } from "../CommentWrapper";
+import { DetailMutation } from "../DetailMutation";
 
 import { API_PATH } from "@/constants";
 import { PostDetailInfoType } from "@/types";
@@ -46,15 +48,18 @@ export function PostDetail() {
 
   return (
     data && (
-      <S.Container $isModal={Boolean(postId)}>
-        <ImageWrapper images={data.photoUrls} />
-        <S.InfoWrapper>
-          <S.PaddingFragment>
-            <InfoWrapper data={data} />
-            <CommentWrapper />
-          </S.PaddingFragment>
-        </S.InfoWrapper>
-      </S.Container>
+      <Fragment>
+        <S.Container $isModal={Boolean(postId)}>
+          <ImageWrapper images={data.photoUrls} />
+          <S.InfoWrapper>
+            <S.PaddingFragment>
+              <InfoWrapper data={data} />
+              <CommentWrapper />
+            </S.PaddingFragment>
+          </S.InfoWrapper>
+        </S.Container>
+        <DetailMutation postId={data.id} />
+      </Fragment>
     )
   );
 }

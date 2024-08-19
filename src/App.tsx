@@ -2,6 +2,7 @@ import { RouterProvider } from "react-router-dom";
 
 import { ModalProvider } from "./components/common/ModalProvider";
 import { ToastProvider } from "./components/common/ToastProvider";
+import { DetailModalProvider } from "./components/Detail/DetailModalProvider";
 import { AuthProvider } from "./AuthProvider";
 import { router } from "./routes/router";
 
@@ -13,9 +14,11 @@ function App() {
       <GlobalStyle />
       <AuthProvider>
         <ModalProvider>
-          <ToastProvider>
-            <RouterProvider router={router} />
-          </ToastProvider>
+          <DetailModalProvider>
+            <ToastProvider>
+              <RouterProvider router={router} />
+            </ToastProvider>
+          </DetailModalProvider>
         </ModalProvider>
       </AuthProvider>
     </>

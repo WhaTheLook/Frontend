@@ -8,7 +8,7 @@ import { ApiErrorBoundary } from "../ApiErrorBoundary";
 
 import { PostListContentType } from "@/types";
 
-import { useDetailModal } from "@/hooks/useDetailModal";
+import { useDetailModalContext } from "@/hooks/useDetailModalContext";
 
 import * as S from "./style";
 
@@ -17,10 +17,10 @@ interface Props {
 }
 
 export function FlatList({ data }: Props) {
-  const { isOpen, handleClose, handleOpen } = useDetailModal();
+  const { handleDetailOpen } = useDetailModalContext();
 
   const handlePostItemClick = (postId: number) => {
-    handleOpen(postId, `/post/${postId}`);
+    handleDetailOpen(postId, `/post/${postId}`);
   };
 
   return (
@@ -36,7 +36,7 @@ export function FlatList({ data }: Props) {
           </Fragment>
         ))}
       </S.Container>
-      <DetailModal isOpen={isOpen} onOutSideClick={() => handleClose("/")}>
+      <DetailModal>
         <ApiErrorBoundary>
           <PostDetail />
         </ApiErrorBoundary>
