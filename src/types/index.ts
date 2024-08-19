@@ -10,7 +10,9 @@ export interface MenuListType {
 export interface ImageUploadType {
     id: string;
     file: File;
-} 
+}
+
+export type postTypeType = "정보공유" | "질문하기";
 
 export interface UploadDataValidationType<T> {
   data: T;
@@ -18,7 +20,7 @@ export interface UploadDataValidationType<T> {
 }
 
 export interface UploadDataType {
-    postType: UploadDataValidationType<number | null>;
+    postType: UploadDataValidationType<postTypeType | null>;
     images: UploadDataValidationType<ImageUploadType[]>;
     title: UploadDataValidationType<string>;
     description: UploadDataValidationType<string>;
@@ -30,7 +32,7 @@ export type UploadErrorKeys = keyof UploadDataType;
 export type ActionType =
   | {
       type: UploadActionType.POSTTYPE;
-      payload: number;
+      payload: postTypeType;
     }
   | {
       type: UploadActionType.IMAGES;
@@ -63,19 +65,6 @@ export interface UploadLayoutContextProps {
     dispatch: Dispatch<ActionType>;
 }
 
-export interface PostListType {
-  id: number;
-  title: string;
-  content: string; 
-  tags: string[]; 
-  writter: string;
-  date: string;
-  like: number;
-  chat: number;
-  category: string;
-  imageUrl: string[]; 
-}
-
 export interface ProfileFormValues {
   profileImage: File;
   profileName: string;
@@ -88,8 +77,83 @@ export interface ProfileEditType {
   };
 }
 
+// 🔽 fetch 데이터 타입
 export interface UserInfoType {
   name: string;
   profileImage: string;
   kakaoId: string;
 }
+
+export interface CommentsType {
+  id: number;
+  author: string;
+  content: string;
+  date: string;
+  depth: number;
+  order: number;
+}
+
+export interface PostListContentType {
+    id: number;
+    author: UserInfoType;
+    title: string;
+    content: string;
+    category: string;
+    date: string;
+    likeCount: number;
+    likeYN: boolean;
+    commentCount: number;
+    hashtags: string[];
+    photoUrls: string[];
+}
+
+export interface PostDetailInfoType extends PostListContentType {
+  deleteYN: boolean;
+  comments: CommentsType[];
+}
+
+export interface UserInfoFetchType {
+  kakaoId: string;
+  email: string;
+  name: string;
+  profileImage: string;
+  date: string | null;
+  postCount: number;
+  commentCount: number;
+}
+
+export interface PostListFetchType {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: PostListContentType[];
+  number: number;
+  sort: {
+    empty: true;
+    sorted: true;
+    unsorted: true
+  };
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    sort: {
+      empty: true;
+      sorted: true;
+      unsorted: true
+    };
+    paged: true;
+    pageNumber: number;
+    pageSize: number;
+    unpaged: true
+  };
+  first: true;
+  last: true;
+  empty: true
+}
+
+export type ProtectedPathname =
+  | "saved"
+  | "upload"
+  | "profile"
+  | "tokenExpired"
+  | "login";

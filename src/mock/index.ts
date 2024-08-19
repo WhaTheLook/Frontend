@@ -4,5 +4,5 @@ export async function initMocks() {
   }
   const { worker } = await import('./worker');
 
-  return worker.start();
+  return worker.stop();
 }

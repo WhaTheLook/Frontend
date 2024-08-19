@@ -1,62 +1,57 @@
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 
-import { HeartIcon } from "@/components/Icons/HeartIcon";
 import { ChatIcon } from "@/components/Icons/ChatIcon";
+import { ProfileBox } from "../ProfileBox";
+import { LikeWrapper } from "../LikeWrapper";
 
 import { ICON_SIZE } from "@/constants/style";
+import { PostDetailInfoType } from "@/types";
 
 import * as S from "./style";
 
 interface Props {
-  content: {
-    writter: string;
-    profileImage: string;
-    date: string;
-    title: string;
-    description: string;
-    tags: string[];
-    like: number;
-    chat: number;
-  };
+  data: PostDetailInfoType;
 }
 
-export function InfoWrapper({ content }: Props) {
-  const { writter, profileImage, date, title, description, tags, like, chat } =
-    content;
+export function InfoWrapper({ data }: Props) {
+  const {
+    author,
+    date,
+    title,
+    content,
+    hashtags,
+    likeCount,
+    comments,
+    likeYN,
+    id,
+  } = data;
+
   return (
     <Fragment>
-      <S.ProfileBox>
-        <S.Profile>
-          <S.ProfileImageDiv>
-            <S.ProfileImage src={profileImage} />
-          </S.ProfileImageDiv>
-          <S.Writter>{writter}</S.Writter>
-        </S.Profile>
-        <S.Date>{date}</S.Date>
-      </S.ProfileBox>
+      <ProfileBox author={author} />
       <S.ContentBox>
         <S.Title>{title}</S.Title>
-        <S.Description>{description}</S.Description>
-        {tags.length !== 0 && (
+        <S.Description>{content}</S.Description>
+        {hashtags.length !== 0 && (
           <S.Tags>
-            {tags.map((tag) => (
+            {hashtags.map((tag) => (
               <Link to={`/search?search_query=${tag}`} key={tag}>
-                <S.Tag>#{tag}</S.Tag>
+                <S.Tag>{tag}</S.Tag>
               </Link>
             ))}
           </S.Tags>
         )}
+        <S.Date>{date}</S.Date>
       </S.ContentBox>
       <S.SubInfoBox>
         <S.IconBox>
           <S.Icons>
-            <HeartIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000000" />
-            <S.IconInfoText>{like}</S.IconInfoText>
+            <LikeWrapper likeCount={likeCount} likeYN={likeYN} postId={id} />
           </S.Icons>
           <S.Icons>
             <ChatIcon size={ICON_SIZE.MEDIUM_SMALL} color="#000000" />
-            <S.IconInfoText>{chat}</S.IconInfoText>
+            <S.IconInfoText>{comments.length}</S.IconInfoText>
           </S.Icons>
         </S.IconBox>
       </S.SubInfoBox>

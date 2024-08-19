@@ -4,37 +4,42 @@ import { DetailModal } from "@/components/Detail/DetailModal";
 import { PostDetail } from "@/components/Detail/PostDetail";
 import { Divider } from "@/components/common/Divider";
 import { FlatItem } from "../FlatItem";
+import { ApiErrorBoundary } from "../ApiErrorBoundary";
 
-import { useDetailModal } from "@/hooks/useDetailModal";
+import { PostListContentType } from "@/types";
 
-import { PostListType } from "@/types";
+import { useDetailModalContext } from "@/hooks/useDetailModalContext";
 
 import * as S from "./style";
 
 interface Props {
-  data: PostListType[];
+  data: PostListContentType[];
 }
 
 export function FlatList({ data }: Props) {
-  const { isOpen, handleClose, handleOpen } = useDetailModal();
+  const { handleDetailOpen } = useDetailModalContext();
+
+  const handlePostItemClick = (postId: number) => {
+    handleDetailOpen(postId, `/post/${postId}`);
+  };
 
   return (
     <Fragment>
       <S.Container>
-        {data.map((conetent, index) => (
-          <Fragment key={conetent.id}>
+        {data.map((content, index) => (
+          <Fragment key={content.id}>
             <FlatItem
-              data={conetent}
-              onItemClick={() =>
-                handleOpen(conetent.id, `/post/${conetent.id}`)
-              }
+              data={content}
+              onItemClick={() => handlePostItemClick(content.id)}
             />
             {index < data.length - 1 && <Divider />}
           </Fragment>
         ))}
       </S.Container>
-      <DetailModal isOpen={isOpen} onOutSideClick={() => handleClose("/")}>
-        <PostDetail />
+      <DetailModal>
+        <ApiErrorBoundary>
+          <PostDetail />
+        </ApiErrorBoundary>
       </DetailModal>
     </Fragment>
   );

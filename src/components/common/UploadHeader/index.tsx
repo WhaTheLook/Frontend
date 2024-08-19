@@ -10,16 +10,17 @@ import * as S from "./style";
 
 interface Props {
   onSubmitBtnClick: () => void;
+  disabled: boolean;
 }
 
-export function UploadHeader({ onSubmitBtnClick }: Props) {
+export function UploadHeader({ onSubmitBtnClick, disabled }: Props) {
   const location = useLocation();
   const { pathname } = location;
 
   const navigate = useNavigate();
 
   const handlePrevBtnClick = () => {
-    navigate(-1);
+    navigate("/profile");
   };
 
   const buttonText =
@@ -33,7 +34,9 @@ export function UploadHeader({ onSubmitBtnClick }: Props) {
       <S.Container>
         <S.Wrapper>
           <PreviousHeaderButton onClick={handlePrevBtnClick} />
-          <HeaderButton onClick={onSubmitBtnClick}>{buttonText}</HeaderButton>
+          <HeaderButton onClick={onSubmitBtnClick} disabled={disabled}>
+            {buttonText}
+          </HeaderButton>
         </S.Wrapper>
       </S.Container>
     </Fragment>

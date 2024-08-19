@@ -1,10 +1,22 @@
-import { useEffect, useReducer } from "react";
-import { Outlet } from "react-router-dom";
+import { Fragment, useEffect, useReducer, useState } from "react";
+import { useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
 
+import { ToastContainer } from "@/components/common/ToastContainer";
 import { UploadHeader } from "@/components/common/UploadHeader";
 
 import { ActionType, UploadDataType, UploadErrorKeys } from "@/types";
-import { UploadActionType } from "@/constants";
+import {
+  API_PATH,
+  TOAST_MESSAGE,
+  toastType,
+  UploadActionType,
+} from "@/constants";
+
+import { useToastContext } from "@/hooks/useToastContex";
+import { useAuthMutation } from "@/hooks/useAuthMutation";
+
+import { selectCurrentUser } from "@/store/slice/authSlice";
 
 import * as S from "./style";
 
@@ -58,9 +70,20 @@ function reducer(state: UploadDataType, action: ActionType): UploadDataType {
 }
 
 export function UploadLayout() {
-  const [data, dispatch] = useReducer(reducer, initState);
+  const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const user = useSelector(selectCurrentUser);
+  const [data, dispatch] = useReducer(reducer, initState);
   const { postType, images, title, description, tags } = data;
+
+  const { handleToastOpen } = useToastContext();
+  const { fetcher } = useAuthMutation({
+    url: API_PATH.createPost(),
+    method: "POST",
+    body: getFormData(),
+    isFormData: true,
+  });
 
   const checkAndAddError = (
     condition: boolean,
@@ -84,10 +107,56 @@ export function UploadLayout() {
     return errorKeys;
   };
 
-  const handleSubmitBtnClick = () => {
+  function getFormData() {
+    const formData = new FormData();
+    const postRequestData = new Blob(
+      [
+        JSON.stringify({
+          kakaoId: user?.kakaoId,
+          title: title.data.trim(),
+          content: description.data.trim(),
+          category: postType.data,
+          hashtags: tags.data.map((tag) => `#${tag}`),
+        }),
+      ],
+      { type: "application/json" }
+    );
+    formData.append("postRequest", postRequestData);
+    images.data
+      .map((image) => image.file)
+      .forEach((image) => formData.append("photos", image as File));
+
+    return formData;
+  }
+
+  const hasError = (errorKeys: (keyof UploadDataType)[]) => {
+    return errorKeys.length !== 0;
+  };
+
+  const showErrorToast = (message: string) => {
+    handleToastOpen({
+      type: toastType.ERROR,
+      content: message,
+    });
+  };
+
+  const handleSubmitBtnClick = async () => {
     const errorKeys = validateForm();
-    dispatch({ type: UploadActionType.VALIDATE, payload: errorKeys });
-    // To do: description.trim()
+    if (hasError(errorKeys)) {
+      dispatch({ type: UploadActionType.VALIDATE, payload: errorKeys });
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      await fetcher();
+
+      navigate("/profile");
+    } catch (error) {
+      showErrorToast(TOAST_MESSAGE.createPostError());
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -95,15 +164,21 @@ export function UploadLayout() {
   }, []);
 
   return (
-    <S.Container>
-      <UploadHeader onSubmitBtnClick={handleSubmitBtnClick} />
-      <S.Wrapper>
-        <S.Box>
-          <S.Main>
-            <Outlet context={{ data, dispatch }} />
-          </S.Main>
-        </S.Box>
-      </S.Wrapper>
-    </S.Container>
+    <Fragment>
+      <S.Container>
+        <UploadHeader
+          onSubmitBtnClick={handleSubmitBtnClick}
+          disabled={isLoading}
+        />
+        <S.Wrapper>
+          <S.Box>
+            <S.Main>
+              <Outlet context={{ data, dispatch }} />
+            </S.Main>
+          </S.Box>
+        </S.Wrapper>
+      </S.Container>
+      <ToastContainer />
+    </Fragment>
   );
 }

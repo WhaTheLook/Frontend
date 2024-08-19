@@ -1,3 +1,5 @@
+import { TIMEOUT_ERROR } from "@/constants";
+
 export function replaceHistory(state: object, dest: string) {
     history.replaceState(state, "", dest);
 }
@@ -16,4 +18,8 @@ export function removeLocalStorageItem(key: string) {
 
 export function getImageURL(file: File) {
     return URL.createObjectURL(file);
+}
+
+export function isTimeoutError(error: Error) {
+    return error.message.includes(TIMEOUT_ERROR);
 }

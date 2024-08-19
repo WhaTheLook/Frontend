@@ -15,9 +15,11 @@ export function ModalPortal({ children }: ModalPortalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const element = document.getElementById("modal") as HTMLElement;
 
-  function handleOutsideClick({ target }: MouseEvent<HTMLDivElement>) {
+  function handleOutsideClick(event: MouseEvent<HTMLDivElement>) {
+    const { target } = event;
     if (modalRef.current && !modalRef.current.contains(target as Node)) {
       handleClose();
+      event.stopPropagation();
     }
   }
 

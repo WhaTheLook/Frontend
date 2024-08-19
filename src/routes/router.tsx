@@ -10,8 +10,11 @@ import { Bookmark } from "@/page/Bookmark";
 import { MyPage } from "@/page/MyPage";
 import { ProfileEdit } from "@/page/ProfileEdit";
 import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
+import { Login } from "@/page/Login";
 
+import { AuthBoundary } from "@/components/common/AuthBoundary";
 import { PostDetail } from "@/components/Detail/PostDetail";
+import { ApiErrorBoundary } from "@/components/common/ApiErrorBoundary";
 
 export const router = createBrowserRouter([
   {
@@ -23,26 +26,48 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "login",
+        element: <Login />,
+      },
+      {
         path: "search",
         element: <Search />,
       },
       {
         path: "saved",
-        element: <Bookmark />,
+        element: (
+          <AuthBoundary>
+            <Bookmark />
+          </AuthBoundary>
+        ),
       },
       {
         path: "profile",
-        element: <MyPage />,
+        element: (
+          <AuthBoundary>
+            <ApiErrorBoundary>
+              <MyPage />
+            </ApiErrorBoundary>
+          </AuthBoundary>
+        ),
       },
       {
         path: "post/:postId",
-        element: <PostDetail />,
+        element: (
+          <ApiErrorBoundary>
+            <PostDetail />
+          </ApiErrorBoundary>
+        ),
       },
     ],
   },
   {
     path: "upload",
-    element: <UploadLayout />,
+    element: (
+      <AuthBoundary>
+        <UploadLayout />
+      </AuthBoundary>
+    ),
     children: [
       {
         path: "",
@@ -52,7 +77,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "profile/edit",
-    element: <ProfileEdit />,
+    element: (
+      <AuthBoundary>
+        <ProfileEdit />
+      </AuthBoundary>
+    ),
   },
   { path: "/kakao/auth", element: <KakaoLoginRedirect /> },
 ]);

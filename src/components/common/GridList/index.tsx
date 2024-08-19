@@ -2,20 +2,25 @@ import { Fragment } from "react";
 
 import { DetailModal } from "@/components/Detail/DetailModal";
 import { PostDetail } from "@/components/Detail/PostDetail";
+import { ApiErrorBoundary } from "../ApiErrorBoundary";
 import { GridItem } from "../GridItem";
 
-import { useDetailModal } from "@/hooks/useDetailModal";
+import { PostListContentType } from "@/types";
 
-import { PostListType } from "@/types";
+import { useDetailModalContext } from "@/hooks/useDetailModalContext";
 
 import * as S from "./style";
 
 interface Props {
-  data: PostListType[];
+  data: PostListContentType[];
 }
 
 export function GridList({ data }: Props) {
-  const { isOpen, handleOpen, handleClose } = useDetailModal();
+  const { handleDetailOpen } = useDetailModalContext();
+
+  const handlePostItemClick = (postId: number) => {
+    handleDetailOpen(postId, `/post/${postId}`);
+  };
 
   return (
     <Fragment>
@@ -24,12 +29,14 @@ export function GridList({ data }: Props) {
           <GridItem
             key={content.id}
             data={content}
-            onItemClick={() => handleOpen(content.id, `post/${content.id}`)}
+            onItemClick={() => handlePostItemClick(content.id)}
           />
         ))}
       </S.Container>
-      <DetailModal isOpen={isOpen} onOutSideClick={() => handleClose("/")}>
-        <PostDetail />
+      <DetailModal>
+        <ApiErrorBoundary>
+          <PostDetail />
+        </ApiErrorBoundary>
       </DetailModal>
     </Fragment>
   );

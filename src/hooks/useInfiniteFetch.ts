@@ -1,21 +1,20 @@
 import { MutableRefObject, useCallback, useEffect, useState } from "react";
 
-import { CommoneError } from "@/utils/CommonError";
+import { CommonError } from "@/utils/CommonError";
 
 interface Props {
   url: string;
-  currentPage: MutableRefObject<number>;
+  lastPostId: MutableRefObject<number | null>;
   intersecting: boolean;
 }
 
-
-export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
-  interface Props {
-    content: T[],
-    nextPage: number | null;
+export function useInfiniteFetch<T extends { id: number}>({ url, lastPostId, intersecting }: Props) {
+  interface ResponseType {
+    content: T[];
+    last: boolean;
   }
 
-  const [data, setData] = useState<T[]>([]);
+  const [data, setData] = useState<T[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasNext, setHasNext] = useState(true);
   const [error, setError] = useState<Error | null>(null)
@@ -29,25 +28,26 @@ export function useInfiniteFetch<T>({ url, currentPage, intersecting }: Props) {
 
       if (!response.ok) {
         const { status } = response;
-        throw new CommoneError(status);
+        throw new CommonError(status);
       }
       
-      const { content, nextPage } = (await response.json()) as Props;
+      const { content, last } = (await response.json()) as ResponseType;
   
-      nextPage 
-      ? currentPage.current = nextPage
-      : setHasNext(false);
-  
+      const currentLastPostId = content[content.length - 1].id;
+      last 
+      ? setHasNext(false)
+      : lastPostId.current = currentLastPostId;
+
       setIsLoading(false);
-      setData((prev) => [...prev, ...content]);
+      setData((prev) => !prev ? [...content] : [...prev, ...content]);
     } catch (error) {
-      if (error instanceof CommoneError) {
+      if (error instanceof CommonError) {
         setError(error);
         return;
       }
       setError(new Error());
     }
-  }, [currentPage, url, signal])
+  }, [lastPostId, url, signal])
 
   useEffect(() => {
     if (intersecting && hasNext && !isLoading) {

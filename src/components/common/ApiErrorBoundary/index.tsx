@@ -1,8 +1,10 @@
 import { Component, PropsWithChildren, ReactNode } from "react";
 
 import { UnknownError } from "@/components/common/UnknownError";
+import { NotFoundError } from "../NotFoundError";
 
-import { CommoneError } from "@/utils/CommonError";
+import { CommonError } from "@/utils/CommonError";
+import { isTimeoutError } from "@/utils";
 
 interface Props {
   children: ReactNode;
@@ -28,16 +30,16 @@ export class ApiErrorBoundary extends Component<
   }
 
   static getDerivedStateFromError(error: Error) {
-    if (!(error instanceof CommoneError)) {
+    if (error instanceof CommonError || isTimeoutError(error)) {
       return {
-        shouldRethrow: true,
-        shouldhandleError: false,
+        shouldRethrow: false,
+        shouldhandleError: true,
         error,
       };
     }
     return {
-      shouldRethrow: false,
-      shouldhandleError: true,
+      shouldRethrow: true,
+      shouldhandleError: false,
       error,
     };
   }
@@ -48,6 +50,12 @@ export class ApiErrorBoundary extends Component<
     }
     if (!this.state.shouldhandleError) {
       return this.props.children;
+    }
+    if (
+      this.state.error instanceof CommonError &&
+      this.state.error.statusCode === 404
+    ) {
+      return <NotFoundError />;
     }
     return (
       <UnknownError

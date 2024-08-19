@@ -1,7 +1,16 @@
+import { postTypeType } from "@/types";
+
 export enum modalType {
+    SIGNIN = "SIGNIN",
     SIGNOUT = "SIGNOUT",
     DELETE_POST = "DELETE_POST",
     DELETE_ACCOUNT = "DELETE_ACCOUNT",
+}
+
+export enum toastType {
+    SUCCESS = "SUCCESS",
+    ERROR = "ERROR", 
+    WARNING = "WARNING",
 }
 
 export const TOGGLE_SEARCH_HISTORY = "toggleSearchHistory";
@@ -45,9 +54,9 @@ export const SORT_LIST = [
     { id: 1, text: "인기순" },
 ];
 
-export const POST_TYPE_LIST = [
-    { id: 0, text: "정보 공유 글" },
-    { id: 1, text: "정보 질문 글" },
+export const POST_TYPE_LIST: { id: postTypeType, text: string}[] = [
+    { id: "정보공유", text: "정보 공유 글" },
+    { id: "질문하기", text: "정보 질문 글" },
 ];
 
 export const MAX_LENGTH_USER_NAME = 20;
@@ -55,26 +64,67 @@ export const MAX_LENGTH_USER_NAME = 20;
 export const API_URL = "https://43.201.58.243.nip.io";
 
 export enum sortOption {
-    LATEST = "latest",
+    LATEST = "recent",
     POPULAR = "popular",
 }
 
-export enum menuOption {
-    QNA = "qna",
-    SHARE = "share",
+export enum categoryOption {
+    QNA = '질문하기',
+    SHARE = '정보공유',
 }
+
 interface GetPostAPIArgType {
-    menu: menuOption;
     sortBy: sortOption;
-    page: number;
     size: number;
+    lastPostId?: number;
+}
+
+interface PostListArgType extends GetPostAPIArgType{
+    category: categoryOption;
+}
+
+interface UserPostListArgType extends GetPostAPIArgType{
+    userId: string;
 }
 
 export const API_PATH = {
-    login: (code: string) => `${API_URL}/user/token/login?accessToken=${code}`,
+    login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
-    postList: ({ menu, sortBy, page, size }: GetPostAPIArgType) => `${API_URL}/post/postList/${menu}/${sortBy}?page=${page}&size=${size}`
+    postList: ({ category, sortBy, size, lastPostId }: PostListArgType) => {
+        const baseUrl = `${API_URL}/post/postList?size=${size}&category=${category}&sortBy=${sortBy}`;
+        return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
+    },
+    postDetailInfo: ({ postId, userId }: { postId: number, userId?: string}) => {
+        const baseUrl = `${API_URL}/post/${postId}`;
+        return userId ? `${baseUrl}?kakaoId=${userId}` : baseUrl;
+    },
+    tokenCheck: () => `${API_URL}/user/token/check`,
+    tokenReIssue: () => `${API_URL}/user/refresh`,
+    createPost: () => `${API_URL}/post/create`,
+    likePost: () => `${API_URL}/post/like`,
+    userPostList: ({ userId, sortBy, size, lastPostId }: UserPostListArgType) => {
+        const baseUrl = `${API_URL}/user/${userId}/post?size=${size}&sortBy=${sortBy}`;
+        return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
+    },
+    updateUser: () => `${API_URL}/user/update`,
+    deletePost: ({ postId }: { postId: number }) => `${API_URL}/post/delete/${postId}`
 }
 
-export const MAX_FETCH_LEGNTH = 3;
-export const FLATITEM_SKELETON_COUNT = 3;
+export const MAX_FETCH_SIZE_FLAT = 10;
+export const MAX_FETCH_SIZE_GRID = 9;
+export const FLATITEM_SKELETON_COUNT = 4;
+export const GRIDITEM_SKELETON_COUNT = 6;
+
+export const ACCESS_TOKEN = "accessToken";
+export const REFRESH_TOKEN = "refreshToken";
+
+export const TOAST_MESSAGE = {
+    tokenExpired: () => "세션이 만료되었어요. 로그인 후 다시 시도해주세요.",
+    likeError: () => "게시글 좋아요에 실패했어요. 다시 시도해주세요.",
+    createPostError: () => "게시글을 작성하는데 실패했어요. 다시 시도해주세요.",
+    successDeletePost: () => "게시글을 삭제했어요.",
+    failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요."
+}
+
+export const FETCH_TIME = 10_000;
+export const TIMEOUT_ERROR = "TimeoutError";

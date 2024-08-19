@@ -31,19 +31,3 @@ export const Text = styled.span`
   font-size: 20px;
   font-weight: 600;
 `;
-
-export const KakaoLoginButton = styled.div`
-  width: 220px;
-  height: 45px;
-  background-image: url("./src/assets/imgs/kakao_login.png");
-  background-size: cover;
-  background-position: center;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-
-  border-radius: 12px;
-  cursor: pointer;
-`;

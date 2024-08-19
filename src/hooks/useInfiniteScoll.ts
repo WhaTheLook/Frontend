@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useRef, useState } from "react";
 
-export function useInfiniteScoll(targetElement : RefObject<HTMLDivElement>) {
+export function useInfiniteScoll(targetElement : RefObject<HTMLDivElement>, shouldObserve: boolean) {
   const [intersecting, setIntersecting] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -14,11 +14,11 @@ export function useInfiniteScoll(targetElement : RefObject<HTMLDivElement>) {
   };
 
   useEffect(() => {
-    if (targetElement.current) {
+    if (targetElement.current && shouldObserve) {
       getObserver().observe(targetElement.current);
     }
     return () => getObserver().disconnect();
-  }, [targetElement]);
+  }, [targetElement, shouldObserve]);
 
   return intersecting;
 }

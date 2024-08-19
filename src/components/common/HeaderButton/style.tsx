@@ -17,7 +17,11 @@ export const Container = styled.button`
   outline: none;
   cursor: pointer;
 
+  &:disabled {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
   &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
   }
 `;

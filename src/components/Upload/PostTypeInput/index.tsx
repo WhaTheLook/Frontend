@@ -3,12 +3,13 @@ import { memo } from "react";
 import { ErrorMessage } from "@/components/common/ErrorMessage";
 
 import { POST_TYPE_LIST } from "@/constants";
+import { postTypeType } from "@/types";
 
 import * as S from "./style";
 
 interface Props {
-  postType: number | null;
-  dispatcher: (args: number) => void;
+  postType: postTypeType | null;
+  dispatcher: (args: postTypeType) => void;
   error: boolean;
 }
 
@@ -17,11 +18,11 @@ export const PostTypeInput = memo(function PostTypeInput({
   dispatcher,
   error,
 }: Props) {
-  const handlePostTypeClick = (id: number) => {
+  const handlePostTypeClick = (id: postTypeType) => {
     dispatcher(id);
   };
 
-  const isSelected = (id: number) => postType === id;
+  const isSelected = (id: postTypeType) => postType === id;
   return (
     <S.Container>
       <S.Wrapper>

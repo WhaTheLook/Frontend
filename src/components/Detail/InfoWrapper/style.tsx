@@ -1,39 +1,9 @@
 import styled from "styled-components";
 
-export const ProfileBox = styled.div`
-  width: 100%;
-  padding: 15px 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-`;
-
-export const Profile = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-export const ProfileImageDiv = styled.div``;
-
-export const ProfileImage = styled.img`
-  width: 28px;
-  height: 28px;
-
-  border-radius: 50%;
-`;
-
-export const Writter = styled.span`
-  font-size: 15px;
-  font-weight: 600;
-`;
-
 export const Date = styled.span`
-  font-size: 14px;
+  font-size: 12px;
   color: rgba(0, 0, 0, 0.5);
+  margin-top: -8px;
 `;
 
 export const ContentBox = styled.div`
@@ -96,4 +66,9 @@ export const Icons = styled.div`
 
 export const IconInfoText = styled.span`
   font-size: 14px;
+  user-select: none;
+`;
+
+export const IconDiv = styled.div`
+  cursor: pointer;
 `;

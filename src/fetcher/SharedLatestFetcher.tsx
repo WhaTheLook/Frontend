@@ -3,8 +3,14 @@ import { Fragment, ReactNode, useContext, useEffect, useRef } from "react";
 import { GridListSkeleton } from "@/components/common/GridListSkeleton";
 import { PostContext } from "@/components/common/PostProvider";
 
-import { API_PATH, menuOption, sortOption } from "@/constants";
-import { PostListType } from "@/types";
+import {
+  API_PATH,
+  categoryOption,
+  GRIDITEM_SKELETON_COUNT,
+  MAX_FETCH_SIZE_GRID,
+  sortOption,
+} from "@/constants";
+import { PostListContentType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
@@ -16,18 +22,18 @@ interface Props {
 export function SharedLatestFetcher({ children }: Props) {
   const { handleSetData } = useContext(PostContext);
 
-  const currentPage = useRef<number>(0);
+  const lastPostIdRef = useRef<number | null>(null);
   const fetchMoreElement = useRef<HTMLDivElement>(null);
-  const intersecting = useInfiniteScoll(fetchMoreElement);
+  const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
-  const { data, isLoading, error } = useInfiniteFetch<PostListType>({
+  const { data, isLoading, error } = useInfiniteFetch<PostListContentType>({
     url: API_PATH.postList({
-      menu: menuOption.SHARE,
+      category: categoryOption.SHARE,
       sortBy: sortOption.LATEST,
-      page: currentPage.current,
-      size: 9,
+      size: MAX_FETCH_SIZE_GRID,
+      lastPostId: lastPostIdRef.current || undefined,
     }),
-    currentPage,
+    lastPostId: lastPostIdRef,
     intersecting,
   });
 
@@ -36,16 +42,24 @@ export function SharedLatestFetcher({ children }: Props) {
   }
 
   useEffect(() => {
-    handleSetData(data);
+    handleSetData(null);
+  }, [handleSetData]);
+
+  useEffect(() => {
+    if (data) {
+      handleSetData(data);
+    }
   }, [data, handleSetData]);
 
   return (
     <Fragment>
-      {data.length === 0 && isLoading && <GridListSkeleton count={6} />}
-      {data.length > 0 && (
+      {!data && isLoading && (
+        <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
+      )}
+      {data && data.length >= 0 && (
         <Fragment>
           {children}
-          {isLoading && <GridListSkeleton count={6} />}
+          {isLoading && <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />}
         </Fragment>
       )}
       <div ref={fetchMoreElement}></div>

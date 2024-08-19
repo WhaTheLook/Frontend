@@ -1,24 +1,35 @@
-import { MouseEvent, ReactNode, useRef } from "react";
+import { MouseEvent, ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+
+import { useDetailModalContext } from "@/hooks/useDetailModalContext";
 
 import * as S from "./style";
 
 interface Props {
   children: ReactNode;
-  onOutSideClick: () => void;
-  isOpen: boolean;
 }
-export function DetailModal({ isOpen, children, onOutSideClick }: Props) {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const element = document.getElementById("modal") as HTMLElement;
 
-  const handleOutsideClick = ({ target }: MouseEvent<HTMLDivElement>) => {
+export function DetailModal({ children }: Props) {
+  const { isDetailOpen, handleDetailClose } = useDetailModalContext();
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  const element = document.getElementById("detail-modal") as HTMLElement;
+
+  const handleOutsideClick = (event: MouseEvent<HTMLDivElement>) => {
+    const { target } = event;
+    event.stopPropagation();
     if (modalRef.current && !modalRef.current.contains(target as Node)) {
-      onOutSideClick();
+      handleDetailClose("/");
     }
   };
 
-  return isOpen
+  useEffect(() => {
+    return () => {
+      handleDetailClose("/");
+    };
+  }, []);
+
+  return isDetailOpen
     ? createPortal(
         <S.Container onClick={handleOutsideClick}>
           <div ref={modalRef}>{children}</div>

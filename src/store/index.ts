@@ -3,6 +3,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import { authSliceReducer } from "./slice/authSlice";
+import { myPageSliceReducer } from "./slice/myPageSlice";
 
 const reducers = combineReducers({
     auth: authSliceReducer
@@ -22,5 +23,11 @@ export const store = configureStore({
             serializableCheck: false,
         }),
 });
+
+export const myPageStore = configureStore({
+    reducer: {
+        myPage: myPageSliceReducer
+    }
+})
 
 export const persistor = persistStore(store);
