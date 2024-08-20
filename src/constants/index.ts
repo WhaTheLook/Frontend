@@ -107,7 +107,11 @@ export const API_PATH = {
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
     },
     updateUser: () => `${API_URL}/user/update`,
-    deletePost: ({ postId }: { postId: number }) => `${API_URL}/post/delete/${postId}`
+    deletePost: ({ postId }: { postId: number }) => `${API_URL}/post/delete/${postId}`,
+    bookmarkList: ({ userId, lastPostId, size, sortBy }: UserPostListArgType) => {
+        const baseUrl = `${API_URL}/user/${userId}/likePost?size=${size}&sortBy=${sortBy}`;
+        return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
+    }
 }
 
 export const MAX_FETCH_SIZE_FLAT = 10;
