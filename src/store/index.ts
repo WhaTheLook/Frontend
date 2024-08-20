@@ -5,29 +5,24 @@ import storage from "redux-persist/lib/storage";
 import { authSliceReducer } from "./slice/authSlice";
 import { myPageSliceReducer } from "./slice/myPageSlice";
 
-const reducers = combineReducers({
-    auth: authSliceReducer
-})
-
-const persistConfig = {
-    key: 'root',
+const authPersistConfig = {
+    key: 'auth',
     storage,
-}
+};
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedAuthReducer = persistReducer(authPersistConfig, authSliceReducer);
+
+const rootReducer = combineReducers({
+    auth: persistedAuthReducer,
+    myPage: myPageSliceReducer
+});
 
 export const store = configureStore({
-    reducer: persistedReducer,
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,
         }),
 });
-
-export const myPageStore = configureStore({
-    reducer: {
-        myPage: myPageSliceReducer
-    }
-})
 
 export const persistor = persistStore(store);

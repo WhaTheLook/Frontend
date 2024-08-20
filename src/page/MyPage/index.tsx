@@ -1,20 +1,17 @@
-import { Suspense } from "react";
-import { Provider } from "react-redux";
+import { Fragment, Suspense } from "react";
 
 import { ProfileContainer } from "@/components/Mypage/ProfileContainer";
 import { MyWrittingContainer } from "@/components/Mypage/MyWrittingContainer";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+
 import { ScrollButton } from "@/components/common/ScrollButton";
-
 import { ProfileFetcher } from "@/fetcher/MyPage/ProfileFetcher";
-
-import { myPageStore } from "@/store";
 
 import * as S from "./style";
 
 export function MyPage() {
   return (
-    <Provider store={myPageStore}>
+    <Fragment>
       <Suspense fallback={<LoadingSpinner color="#B2B2B2" />}>
         <ProfileFetcher>
           <S.Container>
@@ -24,6 +21,6 @@ export function MyPage() {
         </ProfileFetcher>
       </Suspense>
       <ScrollButton />
-    </Provider>
+    </Fragment>
   );
 }
