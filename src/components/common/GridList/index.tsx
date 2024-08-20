@@ -1,8 +1,7 @@
 import { Fragment } from "react";
 
+import { Detail } from "@/page/Detail";
 import { DetailModal } from "@/components/Detail/DetailModal";
-import { PostDetail } from "@/components/Detail/PostDetail";
-import { ApiErrorBoundary } from "../ApiErrorBoundary";
 import { GridItem } from "../GridItem";
 
 import { PostListContentType } from "@/types";
@@ -34,9 +33,7 @@ export function GridList({ data }: Props) {
         ))}
       </S.Container>
       <DetailModal>
-        <ApiErrorBoundary>
-          <PostDetail />
-        </ApiErrorBoundary>
+        <Detail />
       </DetailModal>
     </Fragment>
   );

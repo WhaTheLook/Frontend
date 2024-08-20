@@ -12,6 +12,7 @@ export function useFetch<T>({ url, method, body }: Props) {
   const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  
   useEffect(() => {
     const abortController = new AbortController();
 

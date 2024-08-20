@@ -55,8 +55,8 @@ export const SORT_LIST = [
 ];
 
 export const POST_TYPE_LIST: { id: postTypeType, text: string}[] = [
-    { id: "정보공유", text: "정보 공유 글" },
     { id: "질문하기", text: "정보 질문 글" },
+    { id: "정보공유", text: "정보 공유 글" },
 ];
 
 export const MAX_LENGTH_USER_NAME = 20;
@@ -128,3 +128,14 @@ export const TOAST_MESSAGE = {
 
 export const FETCH_TIME = 10_000;
 export const TIMEOUT_ERROR = "TimeoutError";
+
+export const TIME_UNITS = {
+    millisecond: 1,
+    second: 1000,
+    minute: 60 * 1000,
+    hour: 60 * 60 * 1000,
+    day: 24 * 60 * 60 * 1000,
+    week: 7 * 24 * 60 * 60 * 1000,
+    month: 30 * 24 * 60 * 60 * 1000, 
+    year: 365 * 24 * 60 * 60 * 1000,
+};

@@ -1,5 +1,6 @@
 import { HeartIcon } from "@/components/Icons/HeartIcon";
 
+import { calculateDaysAgo } from "@/utils";
 import { PostListContentType } from "@/types";
 import { ICON_SIZE } from "@/constants/style";
 
@@ -18,7 +19,8 @@ export function GridItem({ data, onItemClick }: Props) {
         <S.InfoBox>
           <S.Title>{title}</S.Title>
           <S.InfoTextBox>
-            <S.Writter>{author.name}</S.Writter> · <S.Date>{date}</S.Date>
+            <S.Writter>{author.name}</S.Writter> ·{" "}
+            <S.Date>{calculateDaysAgo(date)}</S.Date>
           </S.InfoTextBox>
         </S.InfoBox>
         <S.SubInfoBox>

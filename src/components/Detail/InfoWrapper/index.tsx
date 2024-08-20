@@ -5,6 +5,7 @@ import { ChatIcon } from "@/components/Icons/ChatIcon";
 import { ProfileBox } from "../ProfileBox";
 import { LikeWrapper } from "../LikeWrapper";
 
+import { calculateDaysAgo } from "@/utils";
 import { ICON_SIZE } from "@/constants/style";
 import { PostDetailInfoType } from "@/types";
 
@@ -42,7 +43,7 @@ export function InfoWrapper({ data }: Props) {
             ))}
           </S.Tags>
         )}
-        <S.Date>{date}</S.Date>
+        <S.Date title={date}>{calculateDaysAgo(date)}</S.Date>
       </S.ContentBox>
       <S.SubInfoBox>
         <S.IconBox>

@@ -33,7 +33,10 @@ export function UploadHeader({ onSubmitBtnClick, disabled }: Props) {
     <Fragment>
       <S.Container>
         <S.Wrapper>
-          <PreviousHeaderButton onClick={handlePrevBtnClick} />
+          <PreviousHeaderButton
+            onClick={handlePrevBtnClick}
+            disabled={disabled}
+          />
           <HeaderButton onClick={onSubmitBtnClick} disabled={disabled}>
             {buttonText}
           </HeaderButton>

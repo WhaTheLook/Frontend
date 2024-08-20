@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { HeartIcon } from "@/components/Icons/HeartIcon";
 import { ChatIcon } from "@/components/Icons/ChatIcon";
 
+import { calculateDaysAgo } from "@/utils";
 import { PostListContentType } from "@/types";
 import { ICON_SIZE } from "@/constants/style";
 
@@ -49,7 +50,7 @@ export function FlatItem({ data, onItemClick }: Props) {
             </S.UserProfile>
             <S.UserName>{author.name}</S.UserName>
           </S.UserInfoBox>
-          · <S.DateText>{date}</S.DateText>
+          · <S.DateText>{calculateDaysAgo(date)}</S.DateText>
         </S.InfoBox>
         <S.SubInfoBox>
           <S.SubInfoDiv>
