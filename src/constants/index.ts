@@ -55,8 +55,8 @@ export const SORT_LIST = [
 ];
 
 export const POST_TYPE_LIST: { id: postTypeType, text: string}[] = [
-    { id: "정보공유", text: "정보 공유 글" },
     { id: "질문하기", text: "정보 질문 글" },
+    { id: "정보공유", text: "정보 공유 글" },
 ];
 
 export const MAX_LENGTH_USER_NAME = 20;

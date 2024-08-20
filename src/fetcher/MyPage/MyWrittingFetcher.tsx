@@ -5,7 +5,12 @@ import { FlatListSkeleton } from "@/components/common/FlatListSkeleton";
 import { PostToastError } from "@/components/common/PostToastError";
 import { Divider } from "@/components/common/Divider";
 
-import { API_PATH, FLATITEM_SKELETON_COUNT, sortOption } from "@/constants";
+import {
+  API_PATH,
+  FLATITEM_SKELETON_COUNT,
+  MAX_FETCH_SIZE_FLAT,
+  sortOption,
+} from "@/constants";
 import { PostListContentType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
@@ -36,7 +41,7 @@ export function MyWrittingFetcher({ children }: Props) {
     url: API_PATH.userPostList({
       userId: user?.kakaoId,
       sortBy: sortOption.LATEST,
-      size: 10,
+      size: MAX_FETCH_SIZE_FLAT,
       lastPostId: lastPostIdRef.current || undefined,
     }),
     lastPostId: lastPostIdRef,

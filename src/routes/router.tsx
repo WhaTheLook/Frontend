@@ -11,9 +11,9 @@ import { MyPage } from "@/page/MyPage";
 import { ProfileEdit } from "@/page/ProfileEdit";
 import { KakaoLoginRedirect } from "@/page/KakaoLoginRedirect";
 import { Login } from "@/page/Login";
+import { Detail } from "@/page/Detail";
 
 import { AuthBoundary } from "@/components/common/AuthBoundary";
-import { PostDetail } from "@/components/Detail/PostDetail";
 import { ApiErrorBoundary } from "@/components/common/ApiErrorBoundary";
 
 export const router = createBrowserRouter([
@@ -53,11 +53,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "post/:postId",
-        element: (
-          <ApiErrorBoundary>
-            <PostDetail />
-          </ApiErrorBoundary>
-        ),
+        element: <Detail />,
       },
     ],
   },

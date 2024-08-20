@@ -48,7 +48,10 @@ export function ProfileEdit() {
   return (
     <Fragment>
       <S.Container>
-        <UploadHeader onSubmitBtnClick={handleHeaderBtnClick} />
+        <UploadHeader
+          onSubmitBtnClick={handleHeaderBtnClick}
+          disabled={false}
+        />
         <S.Wrapper>
           <S.Box>
             <S.Main>

@@ -2,7 +2,6 @@ import { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ImageWrapper } from "../ImageWrapper";
 import { InfoWrapper } from "../InfoWrapper";
 import { CommentWrapper } from "../CommentWrapper";
@@ -11,7 +10,7 @@ import { DetailMutation } from "../DetailMutation";
 import { API_PATH } from "@/constants";
 import { PostDetailInfoType } from "@/types";
 
-import { useFetch } from "@/hooks/useFetch";
+import { useFetchSuspense } from "@/hooks/useFetchSuspense";
 
 import {
   selectCurrentSignStatus,
@@ -30,20 +29,15 @@ export function PostDetail() {
   const isSignIn = useSelector(selectCurrentSignStatus);
   const userInfo = useSelector(selectCurrentUser);
 
-  const { data, isLoading, error } = useFetch<PostDetailInfoType>({
+  const { data, error } = useFetchSuspense<PostDetailInfoType>({
     url: API_PATH.postDetailInfo({
       postId: selectedPostId,
       userId: isSignIn ? userInfo?.kakaoId : undefined,
     }),
-    method: "GET",
   });
 
   if (error) {
     throw error;
-  }
-
-  if (isLoading) {
-    return <LoadingSpinner color="#B2B2B2" />;
   }
 
   return (

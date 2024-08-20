@@ -1,10 +1,9 @@
 import { Fragment } from "react";
 
+import { Detail } from "@/page/Detail";
 import { DetailModal } from "@/components/Detail/DetailModal";
-import { PostDetail } from "@/components/Detail/PostDetail";
 import { Divider } from "@/components/common/Divider";
 import { FlatItem } from "../FlatItem";
-import { ApiErrorBoundary } from "../ApiErrorBoundary";
 
 import { PostListContentType } from "@/types";
 
@@ -37,9 +36,7 @@ export function FlatList({ data }: Props) {
         ))}
       </S.Container>
       <DetailModal>
-        <ApiErrorBoundary>
-          <PostDetail />
-        </ApiErrorBoundary>
+        <Detail />
       </DetailModal>
     </Fragment>
   );
