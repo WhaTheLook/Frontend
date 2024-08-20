@@ -34,6 +34,10 @@ interface SetCommentDataPayload {
     data: PostListContentType[];
 }
 
+interface SetDeletePostPayload {
+    postId: number;
+}
+
 const myPageSlice = createSlice({
     name: "myPage",
     initialState,
@@ -49,11 +53,16 @@ const myPageSlice = createSlice({
         setCommentData: (state, action: PayloadAction<SetCommentDataPayload>) => {
             const { data } = action.payload;
             state.commentData = data;
+        },
+        setDeletePost: (state, action: PayloadAction<SetDeletePostPayload>) => {
+            const { postId } = action.payload;
+            state.userInfo = state.userInfo ? { ...state.userInfo, postCount: state.userInfo.postCount - 1 } : null;
+            state.postData = state.postData?.filter(post => post.id !== postId) || null;
         }
     }
 });
 
-export const { setUserInfo, setPostData, setCommentData } = myPageSlice.actions;
+export const { setUserInfo, setPostData, setCommentData, setDeletePost } = myPageSlice.actions;
 export const myPageSliceReducer = myPageSlice.reducer;
 
 export const selectUserInfo = (state: { myPage: MyPageState }) => state.myPage.userInfo;
