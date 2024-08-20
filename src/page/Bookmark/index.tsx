@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { GridList } from "@/components/common/GridList";
 import { NothingInfo } from "@/components/common/NothingInfo";
+import { ScrollButton } from "@/components/common/ScrollButton";
 
 import { PostListType } from "@/types";
 
@@ -23,6 +24,7 @@ export function Bookmark() {
       ) : (
         <GridList data={data} />
       )}
+      <ScrollButton />
     </S.Container>
   );
 }

@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { ProfileContainer } from "@/components/Mypage/ProfileContainer";
 import { MyWrittingContainer } from "@/components/Mypage/MyWrittingContainer";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+import { ScrollButton } from "@/components/common/ScrollButton";
 
 import { ProfileFetcher } from "@/fetcher/MyPage/ProfileFetcher";
 
@@ -22,6 +23,7 @@ export function MyPage() {
           </S.Container>
         </ProfileFetcher>
       </Suspense>
+      <ScrollButton />
     </Provider>
   );
 }
