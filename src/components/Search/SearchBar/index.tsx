@@ -20,9 +20,12 @@ import {
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils";
 import { ICON_SIZE } from "@/constants/style";
 
+import { useSearchContext } from "@/hooks/useSearchContext";
+
 import * as S from "./style";
 
 export function SearchBar() {
+  const { handleSetQuery } = useSearchContext();
   const [inputText, setInputText] = useState("");
   const [isFocus, setIsFocus] = useState(false);
   const [toggleSearchHist, setToggleSearchHist] =
@@ -62,7 +65,6 @@ export function SearchBar() {
   const handleChangeInput = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { value } = target;
     updateInputText(value.trim()); // 띄어쓰기 방지
-    setIsFocus(true);
   };
 
   const storeSearchedHistory = (text: string) => {
@@ -81,10 +83,10 @@ export function SearchBar() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (inputText === "") return;
+
     toggleSearchHist && storeSearchedHistory(inputText);
     navigate(`?search_query=${inputText}`);
-    updateInputText("");
-    hideSearchHistory();
+    handleSetQuery(inputText);
   };
 
   const handleClickOutside = ({ target }: MouseEvent) => {
@@ -121,14 +123,22 @@ export function SearchBar() {
     };
   }, []);
 
+  useEffect(() => {
+    inputText === "" ? setIsFocus(true) : setIsFocus(false);
+  }, [inputText]);
+
+  useEffect(() => {
+    setIsFocus(false);
+  }, []);
+
   return (
     <S.Container>
-      <S.Form method="GET" onSubmit={handleSubmit} $isFocus={isFocus}>
+      <S.Form onSubmit={handleSubmit} $isFocus={isFocus}>
         <S.InputBox>
           <S.InputText
             ref={inputRef}
             value={inputText}
-            type="text"
+            type="search"
             placeholder="Look 검색하기"
             onChange={handleChangeInput}
             onFocus={() => setIsFocus(true)}

@@ -48,7 +48,7 @@ export function useAuthInfiniteFetch<T extends { id: number}>({ url, lastPostId,
       
       const { content, last } = (await response.json()) as ResponseType;
   
-      const currentLastPostId = content[content.length - 1].id;
+      const currentLastPostId = content.length > 1 ? content[content.length - 1].id : null;
       last 
       ? setHasNext(false)
       : lastPostId.current = currentLastPostId;
