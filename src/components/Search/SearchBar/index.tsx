@@ -89,17 +89,6 @@ export function SearchBar() {
     handleSetQuery(inputText);
   };
 
-  const handleClickOutside = ({ target }: MouseEvent) => {
-    if (
-      inputRef.current &&
-      !inputRef.current.contains(target as HTMLInputElement) &&
-      searchHistoryRef.current &&
-      !searchHistoryRef.current.contains(target as HTMLDivElement)
-    ) {
-      hideSearchHistory();
-    }
-  };
-
   const handleToggleBtnCLick = () => {
     const message = toggleSearchHist
       ? "최근 검색 저장 기능을 중지할까요?"
@@ -117,6 +106,17 @@ export function SearchBar() {
   };
 
   useEffect(() => {
+    const handleClickOutside = ({ target }: MouseEvent) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(target as HTMLInputElement) &&
+        searchHistoryRef.current &&
+        !searchHistoryRef.current.contains(target as HTMLDivElement)
+      ) {
+        hideSearchHistory();
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -152,13 +152,12 @@ export function SearchBar() {
         </S.InputBox>
       </S.Form>
       {isFocus && (
-        <div ref={searchHistoryRef}>
-          <SearchHistory
-            onTagClick={handleSearchTagClick}
-            toggleSearchHist={toggleSearchHist}
-            onToggleBtnClick={handleToggleBtnCLick}
-          />
-        </div>
+        <SearchHistory
+          ref={searchHistoryRef}
+          onTagClick={handleSearchTagClick}
+          toggleSearchHist={toggleSearchHist}
+          onToggleBtnClick={handleToggleBtnCLick}
+        />
       )}
     </S.Container>
   );

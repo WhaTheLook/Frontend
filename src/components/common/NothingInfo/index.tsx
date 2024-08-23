@@ -9,7 +9,7 @@ import { ICON_SIZE } from "@/constants/style";
 import * as S from "./style";
 
 interface Props {
-  contentType: "post" | "comment" | "bookmark" | "home";
+  contentType: "post" | "comment" | "bookmark" | "home" | "search";
 }
 
 const ICONS_AND_TEXTS = {
@@ -28,6 +28,10 @@ const ICONS_AND_TEXTS = {
   bookmark: {
     Icon: BookMarkIcon,
     text: "아직 저장한 게시물이 없어요.",
+  },
+  search: {
+    Icon: FileIcon,
+    text: "찾으시는 검색 결과가 없어요.",
   },
 };
 

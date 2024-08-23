@@ -2,10 +2,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { SearchBar } from "@/components/Search/SearchBar";
-import { SearchContainer } from "@/components/Search/SearchContainer";
-import { ApiErrorBoundary } from "@/components/common/ApiErrorBoundary";
-
-import { SearchFetcher } from "@/fetcher/Search/SearchFetcher";
+import { SearchResult } from "@/components/Search/SearchResult";
 
 import { useSearchContext } from "@/hooks/useSearchContext";
 
@@ -16,20 +13,18 @@ export function Search() {
   const paramsQuery = searchParams.get("search_query");
   const { query, handleSetQuery } = useSearchContext();
 
+  const hasQuery = query !== "";
+
   useEffect(() => {
-    if (paramsQuery) handleSetQuery(paramsQuery);
+    if (paramsQuery) {
+      handleSetQuery(paramsQuery);
+    }
   }, [paramsQuery, handleSetQuery]);
 
   return (
     <S.Container>
       <SearchBar />
-      <ApiErrorBoundary>
-        {query !== "" && (
-          <SearchFetcher>
-            <SearchContainer />
-          </SearchFetcher>
-        )}
-      </ApiErrorBoundary>
+      {hasQuery && <SearchResult />}
     </S.Container>
   );
 }

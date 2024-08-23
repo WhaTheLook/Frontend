@@ -11,6 +11,8 @@ export const Container = styled.div`
 
   position: absolute;
   top: 100%;
+
+  z-index: 99;
 `;
 
 export const Wrapper = styled.div`

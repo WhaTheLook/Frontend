@@ -18,7 +18,7 @@ export function SearchContainer() {
             총 <S.Bold>{data.length}</S.Bold>개의 게시물
           </S.Text>
           {data.length === 0 ? (
-            <NothingInfo contentType="home" />
+            <NothingInfo contentType="search" />
           ) : (
             <GridList data={data} />
           )}
