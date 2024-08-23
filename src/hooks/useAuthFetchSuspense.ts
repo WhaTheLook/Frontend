@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { ACCESS_TOKEN } from "@/constants";
 import { getLocalStorageItem } from "@/utils";
@@ -10,9 +10,10 @@ import { useLogout } from "./useLogout";
 interface Props {
     url: string;
     body?: XMLHttpRequestBodyInit;
+    shouldTokenCheck: boolean;
 }
 
-export function useAuthFetchSuspense<T>({ url, body }: Props) {
+export function useAuthFetchSuspense<T>({ url, body, shouldTokenCheck }: Props) {
     const [data, setData] = useState<T>();
     const [error, setError] = useState<Error | null>(null);
     const [status, setStatus] = useState<"pending" | "fulfilled" | "error">("pending");
@@ -21,16 +22,24 @@ export function useAuthFetchSuspense<T>({ url, body }: Props) {
     const { reIssueTokenFetcher } = useReIssueToken();
     const { handleLogout } = useLogout();
 
-    async function fetcher() {
+    const abortController = useMemo(() => new AbortController(), []);
+
+    const fetcher = useCallback(async function fetcher() {
         try {
             const accessToken = getLocalStorageItem(ACCESS_TOKEN);
-    
+            const headers = {} as { Authorization?: string };
+
+            if (shouldTokenCheck) {
+                headers.Authorization = `Bearer ${accessToken}`;
+            } else if (accessToken) {
+                headers.Authorization = `Bearer ${accessToken}`;
+            }
+
             const response = await fetch(url, {
                 method: "GET", 
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                headers,
                 body,
+                signal: abortController.signal
             });
 
             if (!response.ok) {
@@ -64,12 +73,16 @@ export function useAuthFetchSuspense<T>({ url, body }: Props) {
                 setError(new Error(String(error)));
             }
         }
-    }
+    }, [body, handleLogout, reIssueTokenFetcher, url, abortController, shouldTokenCheck]) 
     
     useEffect(() => {
         setStatus("pending");
         setPromise(fetcher());
-    }, []);
+
+        return () => {
+            abortController.abort();
+        }
+    }, [abortController, fetcher]);
     
     if (status === "pending" && promise) {
         throw promise;

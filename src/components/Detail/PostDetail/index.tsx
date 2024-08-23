@@ -10,7 +10,7 @@ import { DetailMutation } from "../DetailMutation";
 import { API_PATH } from "@/constants";
 import { PostDetailInfoType } from "@/types";
 
-import { useFetchSuspense } from "@/hooks/useFetchSuspense";
+import { useAuthFetchSuspense } from "@/hooks/useAuthFetchSuspense";
 
 import {
   selectCurrentSignStatus,
@@ -29,11 +29,12 @@ export function PostDetail() {
   const isSignIn = useSelector(selectCurrentSignStatus);
   const userInfo = useSelector(selectCurrentUser);
 
-  const { data, error } = useFetchSuspense<PostDetailInfoType>({
+  const { data, error } = useAuthFetchSuspense<PostDetailInfoType>({
     url: API_PATH.postDetailInfo({
       postId: selectedPostId,
       userId: isSignIn ? userInfo?.kakaoId : undefined,
     }),
+    shouldTokenCheck: false,
   });
 
   if (error) {
