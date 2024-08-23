@@ -45,6 +45,11 @@ export const InputText = styled.input`
   border: none;
 
   outline: none;
+
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 `;
 
 export const BaseButton = styled.button`

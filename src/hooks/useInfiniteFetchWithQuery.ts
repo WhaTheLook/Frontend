@@ -1,4 +1,4 @@
-import { MutableRefObject, useCallback, useEffect, useState } from "react";
+import { MutableRefObject, useCallback, useEffect, useMemo, useState } from "react";
 
 import { CommonError } from "@/utils/CommonError";
 
@@ -6,9 +6,11 @@ interface Props {
   url: string;
   lastPostId: MutableRefObject<number | null>;
   intersecting: boolean;
+  query: string;
 }
 
-export function useInfiniteFetch<T extends { id: number}>({ url, lastPostId, intersecting }: Props) {
+export function useInfiniteFetchWithQuery<T extends { id: number}>({
+   url, lastPostId, intersecting, query }: Props) {
   interface ResponseType {
     content: T[];
     last: boolean;
@@ -19,7 +21,7 @@ export function useInfiniteFetch<T extends { id: number}>({ url, lastPostId, int
   const [hasNext, setHasNext] = useState(true);
   const [error, setError] = useState<Error | null>(null)
 
-  const controller = new AbortController();
+  const controller = useMemo(() => new AbortController(), []);
   const signal = controller.signal;
 
   const fetcher = useCallback(async function () {
@@ -58,10 +60,15 @@ export function useInfiniteFetch<T extends { id: number}>({ url, lastPostId, int
 
   useEffect(() => {
     setIsLoading(true);
+    setHasNext(true);
+    lastPostId.current = null;
+    setData(null);
     fetcher();
+  }, [query, url, lastPostId, fetcher]);
 
+  useEffect(() => {
     return () => controller.abort();
-  }, []);
+  }, [controller])
 
   return { data, isLoading, error };
 }

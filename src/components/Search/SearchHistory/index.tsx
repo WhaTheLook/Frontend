@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { ForwardedRef, forwardRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { XCircleIcon } from "@/components/Icons/XCircleIcon";
 
-import { SEARCHED_HISTORY } from "@/constants";
-import { ICON_SIZE } from "@/constants/style";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
   setLocalStorageItem,
 } from "@/utils";
+import { SEARCHED_HISTORY } from "@/constants";
+import { ICON_SIZE } from "@/constants/style";
 
 import * as S from "./style";
 
@@ -19,11 +19,10 @@ interface Props {
   onToggleBtnClick: () => void;
 }
 
-export function SearchHistory({
-  onTagClick,
-  toggleSearchHist,
-  onToggleBtnClick,
-}: Props) {
+export const SearchHistory = forwardRef(function SearchHistory(
+  { onTagClick, toggleSearchHist, onToggleBtnClick }: Props,
+  ref: ForwardedRef<HTMLDivElement>
+) {
   const [searchedTags, setSearchTags] = useState<string[]>(() =>
     JSON.parse(getLocalStorageItem(SEARCHED_HISTORY) || "[]")
   );
@@ -55,7 +54,7 @@ export function SearchHistory({
   };
 
   return (
-    <S.Container>
+    <S.Container ref={ref}>
       <S.Wrapper>
         <S.InfoTextBox>
           <S.InfoText>최근 검색어</S.InfoText>
@@ -91,4 +90,4 @@ export function SearchHistory({
       </S.Wrapper>
     </S.Container>
   );
-}
+});

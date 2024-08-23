@@ -37,7 +37,7 @@ export function InfoWrapper({ data }: Props) {
         {hashtags.length !== 0 && (
           <S.Tags>
             {hashtags.map((tag) => (
-              <Link to={`/search?search_query=${tag}`} key={tag}>
+              <Link to={`/search?search_query=${tag.slice(1)}`} key={tag}>
                 <S.Tag>{tag}</S.Tag>
               </Link>
             ))}

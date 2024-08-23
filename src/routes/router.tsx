@@ -15,6 +15,7 @@ import { Detail } from "@/page/Detail";
 
 import { AuthBoundary } from "@/components/common/AuthBoundary";
 import { ApiErrorBoundary } from "@/components/common/ApiErrorBoundary";
+import { SearchProvider } from "@/components/Search/SearchProvider";
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +32,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "search",
-        element: <Search />,
+        element: (
+          <SearchProvider>
+            <Search />
+          </SearchProvider>
+        ),
       },
       {
         path: "saved",
