@@ -110,7 +110,7 @@ export const API_PATH = {
         const baseUrl = `${API_URL}/user/${userId}/post?size=${size}&sortBy=${sortBy}`;
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
     },
-    updateUser: () => `${API_URL}/user/update`,
+    updateUserInfo: () => `${API_URL}/user/update`,
     deletePost: ({ postId }: { postId: number }) => `${API_URL}/post/delete/${postId}`,
     bookmarkList: ({ userId, lastPostId, size, sortBy }: UserPostListArgType) => {
         const baseUrl = `${API_URL}/user/${userId}/likePost?size=${size}&sortBy=${sortBy}`;
@@ -135,7 +135,8 @@ export const TOAST_MESSAGE = {
     likeError: () => "게시글 좋아요에 실패했어요. 다시 시도해주세요.",
     createPostError: () => "게시글을 작성하는데 실패했어요. 다시 시도해주세요.",
     successDeletePost: () => "게시글을 삭제했어요.",
-    failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요."
+    failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요.",
+    failUpdateUserInfo: () => "회원 정보를 수정하는데 실패했어요. 다시 시도해주세요."
 }
 
 export const FETCH_TIME = 10_000;
