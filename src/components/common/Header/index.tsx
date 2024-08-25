@@ -7,7 +7,7 @@ import { PopupModal } from "../PopupModal";
 import { ModalPortal } from "../ModalPortal";
 import { HeaderButton } from "../HeaderButton";
 
-import { modalType } from "@/constants";
+import { modalLocationType, modalType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
 import { useModalContext } from "@/hooks/useModalContext";
@@ -32,12 +32,16 @@ export function Header() {
   const isSignIn = useSelector(selectCurrentSignStatus);
   const user = useSelector(selectCurrentUser);
 
-  const { handleOpen } = useModalContext();
+  const { handleOpen, modalLocation } = useModalContext();
   const { handleLogout } = useLogout();
+
+  const isHeaderModal = () => {
+    return modalLocation === modalLocationType.HEAHDER;
+  };
 
   const openModal = (type: modalType) => {
     setModal(type);
-    handleOpen();
+    handleOpen(modalLocationType.HEAHDER);
   };
 
   const modalInfo: ModalInfoType = {
@@ -81,7 +85,7 @@ export function Header() {
           </S.InfoBox>
         </S.Wrapper>
       </S.Container>
-      {modal && (
+      {modal && isHeaderModal() && (
         <ModalPortal>
           <PopupModal
             type={modalInfo[modal].type}

@@ -14,6 +14,7 @@ import { ProfileFormValues, UserInfoType } from "@/types";
 import {
   API_PATH,
   MAX_LENGTH_USER_NAME,
+  modalLocationType,
   modalType,
   TOAST_MESSAGE,
   toastType,
@@ -41,7 +42,7 @@ export function ProfileEdit() {
     watch("profileImage"),
   ];
 
-  const { handleOpen } = useModalContext();
+  const { handleOpen, modalLocation } = useModalContext();
   const { handleToastOpen } = useToastContext();
   const { fetcher } = useAuthMutation({
     url: API_PATH.updateUserInfo(),
@@ -50,8 +51,12 @@ export function ProfileEdit() {
     isFormData: true,
   });
 
+  const isProfileEditModalOpen = () => {
+    return modalLocation === modalLocationType.PROFILE_EDIT;
+  };
+
   const handleAccountDelete = () => {
-    handleOpen();
+    handleOpen(modalLocationType.PROFILE_EDIT);
   };
 
   const handleHeaderBtnClick = () => {
@@ -144,9 +149,11 @@ export function ProfileEdit() {
           </S.Box>
         </S.Wrapper>
       </S.Container>
-      <ModalPortal>
-        <PopupModal type={modalType.DELETE_ACCOUNT} />
-      </ModalPortal>
+      {isProfileEditModalOpen() && (
+        <ModalPortal>
+          <PopupModal type={modalType.DELETE_ACCOUNT} />
+        </ModalPortal>
+      )}
       <ToastContainer />
     </Fragment>
   );

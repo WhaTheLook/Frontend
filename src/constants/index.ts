@@ -7,6 +7,12 @@ export enum modalType {
     DELETE_ACCOUNT = "DELETE_ACCOUNT",
 }
 
+export enum modalLocationType {
+    HEAHDER = "HEADER",
+    DETAIL = "DETAIL",
+    PROFILE_EDIT = "PROFILE_EDIT",
+}
+
 export enum toastType {
     SUCCESS = "SUCCESS",
     ERROR = "ERROR", 

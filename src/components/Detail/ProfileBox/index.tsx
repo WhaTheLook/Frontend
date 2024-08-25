@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { OptionButton } from "@/components/Icons/OptionIcon";
 
 import { UserInfoType } from "@/types";
+import { modalLocationType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
 import { useModalContext } from "@/hooks/useModalContext";
@@ -37,7 +38,7 @@ export function ProfileBox({ author }: Props) {
         <S.Writter>{author.name}</S.Writter>
       </S.Profile>
       {isOwnLoginUser && (
-        <S.OptionButton onClick={handleOpen}>
+        <S.OptionButton onClick={() => handleOpen(modalLocationType.DETAIL)}>
           <OptionButton size={ICON_SIZE.SMALL} color="#000" />
         </S.OptionButton>
       )}
