@@ -28,6 +28,10 @@ const authSlice = createSlice({
             state.isSignIn = true;
             state.user = user;
         },
+        updateAuthInfo: (state, action: PayloadAction<SetCredentialPayload>) => {
+            const { user } = action.payload;
+            state.user = user;
+        },
         logout: (state) => {
             state.isSignIn = false;
             state.user = null;
@@ -35,7 +39,7 @@ const authSlice = createSlice({
     }
 });
 
-export const { setSignIn, setCredential, logout } = authSlice.actions;
+export const { setSignIn, setCredential, updateAuthInfo, logout } = authSlice.actions;
 export const authSliceReducer =  authSlice.reducer;
 
 export const selectCurrentSignStatus = (state: { auth: AuthState }) => state.auth.isSignIn;

@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { ImageInput } from "@/components/ProfileEdit/ImageInput";
 import { UploadHeader } from "@/components/common/UploadHeader";
@@ -24,12 +24,13 @@ import { useModalContext } from "@/hooks/useModalContext";
 import { useAuthMutation } from "@/hooks/useAuthMutation";
 import { useToastContext } from "@/hooks/useToastContex";
 
-import { selectCurrentUser } from "@/store/slice/authSlice";
+import { selectCurrentUser, updateAuthInfo } from "@/store/slice/authSlice";
 
 import * as S from "./style";
 
 export function ProfileEdit() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
   const inputSubmitRef = useRef<HTMLInputElement | null>(null);
@@ -94,7 +95,14 @@ export function ProfileEdit() {
       setIsLoading(true);
       await fetcher();
 
-      // TO DO: 회원 정보 수정 후 회원 정보 상태 수정
+      const updatedUserInfo: UserInfoType = {
+        name: newName,
+        kakaoId: userInfo.kakaoId,
+        profileImage: URL.createObjectURL(newProfileImage),
+      };
+
+      dispatch(updateAuthInfo({ user: updatedUserInfo }));
+
       // TO DO: 기존이미지 파일 변환 과정에서 CORS에러 발생
       navigate("/profile");
     } catch (error) {
