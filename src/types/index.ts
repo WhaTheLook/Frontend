@@ -19,6 +19,14 @@ export interface UploadDataValidationType<T> {
   validation: boolean;
 }
 
+export interface EditDataType {
+    postType: postTypeType;
+    images: ImageUploadType[];
+    title: string;
+    description: string;
+    tags: string[];
+}
+
 export interface UploadDataType {
     postType: UploadDataValidationType<postTypeType | null>;
     images: UploadDataValidationType<ImageUploadType[]>;
@@ -57,6 +65,10 @@ export type ActionType =
   | {
       type: UploadActionType.RESET;
       payload: null;
+    }
+  | {
+      type: UploadActionType.EDIT;
+      payload: EditDataType;
     }
 
   
@@ -98,7 +110,7 @@ export interface PostListContentType {
     author: UserInfoType;
     title: string;
     content: string;
-    category: string;
+    category: postTypeType;
     date: string;
     likeCount: number;
     likeYN: boolean;

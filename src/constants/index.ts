@@ -38,11 +38,13 @@ export enum UploadActionType {
     IMAGES = "IMAGES",
     VALIDATE = "VALIDATE",
     RESET = "RESET",
+    EDIT = "EDIT",
 }
 
 export enum PathnameType {
     UPLOAD = "/upload",
     PROFILE = "/profile/edit",
+    POST_EDIT = "/post/edit",
 }
 
 export const HOME_MENU_LIST = [

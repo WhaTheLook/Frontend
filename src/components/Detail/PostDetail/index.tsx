@@ -53,7 +53,7 @@ export function PostDetail() {
             </S.PaddingFragment>
           </S.InfoWrapper>
         </S.Container>
-        <DetailMutation postId={data.id} />
+        <DetailMutation postId={data.id} data={data} />
       </Fragment>
     )
   );

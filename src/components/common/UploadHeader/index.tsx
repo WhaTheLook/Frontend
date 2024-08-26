@@ -27,6 +27,7 @@ export function UploadHeader({ onSubmitBtnClick, disabled }: Props) {
     {
       [PathnameType.PROFILE]: "수정하기",
       [PathnameType.UPLOAD]: "작성하기",
+      [PathnameType.POST_EDIT]: "수정하기",
     }[pathname] || "";
 
   return (

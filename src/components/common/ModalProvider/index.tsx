@@ -27,6 +27,7 @@ export function ModalProvider({ children }: Props) {
 
   function handleClose() {
     setIsOpen(false);
+    setModalLocation(null);
   }
 
   function handleOpen(modalLocation: modalLocationType) {

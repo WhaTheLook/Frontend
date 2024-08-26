@@ -14,6 +14,7 @@ import {
   TOAST_MESSAGE,
   toastType,
 } from "@/constants";
+import { PostDetailInfoType } from "@/types";
 
 import { useAuthMutation } from "@/hooks/useAuthMutation";
 import { useToastContext } from "@/hooks/useToastContex";
@@ -24,9 +25,10 @@ import { setDeletePost } from "@/store/slice/myPageSlice";
 
 interface Props {
   postId: number;
+  data: PostDetailInfoType;
 }
 
-export function DetailMutation({ postId }: Props) {
+export function DetailMutation({ postId, data }: Props) {
   const [modal, setModal] = useState<modalType | null>(null);
   const {
     state: { modalPostId },
@@ -35,7 +37,7 @@ export function DetailMutation({ postId }: Props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { modalLocation } = useModalContext();
+  const { modalLocation, handleClose } = useModalContext();
   const { handleDetailClose } = useDetailModalContext();
   const { handleToastOpen } = useToastContext();
   const { fetcher } = useAuthMutation({
@@ -47,7 +49,11 @@ export function DetailMutation({ postId }: Props) {
     return modalLocation === modalLocationType.DETAIL;
   };
 
-  const handleEditClick = () => {};
+  const handleEditClick = () => {
+    handleClose();
+    handleDetailClose("/");
+    navigate("/post/edit", { state: data });
+  };
 
   const handleDeleteClick = () => {
     setModal(modalType.DELETE_POST);
