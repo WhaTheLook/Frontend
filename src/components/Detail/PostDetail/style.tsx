@@ -23,13 +23,12 @@ export const Container = styled.div<ContainerProps>`
 export const InfoWrapper = styled.div`
   width: 100%;
   height: 100%;
+
+  position: relative;
 `;
 
 export const PaddingFragment = styled.div`
-  padding: 0 20px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
 `;

@@ -12,14 +12,11 @@ import { API_PATH, modalType, TOAST_MESSAGE, toastType } from "@/constants";
 import { useAuthMutation } from "@/hooks/useAuthMutation";
 import { useToastContext } from "@/hooks/useToastContex";
 import { useDetailModalContext } from "@/hooks/useDetailModalContext";
+import { useDetailContext } from "@/hooks/useDetailContext";
 
 import { setDeletePost } from "@/store/slice/myPageSlice";
 
-interface Props {
-  postId: number;
-}
-
-export function DetailMutation({ postId }: Props) {
+export function DetailMutation() {
   const [modal, setModal] = useState<modalType | null>(null);
   const {
     state: { modalPostId },
@@ -28,10 +25,12 @@ export function DetailMutation({ postId }: Props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { data } = useDetailContext();
+
   const { handleDetailClose } = useDetailModalContext();
   const { handleToastOpen } = useToastContext();
   const { fetcher } = useAuthMutation({
-    url: API_PATH.deletePost({ postId }),
+    url: API_PATH.deletePost({ postId: data.id }),
     method: "DELETE",
   });
 
@@ -47,7 +46,7 @@ export function DetailMutation({ postId }: Props) {
       if (modalPostId) {
         handleDetailClose("/");
       }
-      dispatch(setDeletePost({ postId }));
+      dispatch(setDeletePost({ postId: data.id }));
       navigate("/profile");
     } catch {
       handleToastOpen({

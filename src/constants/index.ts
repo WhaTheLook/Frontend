@@ -119,7 +119,8 @@ export const API_PATH = {
     searchPosts: ({ searchQuery, lastPostId, size, sortBy }: SearchPostListArgType) => {
         const baseUrl = `${API_URL}/post/postList/${searchQuery}?size=${size}&sortBy=${sortBy}`;
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
-    }
+    },
+    createComment: () => `${API_URL}/post/comment/create`, 
 }
 
 export const MAX_FETCH_SIZE_FLAT = 10;
@@ -135,7 +136,8 @@ export const TOAST_MESSAGE = {
     likeError: () => "게시글 좋아요에 실패했어요. 다시 시도해주세요.",
     createPostError: () => "게시글을 작성하는데 실패했어요. 다시 시도해주세요.",
     successDeletePost: () => "게시글을 삭제했어요.",
-    failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요."
+    failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요.",
+    failCreateComment: () => "댓글을 작성하는데 실패했어요. 다시 시도해주세요."
 }
 
 export const FETCH_TIME = 10_000;

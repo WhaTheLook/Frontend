@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { HeartIcon } from "@/components/Icons/HeartIcon";
@@ -10,22 +10,19 @@ import { ICON_SIZE } from "@/constants/style";
 
 import { useToastContext } from "@/hooks/useToastContex";
 import { useAuthMutation } from "@/hooks/useAuthMutation";
+import { useDetailContext } from "@/hooks/useDetailContext";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
 import * as S from "./style";
 
-interface Props {
-  likeCount: number;
-  likeYN: boolean;
-  postId: number;
-}
-
-export function LikeWrapper({ likeCount, likeYN, postId }: Props) {
-  const [count, setCount] = useState(likeCount);
-  const [isLike, setIsLike] = useState(likeYN);
+export function LikeWrapper() {
+  const [count, setCount] = useState(0);
+  const [isLike, setIsLike] = useState(false);
 
   const user = useSelector(selectCurrentUser);
+  const { data } = useDetailContext();
+  const { likeCount, likeYN, id } = data;
 
   const { handleToastOpen } = useToastContext();
 
@@ -34,7 +31,7 @@ export function LikeWrapper({ likeCount, likeYN, postId }: Props) {
     method: "POST",
     body: JSON.stringify({
       userId: user?.kakaoId,
-      postId,
+      postId: id,
     }),
   });
 
@@ -75,6 +72,11 @@ export function LikeWrapper({ likeCount, likeYN, postId }: Props) {
       rollBackUI(isLike, TOAST_MESSAGE.likeError());
     }
   };
+
+  useEffect(() => {
+    setCount(likeCount);
+    setIsLike(likeYN);
+  }, [likeCount, likeYN]);
 
   return (
     <Fragment>
