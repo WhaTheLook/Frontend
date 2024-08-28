@@ -9,6 +9,8 @@ export const Container = styled.div`
   justify-content: space-between;
 
   box-sizing: border-box;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 export const Profile = styled.div`

@@ -14,8 +14,6 @@ export const ContentBox = styled.div`
   flex-direction: column;
   gap: 20px;
 
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-
   box-sizing: border-box;
 `;
 

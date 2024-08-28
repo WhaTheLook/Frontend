@@ -55,10 +55,8 @@ export function PostDetail() {
         <S.Container $isModal={Boolean(postId)}>
           <ImageWrapper />
           <S.InfoWrapper>
-            <S.PaddingFragment>
-              <MainWrapper />
-              <SubMainWrapper />
-            </S.PaddingFragment>
+            <MainWrapper />
+            <SubMainWrapper />
           </S.InfoWrapper>
         </S.Container>
         <DetailMutation />

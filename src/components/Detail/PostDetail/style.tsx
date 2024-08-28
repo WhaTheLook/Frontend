@@ -24,10 +24,6 @@ export const InfoWrapper = styled.div`
   width: 100%;
   height: 100%;
 
-  position: relative;
-`;
-
-export const PaddingFragment = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

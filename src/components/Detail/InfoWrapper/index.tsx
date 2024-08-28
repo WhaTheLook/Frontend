@@ -1,8 +1,6 @@
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 
-import { ProfileBox } from "@/components/Detail/ProfileBox";
-
 import { calculateDaysAgo } from "@/utils";
 
 import { useDetailContext } from "@/hooks/useDetailContext";
@@ -14,7 +12,6 @@ export function InfoWrapper() {
 
   return (
     <Fragment>
-      <ProfileBox />
       <S.ContentBox>
         <S.Title>{data.title}</S.Title>
         <S.Description>{data.content}</S.Description>

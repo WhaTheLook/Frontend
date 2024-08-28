@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useCallback, useState } from "react";
 
 import { replaceHistory } from "@/utils";
 
@@ -26,10 +26,10 @@ export function DetailModalProvider({ children }: Props) {
     replaceHistory({ modalPostId: id }, dest);
   };
 
-  const handleDetailClose = (dest: string) => {
+  const handleDetailClose = useCallback((dest: string) => {
     setIsDetailOpen(false);
     replaceHistory({}, dest);
-  };
+  }, []);
 
   return (
     <DetailModalContext.Provider
