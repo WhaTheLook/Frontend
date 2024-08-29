@@ -2,9 +2,6 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  padding: 0px 15px;
-
-  box-sizing: border-box;
 `;
 
 export const Form = styled.form`
@@ -17,7 +14,6 @@ export const Form = styled.form`
 
 export const TextInput = styled.textarea`
   width: 100%;
-  padding: 8px;
 
   font-size: 14px;
   color: #000000;

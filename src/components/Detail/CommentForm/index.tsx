@@ -35,7 +35,7 @@ export function CommentForm({ text, onChangeText }: Props) {
   const loginUserInfo = useSelector(selectCurrentUser) as UserInfoType;
 
   const { handleToastOpen } = useToastContext();
-  const { handleSetComments } = useDetailContext();
+  const { addComment } = useDetailContext();
 
   const commentPayload = {
     postId: selectedPostId,
@@ -56,7 +56,7 @@ export function CommentForm({ text, onChangeText }: Props) {
       setIsLoading(true);
       const newComment = await fetcher();
 
-      handleSetComments(newComment!);
+      addComment(newComment!);
       onChangeText("");
     } catch (error) {
       handleToastOpen({

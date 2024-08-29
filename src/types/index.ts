@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 
-import { UploadActionType } from "@/constants";
+import { DetailActionType, UploadActionType } from "@/constants";
 
 export interface MenuListType {
   id: number;
@@ -29,7 +29,7 @@ export interface UploadDataType {
 
 export type UploadErrorKeys = keyof UploadDataType;
 
-export type ActionType =
+export type UploadAction =
   | {
       type: UploadActionType.POSTTYPE;
       payload: postTypeType;
@@ -59,10 +59,23 @@ export type ActionType =
       payload: null;
     }
 
-  
+export type DetailAction = 
+  | {
+      type: DetailActionType.SET_POST;
+      payload: PostDetailInfoType;
+    }
+  | {
+      type: DetailActionType.ADD_COMMENTS;
+      payload: CommentsType;
+    }
+  | {
+      type: DetailActionType.DELETE_COMMENT;
+      payload: CommentsType["id"];
+    }
+
 export interface UploadLayoutContextProps {
     data: UploadDataType;
-    dispatch: Dispatch<ActionType>;
+    dispatch: Dispatch<UploadAction>;
 }
 
 export interface ProfileFormValues {

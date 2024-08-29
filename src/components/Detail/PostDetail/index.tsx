@@ -29,7 +29,7 @@ export function PostDetail() {
   const isSignIn = useSelector(selectCurrentSignStatus);
   const userInfo = useSelector(selectCurrentUser);
 
-  const { handleSetData } = useDetailContext();
+  const { setPostDetail } = useDetailContext();
 
   const { data, error } = useFetchSuspense<PostDetailInfoType>({
     url: API_PATH.postDetailInfo({
@@ -44,9 +44,9 @@ export function PostDetail() {
 
   useEffect(() => {
     if (data) {
-      handleSetData(data);
+      setPostDetail(data);
     }
-  }, [data, handleSetData]);
+  }, [data, setPostDetail]);
 
   return (
     data && (

@@ -34,6 +34,12 @@ export enum UploadActionType {
     RESET = "RESET",
 }
 
+export enum DetailActionType {
+    SET_POST = "SET_POST",
+    ADD_COMMENTS = "ADD_COMMENTS",
+    DELETE_COMMENT = "DELETE_COMMENT",
+}
+
 export enum PathnameType {
     UPLOAD = "/upload",
     PROFILE = "/profile/edit",
