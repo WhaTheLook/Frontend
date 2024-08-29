@@ -91,6 +91,12 @@ interface SearchPostListArgType extends GetPostAPIArgType {
     searchQuery: string;
 }
 
+interface CommentListArgType {
+    postId: number;
+    size: number;
+    lastCommentId?: number;
+}
+
 export const API_PATH = {
     login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
@@ -121,6 +127,10 @@ export const API_PATH = {
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
     },
     createComment: () => `${API_URL}/post/comment/create`, 
+    commentList: ({ postId, size, lastCommentId }: CommentListArgType) => {
+        const baseUrl = `${API_URL}/post/${postId}/comment?size=${size}`;
+        return lastCommentId ? `${baseUrl}&lastCommentId=${lastCommentId}` : baseUrl;
+    }
 }
 
 export const MAX_FETCH_SIZE_FLAT = 10;

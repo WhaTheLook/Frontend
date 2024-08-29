@@ -4,13 +4,15 @@ import { useSelector } from "react-redux";
 
 import { SendIcon } from "@/components/Icons/SendIcon";
 import { ToastContainer } from "@/components/common/ToastContainer";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 import { API_PATH, TOAST_MESSAGE, toastType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
-import { UserInfoType } from "@/types";
+import { CommentsType, UserInfoType } from "@/types";
 
 import { useAuthMutation } from "@/hooks/useAuthMutation";
 import { useToastContext } from "@/hooks/useToastContex";
+import { useDetailContext } from "@/hooks/useDetailContext";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
@@ -33,6 +35,7 @@ export function CommentForm({ text, onChangeText }: Props) {
   const loginUserInfo = useSelector(selectCurrentUser) as UserInfoType;
 
   const { handleToastOpen } = useToastContext();
+  const { handleSetComments } = useDetailContext();
 
   const commentPayload = {
     postId: selectedPostId,
@@ -40,18 +43,21 @@ export function CommentForm({ text, onChangeText }: Props) {
     text: text.trim(),
   };
 
-  const { fetcher } = useAuthMutation({
+  const { fetcher } = useAuthMutation<CommentsType>({
     url: API_PATH.createComment(),
     method: "POST",
     body: JSON.stringify(commentPayload),
+    hasReturnType: true,
   });
 
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
       setIsLoading(true);
-      await fetcher();
-      // 댓글 추가 (전역 상태로 관리)
+      const newComment = await fetcher();
+
+      handleSetComments(newComment!);
+      onChangeText("");
     } catch (error) {
       handleToastOpen({
         type: toastType.ERROR,
@@ -74,11 +80,15 @@ export function CommentForm({ text, onChangeText }: Props) {
   return (
     <S.Container>
       <S.Form>
-        <S.TextInput
-          onChange={handleChange}
-          placeholder="댓글 달기..."
-          value={text}
-        />
+        {isLoading ? (
+          <LoadingSpinner color="#A2A2A2" isNoPadding={true} />
+        ) : (
+          <S.TextInput
+            onChange={handleChange}
+            placeholder="댓글 달기..."
+            value={text}
+          />
+        )}
         <S.SubmitButton onClick={handleSubmit} disabled={isDisable()}>
           <SendIcon size={ICON_SIZE.SMALL} color="#FFFFFF" />
         </S.SubmitButton>

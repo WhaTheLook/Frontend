@@ -32,6 +32,7 @@ export function DetailMutation() {
   const { fetcher } = useAuthMutation({
     url: API_PATH.deletePost({ postId: data.id }),
     method: "DELETE",
+    hasReturnType: false,
   });
 
   const handleEditClick = () => {};

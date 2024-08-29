@@ -86,11 +86,11 @@ export interface UserInfoType {
 
 export interface CommentsType {
   id: number;
-  author: string;
-  content: string;
+  author: UserInfoType;
+  text: string;
   date: string;
   depth: number;
-  order: number;
+  children: CommentsType[];
 }
 
 export interface PostListContentType {
@@ -102,7 +102,6 @@ export interface PostListContentType {
     date: string;
     likeCount: number;
     likeYN: boolean;
-    commentCount: number;
     hashtags: string[];
     photoUrls: string[];
 }

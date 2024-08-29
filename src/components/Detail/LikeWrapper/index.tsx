@@ -33,6 +33,7 @@ export function LikeWrapper() {
       userId: user?.kakaoId,
       postId: id,
     }),
+    hasReturnType: false,
   });
 
   const rollBackUI = (currentLikeStatus: boolean, content: string) => {

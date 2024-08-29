@@ -8,30 +8,37 @@ const rotation = keyframes`
         transform: rotate(360deg);
     }
 `;
+interface ConatianerProps {
+  $isNoPadding: boolean;
+}
 
-interface ContainerProps {
+export const Container = styled.div<ConatianerProps>`
+  ${({ $isNoPadding }) => {
+    return css`
+      width: 100%;
+      height: 100%;
+      padding: ${$isNoPadding ? "0" : "40px"} 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+  }}
+`;
+
+interface BoxProps {
   color: string;
 }
 
-export const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 40px 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const Box = styled.div<ContainerProps>`
+export const Box = styled.div<BoxProps>`
   ${({ color }) => {
     return css`
-      width: 30px;
-      height: 30px;
+      width: 25px;
+      height: 25px;
 
       display: inline-block;
 
-      border: 5px solid ${color};
+      border: 4px solid ${color};
       border-bottom-color: transparent;
       border-radius: 50%;
 

@@ -83,6 +83,7 @@ export function UploadLayout() {
     method: "POST",
     body: getFormData(),
     isFormData: true,
+    hasReturnType: false,
   });
 
   const checkAndAddError = (

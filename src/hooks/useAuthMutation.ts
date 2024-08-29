@@ -10,9 +10,10 @@ interface Props {
   method: "POST" | "PUT" | "DELETE";
   body?: XMLHttpRequestBodyInit;
   isFormData?: boolean;
+  hasReturnType: boolean;
 }
 
-export function useAuthMutation({ url, method, body, isFormData }: Props) {
+export function useAuthMutation<T>({ url, method, body, isFormData, hasReturnType }: Props) {
   const { reIssueTokenFetcher } = useReIssueToken();
   const { handleLogout } = useLogout();
 
@@ -38,6 +39,10 @@ export function useAuthMutation({ url, method, body, isFormData }: Props) {
         throw new CommonError(status);
       }
 
+      if (hasReturnType) { 
+        const result = (await response.json()) as T;
+        return result;
+      }
     } catch (error) {
       if (error instanceof CommonError) {
         const { statusCode } = error;

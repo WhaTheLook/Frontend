@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useState } from "react";
 
-import { PostDetailInfoType } from "@/types";
+import { CommentsType, PostDetailInfoType } from "@/types";
 
 const initData = {
   id: 0,
@@ -15,7 +15,6 @@ const initData = {
   date: "",
   likeCount: 0,
   likeYN: false,
-  commentCount: 0,
   hashtags: [],
   photoUrls: [],
   deleteYN: false,
@@ -25,11 +24,13 @@ const initData = {
 interface DetailContextProps {
   data: PostDetailInfoType;
   handleSetData: (newData: PostDetailInfoType) => void;
+  handleSetComments: (newComment: CommentsType) => void;
 }
 
 export const DetailContext = createContext<DetailContextProps>({
   data: initData,
   handleSetData: () => {},
+  handleSetComments: () => {},
 });
 
 interface Props {
@@ -43,8 +44,13 @@ export function DetailProvider({ children }: Props) {
     setData(newData);
   };
 
+  const handleSetComments = (newComment: CommentsType) => {
+    const copyedData = { newComment, ...data };
+    setData(copyedData);
+  };
+
   return (
-    <DetailContext.Provider value={{ data, handleSetData }}>
+    <DetailContext.Provider value={{ data, handleSetData, handleSetComments }}>
       {children}
     </DetailContext.Provider>
   );

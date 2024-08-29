@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { ImageWrapper } from "../ImageWrapper";
-import { MainWrapper } from "../MainWrapper";
-import { SubMainWrapper } from "../SubMainWrapper";
+import { DetailMain } from "../DetailMain";
 import { DetailMutation } from "../DetailMutation";
 
 import { API_PATH } from "@/constants";
@@ -54,10 +53,7 @@ export function PostDetail() {
       <Fragment>
         <S.Container $isModal={Boolean(postId)}>
           <ImageWrapper />
-          <S.InfoWrapper>
-            <MainWrapper />
-            <SubMainWrapper />
-          </S.InfoWrapper>
+          <DetailMain />
         </S.Container>
         <DetailMutation />
       </Fragment>

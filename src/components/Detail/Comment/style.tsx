@@ -14,12 +14,6 @@ export const Main = styled.div`
   gap: 10px;
 `;
 
-export const ProfileWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-`;
-
 export const ProfileImage = styled.img`
   width: 28px;
   height: 28px;
@@ -27,20 +21,31 @@ export const ProfileImage = styled.img`
   border-radius: 50%;
 `;
 
-export const Name = styled.span`
-  font-size: 14px;
-  font-weight: 600;
-`;
-
-export const ContentWrapper = styled.div`
-  padding-top: 7px;
+export const NameBox = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   gap: 7px;
 `;
 
+export const Name = styled.span`
+  font-size: 13px;
+  font-weight: 600;
+`;
+
+export const Date = styled.span`
+  font-size: 12px;
+  color: #a2a2a2;
+`;
+
+export const ContentWrapper = styled.div`
+  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
 export const Content = styled.p`
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 export const ContentButtonBox = styled.div`

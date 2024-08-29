@@ -1,20 +1,44 @@
+import { useSelector } from "react-redux";
+
 import { HeartIcon } from "@/components/Icons/HeartIcon";
 import { OptionIcon } from "@/components/Icons/OptionIcon";
 
+import { CommentsType } from "@/types";
+import { calculateDaysAgo } from "@/utils";
+
+import { selectCurrentUser } from "@/store/slice/authSlice";
+
 import * as S from "./style";
 
-export function Comment() {
+interface Props {
+  data: CommentsType;
+}
+
+export function Comment({ data }: Props) {
+  const {
+    author: { kakaoId, name, profileImage },
+  } = data;
+
+  const signInUser = useSelector(selectCurrentUser);
+
+  const isLoginUser = () => {
+    return kakaoId === signInUser?.kakaoId;
+  };
+
   return (
     <S.Container>
       <S.Main>
-        <S.ProfileWrapper>
-          <S.ProfileImage src="https://whathelook.s3.ap-northeast-2.amazonaws.com/356e73e6-f70c-4ca3-a763-967974c5498e_1.png" />
-          <S.Name>기억</S.Name>
-        </S.ProfileWrapper>
+        <S.ProfileImage src={profileImage} />
         <S.ContentWrapper>
-          <S.Content>본문</S.Content>
+          <S.NameBox>
+            <S.Name>{name}</S.Name>
+            <S.Date title={data.date}>{calculateDaysAgo(data.date)}</S.Date>
+          </S.NameBox>
+          <S.Content>{data.text}</S.Content>
           <S.ContentButtonBox>
-            <S.ContentButton>대댓글 보기</S.ContentButton>
+            {data.children.length >= 1 && (
+              <S.ContentButton>{`대댓글 (${data.children.length}개)`}</S.ContentButton>
+            )}
             <S.ContentButton>댓글 달기</S.ContentButton>
           </S.ContentButtonBox>
         </S.ContentWrapper>
@@ -23,9 +47,11 @@ export function Comment() {
         <S.IconButton>
           <HeartIcon size={15} color="#000" />
         </S.IconButton>
-        <S.IconButton>
-          <OptionIcon size={15} color="#000" />
-        </S.IconButton>
+        {isLoginUser() && (
+          <S.IconButton>
+            <OptionIcon size={15} color="#000" />
+          </S.IconButton>
+        )}
       </S.IconWrapper>
     </S.Container>
   );
