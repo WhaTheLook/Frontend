@@ -144,7 +144,8 @@ export const API_PATH = {
     commentList: ({ postId, size, lastCommentId }: CommentListArgType) => {
         const baseUrl = `${API_URL}/post/${postId}/comment?size=${size}`;
         return lastCommentId ? `${baseUrl}&lastCommentId=${lastCommentId}` : baseUrl;
-    }
+    },
+    deleteComment: ({ commentId }: { commentId: number }) => `${API_URL}/post/${commentId}/delete`,
 }
 
 export const MAX_FETCH_SIZE_FLAT = 10;
@@ -162,7 +163,8 @@ export const TOAST_MESSAGE = {
     successDeletePost: () => "게시글을 삭제했어요.",
     failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요.",
     failUpdateUserInfo: () => "회원 정보를 수정하는데 실패했어요. 다시 시도해주세요.",
-    failCreateComment: () => "댓글을 작성하는데 실패했어요. 다시 시도해주세요."
+    failCreateComment: () => "댓글을 작성하는데 실패했어요. 다시 시도해주세요.",
+    failDeleteComment: () => "댓글을 삭제하는데 실패했어요. 다시 시도해주세요.",
 }
 
 export const FETCH_TIME = 10_000;

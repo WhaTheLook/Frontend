@@ -12,7 +12,7 @@ const initState: PostDetailInfoType = {
   },
   title: "",
   content: "",
-  category: "",
+  category: "질문하기",
   date: "",
   likeCount: 0,
   likeYN: false,

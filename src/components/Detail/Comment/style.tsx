@@ -71,14 +71,58 @@ export const IconWrapper = styled.div`
 
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 4px;
+
+  position: relative;
 `;
 
 export const IconButton = styled.button`
   background-color: transparent;
-  padding: 0;
+  padding: 5px;
+
+  display: flex;
 
   border: none;
+  border-radius: 50%;
 
   cursor: pointer;
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
+`;
+
+export const Menu = styled.div`
+  padding: 2px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+  position: absolute;
+  right: 120%;
+  top: 70%;
+`;
+
+export const MenuButton = styled.button`
+  background-color: #ffffff;
+  width: 100%;
+  padding: 6px 22px;
+
+  font-size: 12px;
+  white-space: nowrap;
+
+  border: none;
+  border-radius: 6px;
+
+  cursor: pointer;
+  user-select: none;
+
+  z-index: 99;
+  &:hover {
+    background-color: #f2f2f2;
+  }
 `;

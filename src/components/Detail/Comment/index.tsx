@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { HeartIcon } from "@/components/Icons/HeartIcon";
@@ -5,6 +6,13 @@ import { OptionIcon } from "@/components/Icons/OptionIcon";
 
 import { CommentsType } from "@/types";
 import { calculateDaysAgo } from "@/utils";
+import { API_PATH, TOAST_MESSAGE, toastType } from "@/constants";
+import { ICON_SIZE } from "@/constants/style";
+
+import { useAuthMutation } from "@/hooks/useAuthMutation";
+import { useToastContext } from "@/hooks/useToastContex";
+import { useDetailContext } from "@/hooks/useDetailContext";
+import { useMenuToggle } from "@/hooks/useMenuToggle";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
@@ -21,9 +29,48 @@ export function Comment({ data }: Props) {
 
   const signInUser = useSelector(selectCurrentUser);
 
+  const { deleteComment } = useDetailContext();
+  const { handleToastOpen } = useToastContext();
+  const { fetcher } = useAuthMutation({
+    url: API_PATH.deleteComment({ commentId: data.id }),
+    method: "DELETE",
+    hasReturnType: false,
+  });
+
+  const { menuVisible, handleToggle, menuRef, triggerRef } =
+    useMenuToggle<HTMLButtonElement>();
+
   const isLoginUser = () => {
     return kakaoId === signInUser?.kakaoId;
   };
+
+  const handleEdit = () => {
+    handleToggle();
+  };
+
+  const handleDelete = async () => {
+    try {
+      await fetcher();
+      deleteComment(data.id);
+    } catch {
+      handleToastOpen({
+        type: toastType.ERROR,
+        content: TOAST_MESSAGE.failDeleteComment(),
+      });
+    } finally {
+      handleToggle();
+    }
+  };
+
+  useEffect(() => {
+    const scrollView = document.getElementById("detail-scrollView");
+    if (!scrollView || !menuVisible) return;
+
+    scrollView.addEventListener("scroll", handleToggle);
+    return () => {
+      scrollView.removeEventListener("scroll", handleToggle);
+    };
+  }, [menuVisible, handleToggle]);
 
   return (
     <S.Container>
@@ -45,12 +92,18 @@ export function Comment({ data }: Props) {
       </S.Main>
       <S.IconWrapper>
         <S.IconButton>
-          <HeartIcon size={15} color="#000" />
+          <HeartIcon size={ICON_SIZE.TINY} color="#000" />
         </S.IconButton>
         {isLoginUser() && (
-          <S.IconButton>
-            <OptionIcon size={15} color="#000" />
+          <S.IconButton ref={triggerRef} onClick={handleToggle}>
+            <OptionIcon size={ICON_SIZE.TINY} color="#000" />
           </S.IconButton>
+        )}
+        {menuVisible && (
+          <S.Menu ref={menuRef}>
+            <S.MenuButton onClick={handleEdit}>수정</S.MenuButton>
+            <S.MenuButton onClick={handleDelete}>삭제</S.MenuButton>
+          </S.Menu>
         )}
       </S.IconWrapper>
     </S.Container>
