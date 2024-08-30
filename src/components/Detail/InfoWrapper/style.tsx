@@ -8,10 +8,13 @@ export const Date = styled.span`
 
 export const ContentBox = styled.div`
   width: 100%;
+  padding: 20px 15px;
 
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  box-sizing: border-box;
 `;
 
 export const Title = styled.h2`
@@ -41,34 +44,5 @@ export const Tag = styled.span`
   color: rgba(0, 0, 0, 0.5);
   white-space: nowrap;
 
-  cursor: pointer;
-`;
-
-export const SubInfoBox = styled.div`
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const IconBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 14px;
-`;
-
-export const Icons = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-`;
-
-export const IconInfoText = styled.span`
-  font-size: 14px;
-  user-select: none;
-`;
-
-export const IconDiv = styled.div`
   cursor: pointer;
 `;

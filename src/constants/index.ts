@@ -34,6 +34,12 @@ export enum UploadActionType {
     RESET = "RESET",
 }
 
+export enum DetailActionType {
+    SET_POST = "SET_POST",
+    ADD_COMMENTS = "ADD_COMMENTS",
+    DELETE_COMMENT = "DELETE_COMMENT",
+}
+
 export enum PathnameType {
     UPLOAD = "/upload",
     PROFILE = "/profile/edit",
@@ -91,6 +97,12 @@ interface SearchPostListArgType extends GetPostAPIArgType {
     searchQuery: string;
 }
 
+interface CommentListArgType {
+    postId: number;
+    size: number;
+    lastCommentId?: number;
+}
+
 export const API_PATH = {
     login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
@@ -119,6 +131,11 @@ export const API_PATH = {
     searchPosts: ({ searchQuery, lastPostId, size, sortBy }: SearchPostListArgType) => {
         const baseUrl = `${API_URL}/post/postList/${searchQuery}?size=${size}&sortBy=${sortBy}`;
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
+    },
+    createComment: () => `${API_URL}/post/comment/create`, 
+    commentList: ({ postId, size, lastCommentId }: CommentListArgType) => {
+        const baseUrl = `${API_URL}/post/${postId}/comment?size=${size}`;
+        return lastCommentId ? `${baseUrl}&lastCommentId=${lastCommentId}` : baseUrl;
     }
 }
 
@@ -135,7 +152,8 @@ export const TOAST_MESSAGE = {
     likeError: () => "게시글 좋아요에 실패했어요. 다시 시도해주세요.",
     createPostError: () => "게시글을 작성하는데 실패했어요. 다시 시도해주세요.",
     successDeletePost: () => "게시글을 삭제했어요.",
-    failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요."
+    failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요.",
+    failCreateComment: () => "댓글을 작성하는데 실패했어요. 다시 시도해주세요."
 }
 
 export const FETCH_TIME = 10_000;

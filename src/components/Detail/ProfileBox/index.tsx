@@ -1,22 +1,20 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { OptionButton } from "@/components/Icons/OptionIcon";
+import { OptionIcon } from "@/components/Icons/OptionIcon";
 
-import { UserInfoType } from "@/types";
 import { ICON_SIZE } from "@/constants/style";
 
 import { useModalContext } from "@/hooks/useModalContext";
+import { useDetailContext } from "@/hooks/useDetailContext";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
 import * as S from "./style";
 
-interface Props {
-  author: UserInfoType;
-}
-
-export function ProfileBox({ author }: Props) {
+export function ProfileBox() {
+  const { data } = useDetailContext();
+  const { author } = data;
   const navigate = useNavigate();
   const loginUser = useSelector(selectCurrentUser);
 
@@ -38,7 +36,7 @@ export function ProfileBox({ author }: Props) {
       </S.Profile>
       {isOwnLoginUser && (
         <S.OptionButton onClick={handleOpen}>
-          <OptionButton size={ICON_SIZE.SMALL} color="#000" />
+          <OptionIcon size={ICON_SIZE.SMALL} color="#000" />
         </S.OptionButton>
       )}
     </S.Container>
