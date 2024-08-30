@@ -10,7 +10,7 @@ export function MainWrapper() {
   return (
     <Fragment>
       <ProfileBox />
-      <S.Container>
+      <S.Container id="detail-scrollView">
         <InfoWrapper />
         <CommentsWrapper />
       </S.Container>

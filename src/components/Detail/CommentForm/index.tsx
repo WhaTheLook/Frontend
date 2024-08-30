@@ -37,6 +37,9 @@ export function CommentForm({ text, onChangeText }: Props) {
   const { handleToastOpen } = useToastContext();
   const { addComment } = useDetailContext();
 
+  const scrollView = document.getElementById("detail-scrollView");
+  const infoWrapper = document.getElementById("info-wrapper");
+
   const commentPayload = {
     postId: selectedPostId,
     userId: Number(loginUserInfo.kakaoId),
@@ -56,6 +59,10 @@ export function CommentForm({ text, onChangeText }: Props) {
       setIsLoading(true);
       const newComment = await fetcher();
 
+      scrollView?.scrollTo({
+        top: infoWrapper?.offsetHeight,
+        behavior: "instant",
+      });
       addComment(newComment!);
       onChangeText("");
     } catch (error) {
