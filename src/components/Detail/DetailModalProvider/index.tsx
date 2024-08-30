@@ -1,6 +1,8 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useCallback, useState } from "react";
 
 import { replaceHistory } from "@/utils";
+
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
 interface DetailModalContextProps {
   isDetailOpen: boolean;
@@ -21,15 +23,17 @@ interface Props {
 export function DetailModalProvider({ children }: Props) {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
+  useLockBodyScroll(isDetailOpen);
+
   const handleDetailOpen = (id: number, dest: string) => {
     setIsDetailOpen(true);
     replaceHistory({ modalPostId: id }, dest);
   };
 
-  const handleDetailClose = (dest: string) => {
+  const handleDetailClose = useCallback((dest: string) => {
     setIsDetailOpen(false);
     replaceHistory({}, dest);
-  };
+  }, []);
 
   return (
     <DetailModalContext.Provider

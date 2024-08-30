@@ -27,7 +27,7 @@ export function DetailModal({ children }: Props) {
     return () => {
       handleDetailClose("/");
     };
-  }, []);
+  }, [handleDetailClose]);
 
   return isDetailOpen
     ? createPortal(

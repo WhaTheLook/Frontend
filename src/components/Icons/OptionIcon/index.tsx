@@ -3,7 +3,7 @@ interface Props {
   size: number;
 }
 
-export function OptionButton({ color, size }: Props) {
+export function OptionIcon({ color, size }: Props) {
   return (
     <svg
       width={String(size)}

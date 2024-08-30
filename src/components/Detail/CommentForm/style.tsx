@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
-export const CommentBox = styled.div`
+export const Container = styled.div`
   width: 100%;
-  padding: 20px 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 export const Form = styled.form`
@@ -16,26 +14,20 @@ export const Form = styled.form`
 
 export const TextInput = styled.textarea`
   width: 100%;
-  padding: 8px;
 
   font-size: 14px;
   color: #000000;
+  font-family: sans-serif;
 
   resize: none;
 
   border: none;
   outline: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-
-  &:focus {
-    border-bottom: 1.5px solid #000000;
-  }
 `;
 
 export const SubmitButton = styled.button`
   background-color: #000000;
-  width: 50px;
-  height: 45px;
+  padding: 10px;
 
   display: flex;
   align-items: center;
@@ -45,4 +37,8 @@ export const SubmitButton = styled.button`
   border: none;
 
   cursor: pointer;
+
+  &:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 `;

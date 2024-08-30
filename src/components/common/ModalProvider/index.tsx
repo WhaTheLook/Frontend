@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useState } from "react";
 
 import { modalLocationType } from "@/constants";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
 interface ModalContextProps {
   isOpen: boolean;
@@ -24,6 +25,8 @@ export function ModalProvider({ children }: Props) {
   const [modalLocation, setModalLocation] = useState<modalLocationType | null>(
     null
   );
+
+  useLockBodyScroll(isOpen);
 
   function handleClose() {
     setIsOpen(false);

@@ -5,15 +5,16 @@ import { PrevArrowIcon } from "@/components/Icons/PrevArrowIcon";
 
 import { ICON_SIZE } from "@/constants/style";
 
+import { useDetailContext } from "@/hooks/useDetailContext";
+
 import * as S from "./style";
 
-interface Props {
-  images: string[];
-}
-
-export function ImageWrapper({ images }: Props) {
+export function ImageWrapper() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideRef = useRef<HTMLDivElement | null>(null);
+
+  const { data } = useDetailContext();
+  const { photoUrls: images } = data;
 
   const goNextImage = () => {
     const isLastSlide = currentIndex === images.length - 1;

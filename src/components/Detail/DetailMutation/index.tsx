@@ -14,21 +14,16 @@ import {
   TOAST_MESSAGE,
   toastType,
 } from "@/constants";
-import { PostDetailInfoType } from "@/types";
 
 import { useAuthMutation } from "@/hooks/useAuthMutation";
 import { useToastContext } from "@/hooks/useToastContex";
 import { useDetailModalContext } from "@/hooks/useDetailModalContext";
 import { useModalContext } from "@/hooks/useModalContext";
+import { useDetailContext } from "@/hooks/useDetailContext";
 
 import { setDeletePost } from "@/store/slice/myPageSlice";
 
-interface Props {
-  postId: number;
-  data: PostDetailInfoType;
-}
-
-export function DetailMutation({ postId, data }: Props) {
+export function DetailMutation() {
   const [modal, setModal] = useState<modalType | null>(null);
   const {
     state: { modalPostId },
@@ -38,11 +33,14 @@ export function DetailMutation({ postId, data }: Props) {
   const dispatch = useDispatch();
 
   const { modalLocation, handleClose } = useModalContext();
+  const { data } = useDetailContext();
+
   const { handleDetailClose } = useDetailModalContext();
   const { handleToastOpen } = useToastContext();
   const { fetcher } = useAuthMutation({
-    url: API_PATH.deletePost({ postId }),
+    url: API_PATH.deletePost({ postId: data.id }),
     method: "DELETE",
+    hasReturnType: false,
   });
 
   const isDetailMutationModalOpen = () => {
@@ -65,7 +63,7 @@ export function DetailMutation({ postId, data }: Props) {
       if (modalPostId) {
         handleDetailClose("/");
       }
-      dispatch(setDeletePost({ postId }));
+      dispatch(setDeletePost({ postId: data.id }));
       navigate("/profile");
     } catch {
       handleToastOpen({

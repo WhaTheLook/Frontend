@@ -7,9 +7,9 @@ import { ToastContainer } from "@/components/common/ToastContainer";
 import { UploadHeader } from "@/components/common/UploadHeader";
 
 import {
-  ActionType,
   PostDetailInfoType,
   postTypeType,
+  UploadAction,
   UploadDataType,
   UploadErrorKeys,
 } from "@/types";
@@ -37,7 +37,7 @@ const initState: UploadDataType = {
   tags: { data: [], validation: false },
 };
 
-function reducer(state: UploadDataType, action: ActionType): UploadDataType {
+function reducer(state: UploadDataType, action: UploadAction): UploadDataType {
   const { type, payload } = action;
 
   switch (type) {
@@ -105,6 +105,7 @@ export function UploadLayout() {
     method: "POST",
     body: getFormData(),
     isFormData: true,
+    hasReturnType: false,
   });
 
   const checkAndAddError = (

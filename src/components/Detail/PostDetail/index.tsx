@@ -1,16 +1,16 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { ImageWrapper } from "../ImageWrapper";
-import { InfoWrapper } from "../InfoWrapper";
-import { CommentWrapper } from "../CommentWrapper";
+import { DetailMain } from "../DetailMain";
 import { DetailMutation } from "../DetailMutation";
 
 import { API_PATH } from "@/constants";
 import { PostDetailInfoType } from "@/types";
 
 import { useAuthFetchSuspense } from "@/hooks/useAuthFetchSuspense";
+import { useDetailContext } from "@/hooks/useDetailContext";
 
 import {
   selectCurrentSignStatus,
@@ -29,6 +29,8 @@ export function PostDetail() {
   const isSignIn = useSelector(selectCurrentSignStatus);
   const userInfo = useSelector(selectCurrentUser);
 
+  const { setPostDetail } = useDetailContext();
+
   const { data, error } = useAuthFetchSuspense<PostDetailInfoType>({
     url: API_PATH.postDetailInfo({
       postId: selectedPostId,
@@ -41,19 +43,20 @@ export function PostDetail() {
     throw error;
   }
 
+  useEffect(() => {
+    if (data) {
+      setPostDetail(data);
+    }
+  }, [data, setPostDetail]);
+
   return (
     data && (
       <Fragment>
         <S.Container $isModal={Boolean(postId)}>
-          <ImageWrapper images={data.photoUrls} />
-          <S.InfoWrapper>
-            <S.PaddingFragment>
-              <InfoWrapper data={data} />
-              <CommentWrapper />
-            </S.PaddingFragment>
-          </S.InfoWrapper>
+          <ImageWrapper />
+          <DetailMain />
         </S.Container>
-        <DetailMutation postId={data.id} data={data} />
+        <DetailMutation />
       </Fragment>
     )
   );
