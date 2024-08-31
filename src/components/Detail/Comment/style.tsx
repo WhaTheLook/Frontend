@@ -9,6 +9,8 @@ export const Container = styled.li`
 `;
 
 export const Main = styled.div`
+  width: 100%;
+
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -39,6 +41,8 @@ export const Date = styled.span`
 
 export const ContentWrapper = styled.div`
   padding-top: 4px;
+  width: 100%;
+
   display: flex;
   flex-direction: column;
   gap: 8px;

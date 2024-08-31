@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { HeartIcon } from "@/components/Icons/HeartIcon";
+import { CommentEditForm } from "@/components/Detail/CommentEditForm";
 import { OptionIcon } from "@/components/Icons/OptionIcon";
 
 import { CommentsType } from "@/types";
@@ -26,7 +26,7 @@ export function Comment({ data }: Props) {
   const {
     author: { kakaoId, name, profileImage },
   } = data;
-
+  const [isEdit, setIsEdit] = useState(false);
   const signInUser = useSelector(selectCurrentUser);
 
   const { deleteComment } = useDetailContext();
@@ -44,7 +44,12 @@ export function Comment({ data }: Props) {
     return kakaoId === signInUser?.kakaoId;
   };
 
+  const handleCloseEdit = () => {
+    setIsEdit(false);
+  };
+
   const handleEdit = () => {
+    setIsEdit(true);
     handleToggle();
   };
 
@@ -52,6 +57,10 @@ export function Comment({ data }: Props) {
     try {
       await fetcher();
       deleteComment(data.id);
+      handleToastOpen({
+        type: toastType.SUCCESS,
+        content: TOAST_MESSAGE.successDeleteComment(),
+      });
     } catch {
       handleToastOpen({
         type: toastType.ERROR,
@@ -81,7 +90,11 @@ export function Comment({ data }: Props) {
             <S.Name>{name}</S.Name>
             <S.Date title={data.date}>{calculateDaysAgo(data.date)}</S.Date>
           </S.NameBox>
-          <S.Content>{data.text}</S.Content>
+          {!isEdit ? (
+            <S.Content>{data.text}</S.Content>
+          ) : (
+            <CommentEditForm data={data} handleCloseEdit={handleCloseEdit} />
+          )}
           <S.ContentButtonBox>
             {data.children.length >= 1 && (
               <S.ContentButton>{`대댓글 (${data.children.length}개)`}</S.ContentButton>
@@ -91,9 +104,6 @@ export function Comment({ data }: Props) {
         </S.ContentWrapper>
       </S.Main>
       <S.IconWrapper>
-        <S.IconButton>
-          <HeartIcon size={ICON_SIZE.TINY} color="#000" />
-        </S.IconButton>
         {isLoginUser() && (
           <S.IconButton ref={triggerRef} onClick={handleToggle}>
             <OptionIcon size={ICON_SIZE.TINY} color="#000" />

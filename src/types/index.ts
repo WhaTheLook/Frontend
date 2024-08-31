@@ -84,6 +84,10 @@ export type DetailAction =
       type: DetailActionType.DELETE_COMMENT;
       payload: CommentsType["id"];
     }
+  | {
+      type: DetailActionType.UPDATE_COMMENT;
+      payload: { commentId: CommentsType["id"], newText: CommentsType["text"] };
+    }
 
 export interface UploadLayoutContextProps {
     data: UploadDataType;

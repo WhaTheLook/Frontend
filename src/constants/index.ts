@@ -45,6 +45,7 @@ export enum DetailActionType {
     SET_POST = "SET_POST",
     ADD_COMMENTS = "ADD_COMMENTS",
     DELETE_COMMENT = "DELETE_COMMENT",
+    UPDATE_COMMENT = "UPDATE_COMMENT",
 }
 
 export enum PathnameType {
@@ -146,6 +147,7 @@ export const API_PATH = {
         return lastCommentId ? `${baseUrl}&lastCommentId=${lastCommentId}` : baseUrl;
     },
     deleteComment: ({ commentId }: { commentId: number }) => `${API_URL}/post/${commentId}/delete`,
+    updateComment: ({ commentId }: { commentId: number }) => `${API_URL}/post/${commentId}/update`,
 }
 
 export const MAX_FETCH_SIZE_FLAT = 10;
@@ -165,6 +167,9 @@ export const TOAST_MESSAGE = {
     failUpdateUserInfo: () => "회원 정보를 수정하는데 실패했어요. 다시 시도해주세요.",
     failCreateComment: () => "댓글을 작성하는데 실패했어요. 다시 시도해주세요.",
     failDeleteComment: () => "댓글을 삭제하는데 실패했어요. 다시 시도해주세요.",
+    successDeleteComment: () => "댓글을 삭제했어요.",
+    failUpdateComment: () => "댓글을 수정하는데 실패했어요. 다시 시도해주세요.",
+    successUpdateComment: () => "댓글을 수정했어요."
 }
 
 export const FETCH_TIME = 10_000;
