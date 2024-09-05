@@ -19,6 +19,14 @@ export interface UploadDataValidationType<T> {
   validation: boolean;
 }
 
+export interface EditDataType {
+    postType: postTypeType;
+    images: ImageUploadType[];
+    title: string;
+    description: string;
+    tags: string[];
+}
+
 export interface UploadDataType {
     postType: UploadDataValidationType<postTypeType | null>;
     images: UploadDataValidationType<ImageUploadType[]>;
@@ -58,6 +66,10 @@ export type UploadAction =
       type: UploadActionType.RESET;
       payload: null;
     }
+  | {
+      type: UploadActionType.EDIT;
+      payload: EditDataType;
+    }
 
 export type DetailAction = 
   | {
@@ -71,6 +83,10 @@ export type DetailAction =
   | {
       type: DetailActionType.DELETE_COMMENT;
       payload: CommentsType["id"];
+    }
+  | {
+      type: DetailActionType.UPDATE_COMMENT;
+      payload: { commentId: CommentsType["id"], newText: CommentsType["text"] };
     }
 
 export interface UploadLayoutContextProps {
@@ -111,7 +127,8 @@ export interface PostListContentType {
     author: UserInfoType;
     title: string;
     content: string;
-    category: string;
+    category: postTypeType;
+    commentCount: number;
     date: string;
     likeCount: number;
     likeYN: boolean;

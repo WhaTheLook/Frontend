@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { API_PATH } from "@/constants";
+import { UserInfoType } from "@/types";
 import { setLocalStorageItem } from "@/utils";
 
 import { setCredential } from "@/store/slice/authSlice";
@@ -19,45 +20,41 @@ export function KakaoLoginRedirect() {
       const authorizeCode = params.get("code");
       if (!authorizeCode) return;
 
-      const response = await fetch(API_PATH.login(), {
+      const loginResponse = await fetch(API_PATH.login(), {
         method: "POST",
         headers: {
           Accept: "*/*",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          code: authorizeCode,
-        }),
+        body: JSON.stringify({ code: authorizeCode }),
       });
 
-      if (!response.ok) {
+      if (!loginResponse.ok) {
         throw new Error("로그인 에러");
       }
 
-      const { accessToken, refreshToken } = await response.json();
+      const { accessToken, refreshToken } = await loginResponse.json();
 
-      const response2 = await fetch(API_PATH.userInfo(), {
+      const userInfoResponse = await fetch(API_PATH.userInfo(), {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      if (!response2.ok) {
+      if (!userInfoResponse.ok) {
         throw new Error("회원정보 불러올수 없음.");
       }
 
-      const { kakaoId, name, profileImage } = await response2.json();
+      const { kakaoId, name, profileImage } = await userInfoResponse.json();
 
-      dispatch(
-        setCredential({
-          user: {
-            name,
-            kakaoId,
-            profileImage,
-          },
-        })
-      );
+      const signInUserInfo: UserInfoType = {
+        name,
+        kakaoId,
+        profileImage,
+      };
+
+      dispatch(setCredential({ user: signInUserInfo }));
 
       setLocalStorageItem("refreshToken", refreshToken);
       setLocalStorageItem("accessToken", accessToken);

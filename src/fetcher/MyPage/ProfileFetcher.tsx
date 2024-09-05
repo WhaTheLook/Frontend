@@ -17,6 +17,7 @@ export function ProfileFetcher({ children }: Props) {
 
   const { data, error } = useAuthFetchSuspense<UserInfoFetchType>({
     url: API_PATH.userInfo(),
+    shouldTokenCheck: true,
   });
 
   if (error) {

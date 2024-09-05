@@ -1,13 +1,21 @@
 import { Fragment, useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import { ToastContainer } from "@/components/common/ToastContainer";
 import { UploadHeader } from "@/components/common/UploadHeader";
 
-import { UploadAction, UploadDataType, UploadErrorKeys } from "@/types";
+import {
+  PostDetailInfoType,
+  postTypeType,
+  UploadAction,
+  UploadDataType,
+  UploadErrorKeys,
+} from "@/types";
 import {
   API_PATH,
+  PathnameType,
   TOAST_MESSAGE,
   toastType,
   UploadActionType,
@@ -19,6 +27,7 @@ import { useAuthMutation } from "@/hooks/useAuthMutation";
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
 import * as S from "./style";
+import { urlToFile } from "@/utils";
 
 const initState: UploadDataType = {
   postType: { data: null, validation: false },
@@ -64,6 +73,16 @@ function reducer(state: UploadDataType, action: UploadAction): UploadDataType {
     }
     case "RESET":
       return JSON.parse(JSON.stringify(initState));
+    case "EDIT": {
+      return {
+        ...state,
+        postType: { data: payload.postType, validation: false },
+        images: { data: payload.images, validation: false },
+        title: { data: payload.title, validation: false },
+        description: { data: payload.description, validation: false },
+        tags: { data: payload.tags, validation: false },
+      };
+    }
     default:
       return state;
   }
@@ -71,6 +90,9 @@ function reducer(state: UploadDataType, action: UploadAction): UploadDataType {
 
 export function UploadLayout() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname } = location;
+  const postEditData = location.state as PostDetailInfoType | null;
 
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector(selectCurrentUser);
@@ -161,8 +183,38 @@ export function UploadLayout() {
   };
 
   useEffect(() => {
-    dispatch({ type: UploadActionType.RESET, payload: null });
-  }, []);
+    async function getImagesFormat(photoUrls: string[]) {
+      const imageFilesPromises = photoUrls.map((url, index) =>
+        urlToFile(url, String(index))
+      );
+      const imagesFiles = await Promise.all(imageFilesPromises).then(
+        (values) => values
+      );
+
+      return imagesFiles.map((file) => {
+        return { id: uuidv4(), file };
+      });
+    }
+
+    async function processEditData() {
+      if (pathname === PathnameType.UPLOAD) {
+        dispatch({ type: UploadActionType.RESET, payload: null });
+      } else if (pathname === PathnameType.POST_EDIT && postEditData) {
+        const images = await getImagesFormat(postEditData.photoUrls);
+        const editData = {
+          postType: postEditData.category as postTypeType,
+          images,
+          title: postEditData.title,
+          description: postEditData.content,
+          tags: postEditData.hashtags,
+        };
+
+        dispatch({ type: UploadActionType.EDIT, payload: editData });
+      }
+    }
+
+    processEditData();
+  }, [pathname, postEditData]);
 
   return (
     <Fragment>

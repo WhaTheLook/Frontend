@@ -25,10 +25,18 @@ export const ProfileImageDiv = styled.div``;
 
 export const OptionButton = styled.button`
   background-color: transparent;
+  padding: 5px;
+
+  display: flex;
 
   border: none;
+  border-radius: 50%;
 
   cursor: pointer;
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
 `;
 
 export const ProfileImage = styled.img`

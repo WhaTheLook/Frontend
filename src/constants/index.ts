@@ -7,6 +7,12 @@ export enum modalType {
     DELETE_ACCOUNT = "DELETE_ACCOUNT",
 }
 
+export enum modalLocationType {
+    HEAHDER = "HEADER",
+    DETAIL = "DETAIL",
+    PROFILE_EDIT = "PROFILE_EDIT",
+}
+
 export enum toastType {
     SUCCESS = "SUCCESS",
     ERROR = "ERROR", 
@@ -32,17 +38,20 @@ export enum UploadActionType {
     IMAGES = "IMAGES",
     VALIDATE = "VALIDATE",
     RESET = "RESET",
+    EDIT = "EDIT",
 }
 
 export enum DetailActionType {
     SET_POST = "SET_POST",
     ADD_COMMENTS = "ADD_COMMENTS",
     DELETE_COMMENT = "DELETE_COMMENT",
+    UPDATE_COMMENT = "UPDATE_COMMENT",
 }
 
 export enum PathnameType {
     UPLOAD = "/upload",
     PROFILE = "/profile/edit",
+    POST_EDIT = "/post/edit",
 }
 
 export const HOME_MENU_LIST = [
@@ -122,7 +131,7 @@ export const API_PATH = {
         const baseUrl = `${API_URL}/user/${userId}/post?size=${size}&sortBy=${sortBy}`;
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
     },
-    updateUser: () => `${API_URL}/user/update`,
+    updateUserInfo: () => `${API_URL}/user/update`,
     deletePost: ({ postId }: { postId: number }) => `${API_URL}/post/delete/${postId}`,
     bookmarkList: ({ userId, lastPostId, size, sortBy }: UserPostListArgType) => {
         const baseUrl = `${API_URL}/user/${userId}/likePost?size=${size}&sortBy=${sortBy}`;
@@ -136,7 +145,9 @@ export const API_PATH = {
     commentList: ({ postId, size, lastCommentId }: CommentListArgType) => {
         const baseUrl = `${API_URL}/post/${postId}/comment?size=${size}`;
         return lastCommentId ? `${baseUrl}&lastCommentId=${lastCommentId}` : baseUrl;
-    }
+    },
+    deleteComment: ({ commentId }: { commentId: number }) => `${API_URL}/post/${commentId}/delete`,
+    updateComment: ({ commentId }: { commentId: number }) => `${API_URL}/post/${commentId}/update`,
 }
 
 export const MAX_FETCH_SIZE_FLAT = 10;
@@ -153,7 +164,12 @@ export const TOAST_MESSAGE = {
     createPostError: () => "게시글을 작성하는데 실패했어요. 다시 시도해주세요.",
     successDeletePost: () => "게시글을 삭제했어요.",
     failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요.",
-    failCreateComment: () => "댓글을 작성하는데 실패했어요. 다시 시도해주세요."
+    failUpdateUserInfo: () => "회원 정보를 수정하는데 실패했어요. 다시 시도해주세요.",
+    failCreateComment: () => "댓글을 작성하는데 실패했어요. 다시 시도해주세요.",
+    failDeleteComment: () => "댓글을 삭제하는데 실패했어요. 다시 시도해주세요.",
+    successDeleteComment: () => "댓글을 삭제했어요.",
+    failUpdateComment: () => "댓글을 수정하는데 실패했어요. 다시 시도해주세요.",
+    successUpdateComment: () => "댓글을 수정했어요."
 }
 
 export const FETCH_TIME = 10_000;

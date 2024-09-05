@@ -2,7 +2,6 @@ import {
   ChangeEvent,
   forwardRef,
   HTMLProps,
-  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -13,11 +12,12 @@ import { UseFormSetValue } from "react-hook-form";
 import UserIcon from "@/assets/imgs/user-icon.png";
 import { PlusIcon } from "@/components/Icons/PlusIcon";
 
-import { useConvertImgToFile } from "@/hooks/useConvertImgToFile";
-
 import { getImageURL } from "@/utils";
 import { ProfileFormValues } from "@/types";
 import { ICON_SIZE } from "@/constants/style";
+
+import { useConvertImgToFile } from "@/hooks/useConvertImgToFile";
+import { useMenuToggle } from "@/hooks/useMenuToggle";
 
 import * as S from "./style";
 
@@ -29,11 +29,11 @@ interface Props extends HTMLProps<HTMLInputElement> {
 export const ImageInput = forwardRef<HTMLInputElement, Props>(
   ({ profileImage, setValue, ...rest }, ref) => {
     const [imageFile, setImageFile] = useState(profileImage);
-    const [menuVisible, setMenuVisible] = useState(false);
 
-    const uploadBoxRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const menuRef = useRef<HTMLDivElement | null>(null);
+
+    const { menuVisible, handleToggle, menuRef, triggerRef, hideMenu } =
+      useMenuToggle<HTMLDivElement>();
 
     const defaultProfileImgFile = useConvertImgToFile(
       UserIcon,
@@ -44,12 +44,10 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
       "initProfile.png"
     );
 
-    const handleToggle = () => setMenuVisible(!menuVisible);
-
     const handleImageUpdate = (imageFile: File) => {
       setImageFile(getImageURL(imageFile));
       setValue("profileImage", imageFile);
-      setMenuVisible(false);
+      hideMenu();
     };
 
     const handleUploadImage = ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -72,27 +70,7 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
       handleToggle();
     };
 
-    const isClickOutside = (target: EventTarget | null) => {
-      return (
-        !menuRef.current?.contains(target as Node) &&
-        !uploadBoxRef.current?.contains(target as Node)
-      );
-    };
-
-    const handleClickOutside = useCallback(({ target }: MouseEvent) => {
-      if (isClickOutside(target)) {
-        setMenuVisible(false);
-      }
-    }, []);
-
     useImperativeHandle(ref, () => inputRef.current!);
-
-    useEffect(() => {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [handleClickOutside]);
 
     useEffect(() => {
       setValue("profileImage", initProfileImgFile!);
@@ -102,7 +80,7 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
       <S.Container>
         <S.UploadInput ref={inputRef} {...rest} onChange={handleUploadImage} />
         <S.UploadBox
-          ref={uploadBoxRef}
+          ref={triggerRef}
           $previewImage={imageFile}
           onClick={handleToggle}
         >

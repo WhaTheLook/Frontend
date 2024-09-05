@@ -77,6 +77,20 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    path: "post/edit",
+    element: (
+      <AuthBoundary>
+        <UploadLayout />
+      </AuthBoundary>
+    ),
+    children: [
+      {
+        path: "",
+        element: <Upload />,
+      },
+    ],
+  },
+  {
     path: "profile/edit",
     element: (
       <AuthBoundary>

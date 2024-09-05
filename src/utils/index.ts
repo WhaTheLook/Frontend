@@ -47,3 +47,9 @@ export function calculateDaysAgo(inputDate: string) {
 
   return "방금 전";
 }
+
+export async function urlToFile(url: string, filename: string) {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new File([blob], filename, { type: "image/png" });
+}

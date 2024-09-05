@@ -1,32 +1,64 @@
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { ImageInput } from "@/components/ProfileEdit/ImageInput";
 import { UploadHeader } from "@/components/common/UploadHeader";
 import { InputLabel } from "@/components/ProfileEdit/InputLabel";
 import { ModalPortal } from "@/components/common/ModalPortal";
 import { PopupModal } from "@/components/common/PopupModal";
+import { ToastContainer } from "@/components/common/ToastContainer";
 
 import { ProfileFormValues, UserInfoType } from "@/types";
-import { MAX_LENGTH_USER_NAME, modalType } from "@/constants";
+import {
+  API_PATH,
+  MAX_LENGTH_USER_NAME,
+  modalLocationType,
+  modalType,
+  TOAST_MESSAGE,
+  toastType,
+} from "@/constants";
 
 import { useModalContext } from "@/hooks/useModalContext";
+import { useAuthMutation } from "@/hooks/useAuthMutation";
+import { useToastContext } from "@/hooks/useToastContex";
 
-import { selectCurrentUser } from "@/store/slice/authSlice";
+import { selectCurrentUser, updateAuthInfo } from "@/store/slice/authSlice";
 
 import * as S from "./style";
 
 export function ProfileEdit() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const inputSubmitRef = useRef<HTMLInputElement | null>(null);
   const userInfo = useSelector(selectCurrentUser) as UserInfoType;
 
-  const { register, handleSubmit, setValue, control } =
+  const { register, handleSubmit, setValue, control, watch } =
     useForm<ProfileFormValues>();
-  const inputSubmitRef = useRef<HTMLInputElement | null>(null);
+  const [newName, newProfileImage] = [
+    watch("profileName"),
+    watch("profileImage"),
+  ];
 
-  const { handleOpen } = useModalContext();
+  const { handleOpen, modalLocation } = useModalContext();
+  const { handleToastOpen } = useToastContext();
+  const { fetcher } = useAuthMutation({
+    url: API_PATH.updateUserInfo(),
+    method: "PUT",
+    body: getFormData(newName, newProfileImage),
+    isFormData: true,
+    hasReturnType: false
+  });
+
+  const isProfileEditModalOpen = () => {
+    return modalLocation === modalLocationType.PROFILE_EDIT;
+  };
+
   const handleAccountDelete = () => {
-    handleOpen();
+    handleOpen(modalLocationType.PROFILE_EDIT);
   };
 
   const handleHeaderBtnClick = () => {
@@ -35,8 +67,50 @@ export function ProfileEdit() {
     }
   };
 
-  const onSubmit: SubmitHandler<ProfileFormValues> = (data) => {
-    // Todo: POST 요청
+  function getFormData(name: string, image: File) {
+    const formData = new FormData();
+    const userRequestData = new Blob(
+      [
+        JSON.stringify({
+          kakaoId: userInfo.kakaoId,
+          name,
+        }),
+      ],
+      { type: "application/json" }
+    );
+    formData.append("userRequest", userRequestData);
+    formData.append("profileImage", image);
+
+    return formData;
+  }
+
+  const showErrorToast = (message: string) => {
+    handleToastOpen({
+      type: toastType.ERROR,
+      content: message,
+    });
+  };
+
+  const onSubmit: SubmitHandler<ProfileFormValues> = async () => {
+    try {
+      setIsLoading(true);
+      await fetcher();
+
+      const updatedUserInfo: UserInfoType = {
+        name: newName,
+        kakaoId: userInfo.kakaoId,
+        profileImage: URL.createObjectURL(newProfileImage),
+      };
+
+      dispatch(updateAuthInfo({ user: updatedUserInfo }));
+
+      // TO DO: 기존이미지 파일 변환 과정에서 CORS에러 발생
+      navigate("/profile");
+    } catch (error) {
+      showErrorToast(TOAST_MESSAGE.failUpdateUserInfo());
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -50,7 +124,7 @@ export function ProfileEdit() {
       <S.Container>
         <UploadHeader
           onSubmitBtnClick={handleHeaderBtnClick}
-          disabled={false}
+          disabled={isLoading}
         />
         <S.Wrapper>
           <S.Box>
@@ -84,9 +158,12 @@ export function ProfileEdit() {
           </S.Box>
         </S.Wrapper>
       </S.Container>
-      <ModalPortal>
-        <PopupModal type={modalType.DELETE_ACCOUNT} />
-      </ModalPortal>
+      {isProfileEditModalOpen() && (
+        <ModalPortal>
+          <PopupModal type={modalType.DELETE_ACCOUNT} />
+        </ModalPortal>
+      )}
+      <ToastContainer />
     </Fragment>
   );
 }

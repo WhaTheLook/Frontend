@@ -12,7 +12,8 @@ const initState: PostDetailInfoType = {
   },
   title: "",
   content: "",
-  category: "",
+  category: "질문하기",
+  commentCount: 0,
   date: "",
   likeCount: 0,
   likeYN: false,
@@ -22,11 +23,17 @@ const initState: PostDetailInfoType = {
   comments: [],
 };
 
+interface UpdateCommentType {
+  commentId: CommentsType["id"];
+  newText: CommentsType["text"];
+}
+
 interface DetailContextProps {
   data: PostDetailInfoType;
   setPostDetail: (newData: PostDetailInfoType) => void;
   addComment: (newComment: CommentsType) => void;
   deleteComment: (commentId: CommentsType["id"]) => void;
+  updateComment: ({ commentId, newText }: UpdateCommentType) => void;
 }
 
 export const DetailContext = createContext<DetailContextProps>({
@@ -34,6 +41,7 @@ export const DetailContext = createContext<DetailContextProps>({
   setPostDetail: () => {},
   addComment: () => {},
   deleteComment: () => {},
+  updateComment: () => {},
 });
 
 function reducer(
@@ -57,6 +65,17 @@ function reducer(
       return {
         ...state,
         comments: [...filteredComments],
+      };
+    }
+    case DetailActionType.UPDATE_COMMENT: {
+      const { commentId, newText } = payload;
+      const copyedComments = [...state.comments].map((comment) =>
+        comment.id === commentId ? { ...comment, text: newText } : comment
+      );
+
+      return {
+        ...state,
+        comments: [...copyedComments],
       };
     }
     default:
@@ -83,9 +102,16 @@ export function DetailProvider({ children }: Props) {
     dispatch({ type: DetailActionType.DELETE_COMMENT, payload: commentId });
   };
 
+  const updateComment = ({ commentId, newText }: UpdateCommentType) => {
+    dispatch({
+      type: DetailActionType.UPDATE_COMMENT,
+      payload: { commentId, newText },
+    });
+  };
+
   return (
     <DetailContext.Provider
-      value={{ data, setPostDetail, addComment, deleteComment }}
+      value={{ data, setPostDetail, addComment, deleteComment, updateComment }}
     >
       {children}
     </DetailContext.Provider>
