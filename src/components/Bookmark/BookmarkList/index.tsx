@@ -1,4 +1,4 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { GridListSkeleton } from "@/components/common/GridListSkeleton";
@@ -11,52 +11,67 @@ import {
   MAX_FETCH_SIZE_GRID,
   sortOption,
 } from "@/constants";
-import { PostListContentType, UserInfoType } from "@/types";
+import { UserInfoType } from "@/types";
 
-import { useAuthInfiniteFetch } from "@/hooks/useAuthInfiniteFetch";
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
+import { useAuthInfiniteFetchQuery } from "@/hooks/query/useAuthInfiniteFetchQuery";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
 export function BookmarkList() {
   const user = useSelector(selectCurrentUser) as UserInfoType;
 
-  const lastPostIdRef = useRef<number | null>(null);
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
-  const { data, isLoading, error } = useAuthInfiniteFetch<PostListContentType>({
-    url: API_PATH.bookmarkList({
-      userId: user.kakaoId,
-      sortBy: sortOption.LATEST,
-      size: MAX_FETCH_SIZE_GRID,
-      lastPostId: lastPostIdRef.current || undefined,
-    }),
-    lastPostId: lastPostIdRef,
-    intersecting,
+  const {
+    result,
+    isLoading,
+    isError,
+    fetchNextPage,
+    error,
+    isFetchingNextPage,
+  } = useAuthInfiniteFetchQuery({
+    rowsPerPage: MAX_FETCH_SIZE_GRID,
+    queryKey: ["bookmark"],
+    getUrl: (page) =>
+      API_PATH.bookmarkList({
+        userId: user.kakaoId,
+        sortBy: sortOption.LATEST,
+        size: MAX_FETCH_SIZE_GRID,
+        lastPostId: page,
+      }),
   });
 
-  if (error) {
+  if (isError) {
     throw error;
   }
 
+  useEffect(() => {
+    if (intersecting) {
+      fetchNextPage();
+    }
+  }, [intersecting, fetchNextPage]);
+
   return (
     <Fragment>
-      {!data && isLoading && (
+      {!result && isLoading && (
         <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
       )}
-      {data && data.length >= 0 && (
+      {result && (
         <Fragment>
-          {data &&
-            (data.length === 0 ? (
-              <NothingInfo contentType="home" />
-            ) : (
-              <GridList data={data} />
-            ))}
-          {isLoading && <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />}
+          {result.length === 0 ? (
+            <NothingInfo contentType="bookmark" />
+          ) : (
+            <GridList data={result} />
+          )}
         </Fragment>
       )}
-      <div ref={fetchMoreElement}></div>
+      {isFetchingNextPage ? (
+        <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
+      ) : (
+        <div ref={fetchMoreElement}></div>
+      )}
     </Fragment>
   );
 }
