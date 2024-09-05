@@ -50,6 +50,7 @@ export function ProfileEdit() {
     method: "PUT",
     body: getFormData(newName, newProfileImage),
     isFormData: true,
+    hasReturnType: false
   });
 
   const isProfileEditModalOpen = () => {

@@ -34,7 +34,7 @@ export function CommentEditForm({ data, handleCloseEdit }: Props) {
   });
 
   const isDisabled = () => {
-    return isLoading || inputText === data.text;
+    return isLoading || inputText === data.text || inputText === "";
   };
 
   const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {

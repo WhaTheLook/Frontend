@@ -128,6 +128,7 @@ export interface PostListContentType {
     title: string;
     content: string;
     category: postTypeType;
+    commentCount: number;
     date: string;
     likeCount: number;
     likeYN: boolean;
