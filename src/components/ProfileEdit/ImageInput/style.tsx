@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const Container = styled.div`
   position: relative;
@@ -8,26 +8,22 @@ export const UploadInput = styled.input`
   display: none;
 `;
 
-interface UploadBox {
-  $previewImage: string;
-}
+export const UploadBox = styled.div`
+  width: 120px;
+  height: 120px;
 
-export const UploadBox = styled.div<UploadBox>`
-  ${({ $previewImage }) => {
-    return css`
-      background: url(${$previewImage});
-      background-size: cover;
-      background-position: center;
-      width: 120px;
-      height: 120px;
+  border-radius: 50%;
 
-      border-radius: 50%;
+  position: relative;
 
-      position: relative;
+  cursor: pointer;
+`;
 
-      cursor: pointer;
-    `;
-  }}
+export const ProfileImage = styled.img`
+  width: 120px;
+  height: 120px;
+
+  border-radius: 50%;
 `;
 
 export const Icon = styled.div`

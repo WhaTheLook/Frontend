@@ -40,7 +40,7 @@ export function ProfileEdit() {
     useForm<ProfileFormValues>();
   const [newName, newProfileImage] = [
     watch("profileName"),
-    watch("profileImage"),
+    watch("profileImageFile"),
   ];
 
   const { handleOpen, modalLocation } = useModalContext();
@@ -50,7 +50,7 @@ export function ProfileEdit() {
     method: "PUT",
     body: getFormData(newName, newProfileImage),
     isFormData: true,
-    hasReturnType: false
+    hasReturnType: false,
   });
 
   const isProfileEditModalOpen = () => {
@@ -131,11 +131,11 @@ export function ProfileEdit() {
             <S.Main>
               <S.Form onSubmit={handleSubmit(onSubmit)}>
                 <ImageInput
-                  profileImage={userInfo.profileImage}
+                  profileImageURL={userInfo.profileImage}
                   type="file"
                   accept="image/*"
                   setValue={setValue}
-                  {...register("profileImage")}
+                  {...register("profileImageFile")}
                 />
                 <InputLabel
                   label="이름"
