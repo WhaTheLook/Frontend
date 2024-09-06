@@ -152,8 +152,6 @@ export interface UserInfoFetchType {
 }
 
 export interface PostListFetchType {
-  totalPages: number;
-  totalElements: number;
   size: number;
   content: PostListContentType[];
   number: number;
@@ -177,7 +175,7 @@ export interface PostListFetchType {
   };
   first: true;
   last: true;
-  empty: true
+  empty: true;
 }
 
 export type ProtectedPathname =
@@ -186,3 +184,8 @@ export type ProtectedPathname =
   | "profile"
   | "tokenExpired"
   | "login";
+
+export interface SearchListFetchType {
+  posts: PostListFetchType;
+  total: number;
+}

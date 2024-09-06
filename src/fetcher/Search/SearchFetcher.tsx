@@ -1,13 +1,17 @@
 import { Fragment, ReactNode, useEffect, useRef } from "react";
 
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+import { GridListSkeleton } from "@/components/common/GridListSkeleton";
 
-import { API_PATH, MAX_FETCH_SIZE_GRID, sortOption } from "@/constants";
-import { PostListContentType } from "@/types";
+import {
+  API_PATH,
+  GRIDITEM_SKELETON_COUNT,
+  MAX_FETCH_SIZE_GRID,
+  sortOption,
+} from "@/constants";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useSearchContext } from "@/hooks/useSearchContext";
-import { useInfiniteFetchWithQuery } from "@/hooks/useInfiniteFetchWithQuery";
+import { useInfiniteSearchFetchQuery } from "@/hooks/query/useInfiniteSearchFetchQuery";
 
 interface Props {
   children: ReactNode;
@@ -16,47 +20,55 @@ interface Props {
 export function SearchFetcher({ children }: Props) {
   const { handleSetData, query } = useSearchContext();
 
-  const lastPostIdRef = useRef<number | null>(null);
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
-  const { data, isLoading, error } =
-    useInfiniteFetchWithQuery<PostListContentType>({
-      url: API_PATH.searchPosts({
+  const {
+    result,
+    isLoading,
+    isError,
+    fetchNextPage,
+    error,
+    isFetchingNextPage,
+  } = useInfiniteSearchFetchQuery({
+    rowsPerPage: MAX_FETCH_SIZE_GRID,
+    queryKey: ["search", query],
+    getUrl: (page) =>
+      API_PATH.searchPosts({
         searchQuery: query,
         sortBy: sortOption.LATEST,
         size: MAX_FETCH_SIZE_GRID,
-        lastPostId: lastPostIdRef.current || undefined,
+        lastPostId: page,
       }),
-      lastPostId: lastPostIdRef,
-      intersecting,
-      query,
-    });
+  });
 
-  if (error) {
+  if (isError) {
     throw error;
   }
 
-  useEffect(() => {
-    handleSetData(null);
-  }, [handleSetData]);
+  const { posts, totalCount } = result;
 
   useEffect(() => {
-    if (data) {
-      handleSetData(data);
+    handleSetData(posts, totalCount);
+  }, [posts, totalCount, handleSetData]);
+
+  useEffect(() => {
+    if (intersecting) {
+      fetchNextPage();
     }
-  }, [data, handleSetData]);
+  }, [intersecting, fetchNextPage]);
 
   return (
     <Fragment>
-      {!data && isLoading && <LoadingSpinner color="#B2B2B2" />}
-      {data && data.length >= 0 && (
-        <Fragment>
-          {children}
-          {isLoading && <LoadingSpinner color="#B2B2B2" />}
-        </Fragment>
+      {!posts && isLoading && (
+        <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
       )}
-      <div ref={fetchMoreElement}></div>
+      {posts && children}
+      {isFetchingNextPage ? (
+        <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
+      ) : (
+        <div ref={fetchMoreElement}></div>
+      )}
     </Fragment>
   );
 }

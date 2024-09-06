@@ -12,11 +12,12 @@ interface Props {
 export function useInfiniteFetchWithQuery<T extends { id: number}>({
    url, lastPostId, intersecting, query }: Props) {
   interface ResponseType {
-    content: T[];
-    last: boolean;
+    posts: { content: T[], last: boolean };
+    total: number;
   }
 
   const [data, setData] = useState<T[] | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hasNext, setHasNext] = useState(true);
   const [error, setError] = useState<Error | null>(null)
@@ -33,7 +34,7 @@ export function useInfiniteFetchWithQuery<T extends { id: number}>({
         throw new CommonError(status);
       }
       
-      const { content, last } = (await response.json()) as ResponseType;
+      const { total, posts: { content, last } } = (await response.json()) as ResponseType;
 
       const currentLastPostId = content.length > 1 ? content[content.length - 1].id : null;
       last 
@@ -41,6 +42,7 @@ export function useInfiniteFetchWithQuery<T extends { id: number}>({
       : lastPostId.current = currentLastPostId;
 
       setIsLoading(false);
+      setTotalCount(total);
       setData((prev) => !prev ? [...content] : [...prev, ...content]);
     } catch (error) {
       if (error instanceof CommonError) {
@@ -70,5 +72,5 @@ export function useInfiniteFetchWithQuery<T extends { id: number}>({
     return () => controller.abort();
   }, [controller])
 
-  return { data, isLoading, error };
+  return { data, totalCount, isLoading, error };
 }
