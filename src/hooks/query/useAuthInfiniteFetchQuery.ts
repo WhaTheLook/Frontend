@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { PostListFetchType } from "@/types";
@@ -10,13 +10,11 @@ import { useReIssueToken } from "../useReIssueToken";
 import { useLogout } from "../useLogout";
 
 interface Props {
-  rowsPerPage: number;
   queryKey: string[];
   getUrl: (page: number | undefined) => string;
-  intersecting: boolean;
 }
 
-export function useAuthInfiniteFetchQuery({ rowsPerPage, getUrl, queryKey, intersecting }: Props) {
+export function useAuthInfiniteFetchQuery({ getUrl, queryKey }: Props) {
   const { reIssueTokenFetcher } = useReIssueToken();
   const { handleLogout } = useLogout();
 
@@ -62,17 +60,15 @@ export function useAuthInfiniteFetchQuery({ rowsPerPage, getUrl, queryKey, inter
     }
   }
 
-  const { data, isLoading, error, isFetchingNextPage, isError, fetchNextPage } =
+  const { data, isLoading, isError, error, isFetchingNextPage, fetchNextPage, isFetchNextPageError } =
     useInfiniteQuery<PostListFetchType>({
       queryKey,
       queryFn: ({ pageParam }) => authQueryFn(pageParam),
       getNextPageParam: (lastPage) => {
-        const { content } = lastPage;
+        const { content, last } = lastPage;
         const lastPostId = content[content.length - 1]?.id;
 
-        return content.length === 0 || content.length < rowsPerPage
-          ? undefined
-          : lastPostId;
+        return last ? undefined : lastPostId;
       },
       initialPageParam: undefined,
       retry: false,
@@ -83,17 +79,13 @@ export function useAuthInfiniteFetchQuery({ rowsPerPage, getUrl, queryKey, inter
     return data?.pages.flatMap((page) => page.content) || null;
   }, [data]);
 
-  useEffect(() => {
-    if (intersecting) {
-      fetchNextPage();
-    }
-  }, [intersecting, fetchNextPage])
-
   return {
     result,
     isLoading,
-    isError,
     isFetchingNextPage,
+    isFetchNextPageError,
     error,
+    isError,
+    fetchNextPage
   };
 }

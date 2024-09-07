@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useEffect, useRef, useState } from "react";
+import { Fragment, ReactNode, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FlatListSkeleton } from "@/components/common/FlatListSkeleton";
@@ -13,6 +13,7 @@ import {
 } from "@/constants";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
+import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
 import { useAuthInfiniteFetchQuery } from "@/hooks/query/useAuthInfiniteFetchQuery";
 
 import {
@@ -29,78 +30,67 @@ export function MyPostsFetcher({ children }: Props) {
   const dispatch = useDispatch();
 
   const user = useSelector(selectUserInfo) as MyPageUserInfoType;
-  const [shouldHandleError, setShouldHandleError] = useState(false);
-  const [shouldThrowError, setShouldThrowError] = useState(true);
 
   const fetchMoreElement = useRef<HTMLDivElement>(null);
+
+  const {
+    result,
+    isLoading,
+    isFetchingNextPage,
+    isFetchNextPageError,
+    isError,
+    error,
+    fetchNextPage,
+  } = useAuthInfiniteFetchQuery({
+    queryKey: ["myPost"],
+    getUrl: (page) =>
+      API_PATH.userPostList({
+        userId: user?.kakaoId,
+        sortBy: sortOption.LATEST,
+        size: MAX_FETCH_SIZE_FLAT,
+        lastPostId: page,
+      }),
+  });
+
+  const { shouldHandleError, resetHandleError } = useInfiniteFetchError({
+    isFetchingNextPage,
+    isFetchNextPageError,
+  });
   const intersecting = useInfiniteScoll(fetchMoreElement, !shouldHandleError);
 
-  const { result, isLoading, isError, error, isFetchingNextPage } =
-    useAuthInfiniteFetchQuery({
-      rowsPerPage: MAX_FETCH_SIZE_FLAT,
-      queryKey: ["myPost"],
-      intersecting,
-      getUrl: (page) =>
-        API_PATH.userPostList({
-          userId: user?.kakaoId,
-          sortBy: sortOption.LATEST,
-          size: MAX_FETCH_SIZE_FLAT,
-          lastPostId: page,
-        }),
-    });
-
-  if (isError) {
+  if (isError && !isFetchNextPageError) {
     throw error;
   }
-
-  const isFirstFetchLoading = !result && isLoading;
-  const hasData = result && result.length >= 0;
-  const isFetchingAndNoError = isFetchingNextPage && !shouldHandleError;
-
-  const handleRetryClick = () => {
-    setShouldHandleError(false);
-  };
-
-  useEffect(() => {
-    function handleDataFetchError(error: Error | null) {
-      if (error) {
-        if (shouldThrowError) {
-          setShouldThrowError(false);
-          throw error;
-        } else {
-          setShouldHandleError(true);
-        }
-      }
-    }
-
-    handleDataFetchError(error);
-  }, [error, shouldThrowError]);
 
   useEffect(() => {
     if (!result) return;
 
     dispatch(setPostData({ data: result }));
-    setShouldThrowError(false);
   }, [result, dispatch]);
+
+  useEffect(() => {
+    if (intersecting) {
+      fetchNextPage();
+    }
+  }, [intersecting, fetchNextPage]);
 
   return (
     <Fragment>
-      {isFirstFetchLoading && (
-        <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />
-      )}
-      {hasData && children}
-      {isFetchingAndNoError ? (
+      {isLoading && <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />}
+      {result && children}
+      {isFetchingNextPage && (
         <Fragment>
           <Divider />
           <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />
         </Fragment>
-      ) : (
+      )}
+      {!isFetchingNextPage && !shouldHandleError && (
         <div ref={fetchMoreElement}></div>
       )}
       {shouldHandleError && (
         <Fragment>
           <Divider />
-          <PostToastError onClick={handleRetryClick} />
+          <PostToastError onClick={resetHandleError} />
         </Fragment>
       )}
     </Fragment>

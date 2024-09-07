@@ -1,9 +1,10 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { GridListSkeleton } from "@/components/common/GridListSkeleton";
 import { NothingInfo } from "@/components/common/NothingInfo";
 import { GridList } from "@/components/common/GridList";
+import { PostToastError } from "@/components/common/PostToastError";
 
 import {
   API_PATH,
@@ -14,6 +15,7 @@ import {
 import { UserInfoType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
+import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
 import { useAuthInfiniteFetchQuery } from "@/hooks/query/useAuthInfiniteFetchQuery";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
@@ -22,31 +24,45 @@ export function BookmarkList() {
   const user = useSelector(selectCurrentUser) as UserInfoType;
 
   const fetchMoreElement = useRef<HTMLDivElement>(null);
-  const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
-  const { result, isLoading, isError, error, isFetchingNextPage } =
-    useAuthInfiniteFetchQuery({
-      rowsPerPage: MAX_FETCH_SIZE_GRID,
-      queryKey: ["bookmark"],
-      getUrl: (page) =>
-        API_PATH.bookmarkList({
-          userId: user.kakaoId,
-          sortBy: sortOption.LATEST,
-          size: MAX_FETCH_SIZE_GRID,
-          lastPostId: page,
-        }),
-      intersecting,
-    });
+  const {
+    result,
+    isLoading,
+    isFetchingNextPage,
+    isFetchNextPageError,
+    isError,
+    error,
+    fetchNextPage,
+  } = useAuthInfiniteFetchQuery({
+    queryKey: ["bookmark"],
+    getUrl: (page) =>
+      API_PATH.bookmarkList({
+        userId: user.kakaoId,
+        sortBy: sortOption.LATEST,
+        size: MAX_FETCH_SIZE_GRID,
+        lastPostId: page,
+      }),
+  });
 
-  if (isError) {
+  const { shouldHandleError, resetHandleError } = useInfiniteFetchError({
+    isFetchingNextPage,
+    isFetchNextPageError,
+  });
+  const intersecting = useInfiniteScoll(fetchMoreElement, !shouldHandleError);
+
+  if (isError && !isFetchNextPageError) {
     throw error;
   }
 
+  useEffect(() => {
+    if (intersecting) {
+      fetchNextPage();
+    }
+  }, [intersecting, fetchNextPage]);
+
   return (
     <Fragment>
-      {!result && isLoading && (
-        <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
-      )}
+      {isLoading && <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />}
       {result && (
         <Fragment>
           {result.length === 0 ? (
@@ -56,11 +72,13 @@ export function BookmarkList() {
           )}
         </Fragment>
       )}
-      {isFetchingNextPage ? (
+      {isFetchingNextPage && (
         <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
-      ) : (
+      )}
+      {!isFetchingNextPage && !shouldHandleError && (
         <div ref={fetchMoreElement}></div>
       )}
+      {shouldHandleError && <PostToastError onClick={resetHandleError} />}
     </Fragment>
   );
 }
