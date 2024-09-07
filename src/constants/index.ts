@@ -131,6 +131,10 @@ export const API_PATH = {
         const baseUrl = `${API_URL}/user/${userId}/post?size=${size}&sortBy=${sortBy}`;
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
     },
+    userCommentList: ({ userId, sortBy, size, lastPostId }: UserPostListArgType) => {
+        const baseUrl = `${API_URL}/user/${userId}/commentPost?size=${size}&sortBy=${sortBy}`;
+        return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
+    },
     updateUserInfo: () => `${API_URL}/user/update`,
     deletePost: ({ postId }: { postId: number }) => `${API_URL}/post/delete/${postId}`,
     bookmarkList: ({ userId, lastPostId, size, sortBy }: UserPostListArgType) => {

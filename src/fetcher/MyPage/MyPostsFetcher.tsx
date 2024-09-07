@@ -25,7 +25,7 @@ interface Props {
   children: ReactNode;
 }
 
-export function MyWrittingFetcher({ children }: Props) {
+export function MyPostsFetcher({ children }: Props) {
   const dispatch = useDispatch();
 
   const user = useSelector(selectUserInfo) as MyPageUserInfoType;
