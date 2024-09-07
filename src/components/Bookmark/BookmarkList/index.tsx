@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { GridListSkeleton } from "@/components/common/GridListSkeleton";
@@ -24,34 +24,23 @@ export function BookmarkList() {
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
-  const {
-    result,
-    isLoading,
-    isError,
-    fetchNextPage,
-    error,
-    isFetchingNextPage,
-  } = useAuthInfiniteFetchQuery({
-    rowsPerPage: MAX_FETCH_SIZE_GRID,
-    queryKey: ["bookmark"],
-    getUrl: (page) =>
-      API_PATH.bookmarkList({
-        userId: user.kakaoId,
-        sortBy: sortOption.LATEST,
-        size: MAX_FETCH_SIZE_GRID,
-        lastPostId: page,
-      }),
-  });
+  const { result, isLoading, isError, error, isFetchingNextPage } =
+    useAuthInfiniteFetchQuery({
+      rowsPerPage: MAX_FETCH_SIZE_GRID,
+      queryKey: ["bookmark"],
+      getUrl: (page) =>
+        API_PATH.bookmarkList({
+          userId: user.kakaoId,
+          sortBy: sortOption.LATEST,
+          size: MAX_FETCH_SIZE_GRID,
+          lastPostId: page,
+        }),
+      intersecting,
+    });
 
   if (isError) {
     throw error;
   }
-
-  useEffect(() => {
-    if (intersecting) {
-      fetchNextPage();
-    }
-  }, [intersecting, fetchNextPage]);
 
   return (
     <Fragment>

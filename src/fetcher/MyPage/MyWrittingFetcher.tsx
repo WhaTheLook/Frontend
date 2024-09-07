@@ -11,10 +11,9 @@ import {
   MAX_FETCH_SIZE_FLAT,
   sortOption,
 } from "@/constants";
-import { PostListContentType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
-import { useAuthInfiniteFetch } from "@/hooks/useAuthInfiniteFetch";
+import { useAuthInfiniteFetchQuery } from "@/hooks/query/useAuthInfiniteFetchQuery";
 
 import {
   MyPageUserInfoType,
@@ -33,25 +32,30 @@ export function MyWrittingFetcher({ children }: Props) {
   const [shouldHandleError, setShouldHandleError] = useState(false);
   const [shouldThrowError, setShouldThrowError] = useState(true);
 
-  const lastPostIdRef = useRef<number | null>(null);
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement, !shouldHandleError);
 
-  const { data, isLoading, error } = useAuthInfiniteFetch<PostListContentType>({
-    url: API_PATH.userPostList({
-      userId: user?.kakaoId,
-      sortBy: sortOption.LATEST,
-      size: MAX_FETCH_SIZE_FLAT,
-      lastPostId: lastPostIdRef.current || undefined,
-    }),
-    lastPostId: lastPostIdRef,
-    intersecting,
-  });
+  const { result, isLoading, isError, error, isFetchingNextPage } =
+    useAuthInfiniteFetchQuery({
+      rowsPerPage: MAX_FETCH_SIZE_FLAT,
+      queryKey: ["myPost"],
+      intersecting,
+      getUrl: (page) =>
+        API_PATH.userPostList({
+          userId: user?.kakaoId,
+          sortBy: sortOption.LATEST,
+          size: MAX_FETCH_SIZE_FLAT,
+          lastPostId: page,
+        }),
+    });
 
-  const isFirstFetchLoading = !data && isLoading;
-  const hasData = data && data.length > 0;
-  const isLoadingAndNoError = isLoading && !shouldHandleError;
-  const hasNoError = !shouldHandleError;
+  if (isError) {
+    throw error;
+  }
+
+  const isFirstFetchLoading = !result && isLoading;
+  const hasData = result && result.length >= 0;
+  const isFetchingAndNoError = isFetchingNextPage && !shouldHandleError;
 
   const handleRetryClick = () => {
     setShouldHandleError(false);
@@ -73,31 +77,27 @@ export function MyWrittingFetcher({ children }: Props) {
   }, [error, shouldThrowError]);
 
   useEffect(() => {
-    if (!data) return;
+    if (!result) return;
 
-    dispatch(setPostData({ data }));
+    dispatch(setPostData({ data: result }));
     setShouldThrowError(false);
-  }, [data, dispatch]);
+  }, [result, dispatch]);
 
   return (
     <Fragment>
       {isFirstFetchLoading && (
         <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />
       )}
-      {hasData && (
+      {hasData && children}
+      {isFetchingAndNoError ? (
         <Fragment>
-          {children}
-          {isLoadingAndNoError && (
-            <Fragment>
-              <Divider />
-              <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />
-            </Fragment>
-          )}
+          <Divider />
+          <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />
         </Fragment>
-      )}
-      {hasNoError ? (
-        <div ref={fetchMoreElement}></div>
       ) : (
+        <div ref={fetchMoreElement}></div>
+      )}
+      {shouldHandleError && (
         <Fragment>
           <Divider />
           <PostToastError onClick={handleRetryClick} />

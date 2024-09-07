@@ -12,7 +12,9 @@ import * as S from "./style";
 export function MyPage() {
   return (
     <Fragment>
-      <Suspense fallback={<LoadingSpinner color="#B2B2B2" />}>
+      <Suspense
+        fallback={<LoadingSpinner color="#B2B2B2" isNoPadding={false} />}
+      >
         <ProfileFetcher>
           <S.Container>
             <ProfileContainer />

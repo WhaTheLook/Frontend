@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { PostListFetchType } from "@/types";
@@ -13,9 +13,10 @@ interface Props {
   rowsPerPage: number;
   queryKey: string[];
   getUrl: (page: number | undefined) => string;
+  intersecting: boolean;
 }
 
-export function useAuthInfiniteFetchQuery({ rowsPerPage, getUrl, queryKey }: Props) {
+export function useAuthInfiniteFetchQuery({ rowsPerPage, getUrl, queryKey, intersecting }: Props) {
   const { reIssueTokenFetcher } = useReIssueToken();
   const { handleLogout } = useLogout();
 
@@ -82,11 +83,16 @@ export function useAuthInfiniteFetchQuery({ rowsPerPage, getUrl, queryKey }: Pro
     return data?.pages.flatMap((page) => page.content) || null;
   }, [data]);
 
+  useEffect(() => {
+    if (intersecting) {
+      fetchNextPage();
+    }
+  }, [intersecting, fetchNextPage])
+
   return {
     result,
     isLoading,
     isError,
-    fetchNextPage,
     isFetchingNextPage,
     error,
   };

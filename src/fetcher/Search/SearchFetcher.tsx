@@ -23,24 +23,19 @@ export function SearchFetcher({ children }: Props) {
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
-  const {
-    result,
-    isLoading,
-    isError,
-    fetchNextPage,
-    error,
-    isFetchingNextPage,
-  } = useInfiniteSearchFetchQuery({
-    rowsPerPage: MAX_FETCH_SIZE_GRID,
-    queryKey: ["search", query],
-    getUrl: (page) =>
-      API_PATH.searchPosts({
-        searchQuery: query,
-        sortBy: sortOption.LATEST,
-        size: MAX_FETCH_SIZE_GRID,
-        lastPostId: page,
-      }),
-  });
+  const { result, isLoading, isError, error, isFetchingNextPage } =
+    useInfiniteSearchFetchQuery({
+      rowsPerPage: MAX_FETCH_SIZE_GRID,
+      queryKey: ["search", query],
+      getUrl: (page) =>
+        API_PATH.searchPosts({
+          searchQuery: query,
+          sortBy: sortOption.LATEST,
+          size: MAX_FETCH_SIZE_GRID,
+          lastPostId: page,
+        }),
+      intersecting,
+    });
 
   if (isError) {
     throw error;
@@ -51,12 +46,6 @@ export function SearchFetcher({ children }: Props) {
   useEffect(() => {
     handleSetData(posts, totalCount);
   }, [posts, totalCount, handleSetData]);
-
-  useEffect(() => {
-    if (intersecting) {
-      fetchNextPage();
-    }
-  }, [intersecting, fetchNextPage]);
 
   return (
     <Fragment>

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { SearchListFetchType } from "@/types";
@@ -8,9 +8,10 @@ interface Props {
   rowsPerPage: number;
   queryKey: string[];
   getUrl: (page: number | undefined) => string;
+  intersecting: boolean;
 }
 
-export function useInfiniteSearchFetchQuery({ rowsPerPage, getUrl, queryKey }: Props) {
+export function useInfiniteSearchFetchQuery({ rowsPerPage, getUrl, queryKey, intersecting }: Props) {
   const queryFn = async (pageParam: unknown) => {
     try {
       const url = getUrl(Number(pageParam) || undefined);
@@ -59,11 +60,16 @@ export function useInfiniteSearchFetchQuery({ rowsPerPage, getUrl, queryKey }: P
     return { posts, totalCount };
   }, [data]);
 
+  useEffect(() => {
+    if (intersecting) {
+      fetchNextPage();
+    }
+  }, [intersecting, fetchNextPage])
+
   return {
     result,
     isLoading,
     isError,
-    fetchNextPage,
     isFetchingNextPage,
     error,
   };
