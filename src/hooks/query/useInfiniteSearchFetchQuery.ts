@@ -1,17 +1,15 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { SearchListFetchType } from "@/types";
 import { CommonError } from "@/utils/CommonError";
 
 interface Props {
-  rowsPerPage: number;
   queryKey: string[];
   getUrl: (page: number | undefined) => string;
-  intersecting: boolean;
 }
 
-export function useInfiniteSearchFetchQuery({ rowsPerPage, getUrl, queryKey, intersecting }: Props) {
+export function useInfiniteSearchFetchQuery({ getUrl, queryKey }: Props) {
   const queryFn = async (pageParam: unknown) => {
     try {
       const url = getUrl(Number(pageParam) || undefined);
@@ -37,17 +35,15 @@ export function useInfiniteSearchFetchQuery({ rowsPerPage, getUrl, queryKey, int
     }
   }
 
-  const { data, isLoading, error, isFetchingNextPage, isError, fetchNextPage } =
+  const { data, isLoading, error, isFetchingNextPage, isError, fetchNextPage, isFetchNextPageError } =
     useInfiniteQuery<SearchListFetchType>({
       queryKey,
       queryFn: ({ pageParam }) => queryFn(pageParam),
       getNextPageParam: (lastPage) => {
-        const { posts: { content } } = lastPage;
+        const { posts: { content, last } } = lastPage;
         const lastPostId = content[content.length - 1]?.id;
         
-        return content.length === 0 || content.length < rowsPerPage
-          ? undefined
-          : lastPostId;
+        return last ? undefined : lastPostId;
       },
       initialPageParam: undefined,
       retry: false,
@@ -60,17 +56,13 @@ export function useInfiniteSearchFetchQuery({ rowsPerPage, getUrl, queryKey, int
     return { posts, totalCount };
   }, [data]);
 
-  useEffect(() => {
-    if (intersecting) {
-      fetchNextPage();
-    }
-  }, [intersecting, fetchNextPage])
-
   return {
     result,
     isLoading,
-    isError,
     isFetchingNextPage,
+    isFetchNextPageError,
     error,
+    isError,
+    fetchNextPage
   };
 }
