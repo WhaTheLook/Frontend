@@ -1,62 +1,71 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { GridListSkeleton } from "@/components/common/GridListSkeleton";
 import { NothingInfo } from "@/components/common/NothingInfo";
 import { GridList } from "@/components/common/GridList";
+import { PostToastError } from "@/components/common/PostToastError";
 
-import {
-  API_PATH,
-  GRIDITEM_SKELETON_COUNT,
-  MAX_FETCH_SIZE_GRID,
-  sortOption,
-} from "@/constants";
-import { PostListContentType, UserInfoType } from "@/types";
+import { GRIDITEM_SKELETON_COUNT } from "@/constants";
+import { UserInfoType } from "@/types";
 
-import { useAuthInfiniteFetch } from "@/hooks/useAuthInfiniteFetch";
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
+import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
+
+import { useBookmarkQuery } from "@/quires/useBookmarkQuery";
 
 export function BookmarkList() {
   const user = useSelector(selectCurrentUser) as UserInfoType;
 
-  const lastPostIdRef = useRef<number | null>(null);
   const fetchMoreElement = useRef<HTMLDivElement>(null);
-  const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
-  const { data, isLoading, error } = useAuthInfiniteFetch<PostListContentType>({
-    url: API_PATH.bookmarkList({
-      userId: user.kakaoId,
-      sortBy: sortOption.LATEST,
-      size: MAX_FETCH_SIZE_GRID,
-      lastPostId: lastPostIdRef.current || undefined,
-    }),
-    lastPostId: lastPostIdRef,
-    intersecting,
+  const {
+    result,
+    isLoading,
+    isFetchingNextPage,
+    isFetchNextPageError,
+    isError,
+    error,
+    fetchNextPage,
+  } = useBookmarkQuery(user?.kakaoId);
+
+  const { shouldHandleError, resetHandleError } = useInfiniteFetchError({
+    isFetchingNextPage,
+    isFetchNextPageError,
   });
+  const intersecting = useInfiniteScoll(fetchMoreElement, !shouldHandleError);
 
-  if (error) {
+  if (isError && !isFetchNextPageError) {
     throw error;
   }
 
+  useEffect(() => {
+    if (intersecting) {
+      fetchNextPage();
+    }
+  }, [intersecting, fetchNextPage]);
+
   return (
     <Fragment>
-      {!data && isLoading && (
-        <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
-      )}
-      {data && data.length >= 0 && (
+      {isLoading && <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />}
+      {result && (
         <Fragment>
-          {data &&
-            (data.length === 0 ? (
-              <NothingInfo contentType="home" />
-            ) : (
-              <GridList data={data} />
-            ))}
-          {isLoading && <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />}
+          {result.length === 0 ? (
+            <NothingInfo contentType="bookmark" />
+          ) : (
+            <GridList data={result} />
+          )}
         </Fragment>
       )}
-      <div ref={fetchMoreElement}></div>
+      {isFetchingNextPage && (
+        <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
+      )}
+      {!isFetchingNextPage && !shouldHandleError && (
+        <div ref={fetchMoreElement}></div>
+      )}
+      {shouldHandleError && <PostToastError onClick={resetHandleError} />}
     </Fragment>
   );
 }

@@ -7,7 +7,8 @@ import { useMenuType } from "@/hooks/useMenuType";
 
 import { MYPAGE_MENU_LIST } from "@/constants";
 
-import { MyWrittingFetcher } from "@/fetcher/MyPage/MyWrittingFetcher";
+import { MyCommentsFetcher } from "@/fetcher/MyPage/MyCommentsFetcher";
+import { MyPostsFetcher } from "@/fetcher/MyPage/MyPostsFetcher";
 
 import * as S from "./style";
 
@@ -23,12 +24,16 @@ export function MyWrittingContainer() {
       />
       {menuType === 0 ? (
         <ApiErrorBoundary>
-          <MyWrittingFetcher>
+          <MyPostsFetcher>
             <MyPosts />
-          </MyWrittingFetcher>
+          </MyPostsFetcher>
         </ApiErrorBoundary>
       ) : (
-        <MyChats />
+        <ApiErrorBoundary>
+          <MyCommentsFetcher>
+            <MyChats />
+          </MyCommentsFetcher>
+        </ApiErrorBoundary>
       )}
     </S.Container>
   );

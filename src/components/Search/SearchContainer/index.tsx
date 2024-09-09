@@ -8,16 +8,17 @@ import { useSearchContext } from "@/hooks/useSearchContext";
 import * as S from "./style";
 
 export function SearchContainer() {
-  const { data } = useSearchContext();
+  const { data, totalCount, query } = useSearchContext();
 
   return (
     <S.Container>
       {data && (
         <Fragment>
           <S.Text>
-            총 <S.Bold>{data.length}</S.Bold>개의 게시물
+            <S.Bold>{query}</S.Bold>검색 결과, 총 <S.Bold>{totalCount}</S.Bold>
+            개의 게시물을 찾았어요.
           </S.Text>
-          {data.length === 0 ? (
+          {totalCount === 0 ? (
             <NothingInfo contentType="search" />
           ) : (
             <GridList data={data} />

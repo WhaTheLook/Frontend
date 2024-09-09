@@ -16,7 +16,7 @@ export const Container = styled.div<ConatianerProps>`
   ${({ $isNoPadding }) => {
     return css`
       width: 100%;
-      height: 100%;
+      // height: 100%;
       padding: ${$isNoPadding ? "0" : "40px"} 0;
 
       display: flex;
