@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,8 +21,8 @@ import {
 } from "@/constants";
 
 import { useModalContext } from "@/hooks/useModalContext";
-import { useAuthMutation } from "@/hooks/useAuthMutation";
 import { useToastContext } from "@/hooks/useToastContex";
+import { useAuthMutation } from "@/hooks/mutation/useAuthMutation";
 
 import { selectCurrentUser, updateAuthInfo } from "@/store/slice/authSlice";
 
@@ -32,7 +32,6 @@ export function ProfileEdit() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false);
   const inputSubmitRef = useRef<HTMLInputElement | null>(null);
   const userInfo = useSelector(selectCurrentUser) as UserInfoType;
 
@@ -45,12 +44,12 @@ export function ProfileEdit() {
 
   const { handleOpen, modalLocation } = useModalContext();
   const { handleToastOpen } = useToastContext();
-  const { fetcher } = useAuthMutation({
+
+  const { isPending, mutate } = useAuthMutation<UserInfoType>({
     url: API_PATH.updateUserInfo(),
     method: "PUT",
-    body: getFormData(newName, newProfileImage),
     isFormData: true,
-    hasReturnType: false,
+    hasReturnType: true,
   });
 
   const isProfileEditModalOpen = () => {
@@ -70,12 +69,7 @@ export function ProfileEdit() {
   function getFormData(name: string, image: File) {
     const formData = new FormData();
     const userRequestData = new Blob(
-      [
-        JSON.stringify({
-          kakaoId: userInfo.kakaoId,
-          name,
-        }),
-      ],
+      [JSON.stringify({ kakaoId: userInfo.kakaoId, name })],
       { type: "application/json" }
     );
     formData.append("userRequest", userRequestData);
@@ -92,39 +86,23 @@ export function ProfileEdit() {
   };
 
   const onSubmit: SubmitHandler<ProfileFormValues> = async () => {
-    try {
-      setIsLoading(true);
-      await fetcher();
-
-      const updatedUserInfo: UserInfoType = {
-        name: newName,
-        kakaoId: userInfo.kakaoId,
-        profileImage: URL.createObjectURL(newProfileImage),
-      };
-
-      dispatch(updateAuthInfo({ user: updatedUserInfo }));
-
-      // TO DO: 기존이미지 파일 변환 과정에서 CORS에러 발생
-      navigate("/profile");
-    } catch (error) {
-      showErrorToast(TOAST_MESSAGE.failUpdateUserInfo());
-    } finally {
-      setIsLoading(false);
-    }
+    mutate(getFormData(newName, newProfileImage), {
+      onSuccess: (result) => {
+        dispatch(updateAuthInfo({ user: result! }));
+        navigate("/profile");
+      },
+      onError: () => {
+        showErrorToast(TOAST_MESSAGE.failUpdateUserInfo());
+      },
+    });
   };
-
-  useEffect(() => {
-    // fetch된 데이터 가져오기 (이미지 URL, 이름)
-    // setValue("profileImage", fetchedImage)
-    setValue("profileName", userInfo.name);
-  }, [setValue, userInfo]);
 
   return (
     <Fragment>
       <S.Container>
         <UploadHeader
           onSubmitBtnClick={handleHeaderBtnClick}
-          disabled={isLoading}
+          disabled={isPending}
         />
         <S.Wrapper>
           <S.Box>
