@@ -55,7 +55,7 @@ export function useAuthInfiniteFetchQuery({ getUrl, queryKey }: Props) {
             throw error;
         }
       } else {
-        throw error;
+        throw new Error(String(error));
       }
     }
   }

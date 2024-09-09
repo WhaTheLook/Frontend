@@ -5,22 +5,18 @@ import { FlatListSkeleton } from "@/components/common/FlatListSkeleton";
 import { PostToastError } from "@/components/common/PostToastError";
 import { Divider } from "@/components/common/Divider";
 
-import {
-  API_PATH,
-  FLATITEM_SKELETON_COUNT,
-  MAX_FETCH_SIZE_FLAT,
-  sortOption,
-} from "@/constants";
+import { FLATITEM_SKELETON_COUNT } from "@/constants";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
-import { useAuthInfiniteFetchQuery } from "@/hooks/query/useAuthInfiniteFetchQuery";
 
 import {
   MyPageUserInfoType,
   selectUserInfo,
   setCommentData,
 } from "@/store/slice/myPageSlice";
+
+import { useMyCommentsQuery } from "@/quires/useMyCommentsQuery";
 
 interface Props {
   children: ReactNode;
@@ -41,16 +37,8 @@ export function MyCommentsFetcher({ children }: Props) {
     isError,
     error,
     fetchNextPage,
-  } = useAuthInfiniteFetchQuery({
-    queryKey: ["myComment"],
-    getUrl: (page) =>
-      API_PATH.userCommentList({
-        userId: user?.kakaoId,
-        sortBy: sortOption.LATEST,
-        size: MAX_FETCH_SIZE_FLAT,
-        lastPostId: page,
-      }),
-  });
+  } = useMyCommentsQuery(user?.kakaoId);
+
   const { shouldHandleError, resetHandleError } = useInfiniteFetchError({
     isFetchingNextPage,
     isFetchNextPageError,

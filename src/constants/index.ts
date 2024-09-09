@@ -119,10 +119,7 @@ export const API_PATH = {
         const baseUrl = `${API_URL}/post/postList?size=${size}&category=${category}&sortBy=${sortBy}`;
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
     },
-    postDetailInfo: ({ postId, userId }: { postId: number, userId?: string}) => {
-        const baseUrl = `${API_URL}/post/${postId}`;
-        return userId ? `${baseUrl}?kakaoId=${userId}` : baseUrl;
-    },
+    postDetailInfo: ({ postId }: { postId: number }) => `${API_URL}/post/${postId}`,
     tokenCheck: () => `${API_URL}/user/token/check`,
     tokenReIssue: () => `${API_URL}/user/refresh`,
     createPost: () => `${API_URL}/post/create`,

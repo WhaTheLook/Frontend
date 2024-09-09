@@ -3,17 +3,13 @@ import { Fragment, ReactNode, useEffect, useRef } from "react";
 import { GridListSkeleton } from "@/components/common/GridListSkeleton";
 import { PostToastError } from "@/components/common/PostToastError";
 
-import {
-  API_PATH,
-  GRIDITEM_SKELETON_COUNT,
-  MAX_FETCH_SIZE_GRID,
-  sortOption,
-} from "@/constants";
+import { GRIDITEM_SKELETON_COUNT } from "@/constants";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useSearchContext } from "@/hooks/useSearchContext";
-import { useInfiniteSearchFetchQuery } from "@/hooks/query/useInfiniteSearchFetchQuery";
 import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
+
+import { useSearchQuery } from "@/quires/useSearchQuery";
 
 interface Props {
   children: ReactNode;
@@ -32,16 +28,7 @@ export function SearchFetcher({ children }: Props) {
     isFetchingNextPage,
     isFetchNextPageError,
     fetchNextPage,
-  } = useInfiniteSearchFetchQuery({
-    queryKey: ["search", query],
-    getUrl: (page) =>
-      API_PATH.searchPosts({
-        searchQuery: query,
-        sortBy: sortOption.LATEST,
-        size: MAX_FETCH_SIZE_GRID,
-        lastPostId: page,
-      }),
-  });
+  } = useSearchQuery(query);
 
   const { shouldHandleError, resetHandleError } = useInfiniteFetchError({
     isFetchingNextPage,

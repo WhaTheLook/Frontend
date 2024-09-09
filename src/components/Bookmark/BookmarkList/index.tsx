@@ -6,19 +6,15 @@ import { NothingInfo } from "@/components/common/NothingInfo";
 import { GridList } from "@/components/common/GridList";
 import { PostToastError } from "@/components/common/PostToastError";
 
-import {
-  API_PATH,
-  GRIDITEM_SKELETON_COUNT,
-  MAX_FETCH_SIZE_GRID,
-  sortOption,
-} from "@/constants";
+import { GRIDITEM_SKELETON_COUNT } from "@/constants";
 import { UserInfoType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
-import { useAuthInfiniteFetchQuery } from "@/hooks/query/useAuthInfiniteFetchQuery";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
+
+import { useBookmarkQuery } from "@/quires/useBookmarkQuery";
 
 export function BookmarkList() {
   const user = useSelector(selectCurrentUser) as UserInfoType;
@@ -33,16 +29,7 @@ export function BookmarkList() {
     isError,
     error,
     fetchNextPage,
-  } = useAuthInfiniteFetchQuery({
-    queryKey: ["bookmark"],
-    getUrl: (page) =>
-      API_PATH.bookmarkList({
-        userId: user.kakaoId,
-        sortBy: sortOption.LATEST,
-        size: MAX_FETCH_SIZE_GRID,
-        lastPostId: page,
-      }),
-  });
+  } = useBookmarkQuery(user?.kakaoId);
 
   const { shouldHandleError, resetHandleError } = useInfiniteFetchError({
     isFetchingNextPage,

@@ -1,12 +1,9 @@
 import { ReactNode, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { API_PATH } from "@/constants";
-import { UserInfoFetchType } from "@/types";
-
-import { useAuthFetchSuspense } from "@/hooks/useAuthFetchSuspense";
-
 import { setUserInfo } from "@/store/slice/myPageSlice";
+
+import { useProfileInfoQuery } from "@/quires/useProfileInfoQuery";
 
 interface Props {
   children: ReactNode;
@@ -15,33 +12,17 @@ interface Props {
 export function ProfileFetcher({ children }: Props) {
   const dispatch = useDispatch();
 
-  const { data, error } = useAuthFetchSuspense<UserInfoFetchType>({
-    url: API_PATH.userInfo(),
-    shouldTokenCheck: true,
-  });
+  const { data, isError, error } = useProfileInfoQuery();
 
-  if (error) {
+  if (isError) {
     throw error;
   }
 
   useEffect(() => {
     if (!data) return;
 
-    const { name, profileImage, kakaoId, postCount, commentCount } = data;
-    dispatch(
-      setUserInfo({
-        userInfo: {
-          name,
-          profileImage,
-          kakaoId,
-          commentCount,
-          postCount,
-        },
-      })
-    );
+    dispatch(setUserInfo({ userInfo: data }));
   }, [data, dispatch]);
-
-  if (!data) return null;
 
   return children;
 }
