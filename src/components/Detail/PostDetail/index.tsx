@@ -1,6 +1,5 @@
 import { Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { ImageWrapper } from "../ImageWrapper";
 import { DetailMain } from "../DetailMain";
@@ -12,11 +11,6 @@ import { PostDetailInfoType } from "@/types";
 import { useAuthFetchSuspense } from "@/hooks/useAuthFetchSuspense";
 import { useDetailContext } from "@/hooks/useDetailContext";
 
-import {
-  selectCurrentSignStatus,
-  selectCurrentUser,
-} from "@/store/slice/authSlice";
-
 import * as S from "./style";
 
 export function PostDetail() {
@@ -26,15 +20,11 @@ export function PostDetail() {
   } = history; // 모달를 통한 렌더링 시
   const selectedPostId = Number(postId || modalPostId);
 
-  const isSignIn = useSelector(selectCurrentSignStatus);
-  const userInfo = useSelector(selectCurrentUser);
-
   const { setPostDetail } = useDetailContext();
 
   const { data, error } = useAuthFetchSuspense<PostDetailInfoType>({
     url: API_PATH.postDetailInfo({
       postId: selectedPostId,
-      userId: isSignIn ? userInfo?.kakaoId : undefined,
     }),
     shouldTokenCheck: false,
   });
