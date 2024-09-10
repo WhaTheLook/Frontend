@@ -5,7 +5,7 @@ import { PrevArrowIcon } from "@/components/Icons/PrevArrowIcon";
 
 import { ICON_SIZE } from "@/constants/style";
 
-import { useDetailContext } from "@/hooks/useDetailContext";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import * as S from "./style";
 

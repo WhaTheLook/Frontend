@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { GridList } from "@/components/common/GridList";
 import { NothingInfo } from "@/components/common/NothingInfo";
 
-import { useSearchContext } from "@/hooks/useSearchContext";
+import { useSearchContext } from "@/hooks/contexts/useSearchContext";
 
 import * as S from "./style";
 

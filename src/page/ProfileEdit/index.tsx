@@ -20,8 +20,8 @@ import {
   toastType,
 } from "@/constants";
 
-import { useModalContext } from "@/hooks/useModalContext";
-import { useToastContext } from "@/hooks/useToastContex";
+import { useModalContext } from "@/hooks/contexts/useModalContext";
+import { useToastContext } from "@/hooks/contexts/useToastContex";
 import { useAuthMutation } from "@/hooks/mutation/useAuthMutation";
 
 import { selectCurrentUser, updateAuthInfo } from "@/store/slice/authSlice";

@@ -6,7 +6,7 @@ import { PostToastError } from "@/components/common/PostToastError";
 import { GRIDITEM_SKELETON_COUNT } from "@/constants";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
-import { useSearchContext } from "@/hooks/useSearchContext";
+import { useSearchContext } from "@/hooks/contexts/useSearchContext";
 import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
 
 import { useSearchQuery } from "@/quires/useSearchQuery";

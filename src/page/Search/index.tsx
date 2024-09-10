@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { SearchBar } from "@/components/Search/SearchBar";
 import { SearchResult } from "@/components/Search/SearchResult";
 
-import { useSearchContext } from "@/hooks/useSearchContext";
+import { useSearchContext } from "@/hooks/contexts/useSearchContext";
 
 import * as S from "./style";
 

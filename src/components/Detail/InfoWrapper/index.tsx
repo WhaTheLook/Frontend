@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { calculateDaysAgo } from "@/utils";
 
-import { useDetailContext } from "@/hooks/useDetailContext";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import * as S from "./style";
 

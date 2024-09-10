@@ -20,7 +20,7 @@ import {
 import { getLocalStorageItem, setLocalStorageItem } from "@/utils";
 import { ICON_SIZE } from "@/constants/style";
 
-import { useSearchContext } from "@/hooks/useSearchContext";
+import { useSearchContext } from "@/hooks/contexts/useSearchContext";
 
 import * as S from "./style";
 

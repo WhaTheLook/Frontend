@@ -6,7 +6,7 @@ import { GridItem } from "../GridItem";
 
 import { PostListContentType } from "@/types";
 
-import { useDetailModalContext } from "@/hooks/useDetailModalContext";
+import { useDetailModalContext } from "@/hooks/contexts/useDetailModalContext";
 
 import * as S from "./style";
 

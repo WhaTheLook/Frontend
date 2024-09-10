@@ -3,8 +3,8 @@ import { ChangeEvent, MouseEvent, useState } from "react";
 import { API_PATH, TOAST_MESSAGE, toastType } from "@/constants";
 import { CommentsType } from "@/types";
 
-import { useToastContext } from "@/hooks/useToastContex";
-import { useDetailContext } from "@/hooks/useDetailContext";
+import { useToastContext } from "@/hooks/contexts/useToastContex";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 import { useAuthMutation } from "@/hooks/useAuthMutation";
 
 import * as S from "./style";

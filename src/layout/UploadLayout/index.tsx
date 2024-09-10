@@ -21,7 +21,7 @@ import {
   UploadActionType,
 } from "@/constants";
 
-import { useToastContext } from "@/hooks/useToastContex";
+import { useToastContext } from "@/hooks/contexts/useToastContex";
 import { useAuthMutation } from "@/hooks/useAuthMutation";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
