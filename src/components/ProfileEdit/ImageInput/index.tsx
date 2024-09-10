@@ -35,14 +35,8 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
     const { menuVisible, handleToggle, menuRef, triggerRef, hideMenu } =
       useMenuToggle<HTMLDivElement>();
 
-    const defaultProfileImgFile = useConvertImgToFile(
-      UserIcon,
-      "user-icon.png"
-    );
-    const initProfileImgFile = useConvertImgToFile(
-      profileImageURL,
-      "initProfile.png"
-    );
+    const defaultImgFile = useConvertImgToFile(UserIcon, "user-icon");
+    const initImgFile = useConvertImgToFile(profileImageURL, "initProfile");
 
     const handleImageUpdate = (imageFile: File) => {
       setImageURL(getImageURL(imageFile));
@@ -58,8 +52,8 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
     };
 
     const handleDefaultImageBtnClick = () => {
-      if (defaultProfileImgFile) {
-        handleImageUpdate(defaultProfileImgFile);
+      if (defaultImgFile) {
+        handleImageUpdate(defaultImgFile);
       }
     };
 
@@ -73,8 +67,8 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
     useImperativeHandle(ref, () => inputRef.current!);
 
     useEffect(() => {
-      setValue("profileImageFile", initProfileImgFile!);
-    }, [initProfileImgFile, setValue]);
+      setValue("profileImageFile", initImgFile!);
+    }, [initImgFile, setValue]);
 
     return (
       <S.Container>
