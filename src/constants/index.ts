@@ -123,6 +123,7 @@ export const API_PATH = {
     tokenCheck: () => `${API_URL}/user/token/check`,
     tokenReIssue: () => `${API_URL}/user/refresh`,
     createPost: () => `${API_URL}/post/create`,
+    updatePost: () => `${API_URL}/post/update`,
     likePost: () => `${API_URL}/post/like`,
     userPostList: ({ userId, sortBy, size, lastPostId }: UserPostListArgType) => {
         const baseUrl = `${API_URL}/user/${userId}/post?size=${size}&sortBy=${sortBy}`;
@@ -162,7 +163,8 @@ export const REFRESH_TOKEN = "refreshToken";
 export const TOAST_MESSAGE = {
     tokenExpired: () => "세션이 만료되었어요. 로그인 후 다시 시도해주세요.",
     likeError: () => "게시글 좋아요에 실패했어요. 다시 시도해주세요.",
-    createPostError: () => "게시글을 작성하는데 실패했어요. 다시 시도해주세요.",
+    failCreatePost: () => "게시글을 작성하는데 실패했어요. 다시 시도해주세요.",
+    failUpdatePost: () => "게시글을 수정하는데 실패했어요. 다시 시도해주세요.",
     successDeletePost: () => "게시글을 삭제했어요.",
     failDeletePost: () => "게시글 삭제하는데 실패했어요. 다시 시도해주세요.",
     failUpdateUserInfo: () => "회원 정보를 수정하는데 실패했어요. 다시 시도해주세요.",
