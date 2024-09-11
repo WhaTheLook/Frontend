@@ -8,24 +8,16 @@ export function LogoIcon({ size }: Props) {
   return (
     <S.Container>
       <svg
-        width={String(size)}
-        height={String(size)}
-        viewBox="0 0 207 225"
+        width={size}
+        height={size}
+        viewBox="0 0 210 87"
+        fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        overflow="hidden"
       >
-        <g transform="translate(-536 -247)">
-          <path
-            d="M536 346C536 291.324 580.324 247 635 247 689.676 247 734 291.324 734 346 734 400.676 689.676 445 635 445 580.324 445 536 400.676 536 346Z"
-            fill="#212529"
-            fillRule="evenodd"
-          />
-          <path
-            d="M600 400.5C600 361.012 632.012 329 671.5 329 710.988 329 743 361.012 743 400.5 743 439.988 710.988 472 671.5 472 632.012 472 600 439.988 600 400.5Z"
-            fill="#212529"
-            fillRule="evenodd"
-          />
-        </g>
+        <path
+          d="M52.4302 43.462L0 86.9239L52.4708 86.9848C81.3439 87.0051 128.58 87.0051 157.453 86.9848L209.944 86.9239L157.453 43.4417C128.6 19.5397 104.942 -0.0201187 104.921 0.000167847C104.881 0.000167847 81.2627 19.56 52.4302 43.462Z"
+          fill="black"
+        />
       </svg>
     </S.Container>
   );

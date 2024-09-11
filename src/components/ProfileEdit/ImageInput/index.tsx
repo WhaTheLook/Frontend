@@ -9,7 +9,7 @@ import {
 } from "react";
 import { UseFormSetValue } from "react-hook-form";
 
-import UserIcon from "@/assets/imgs/user-icon.png";
+import UserIcon from "public/imgs/user-icon.png";
 import { PlusIcon } from "@/components/Icons/PlusIcon";
 
 import { getImageURL } from "@/utils";
