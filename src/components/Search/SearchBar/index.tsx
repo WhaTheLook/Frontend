@@ -57,7 +57,7 @@ export function SearchBar() {
     updateInputText("");
   };
 
-  const handleResetBtnClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleResetBtnClick = (event: MouseEvent) => {
     event.preventDefault();
     updateInputText("");
   };
@@ -106,7 +106,8 @@ export function SearchBar() {
   };
 
   useEffect(() => {
-    const handleClickOutside = ({ target }: MouseEvent) => {
+    const handleClickOutside = (event: globalThis.MouseEvent) => {
+      const target = event.target as HTMLElement;
       if (
         inputRef.current &&
         !inputRef.current.contains(target as HTMLInputElement) &&
