@@ -1,4 +1,4 @@
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 
 export const Container = styled.div`
   height: 150px;
@@ -125,24 +125,20 @@ export const SubInfoText = styled.span`
   color: rgba(0, 0, 0, 0.5);
 `;
 
-interface ImageWrapperProps {
-  $imageUrl: string;
-}
+export const ImageWrapper = styled.div`
+  width: 140px;
+  height: 140px;
 
-export const ImageWrapper = styled.div<ImageWrapperProps>`
-  ${({ $imageUrl }) => {
-    return css`
-      background: url(${$imageUrl});
-      background-position: center;
-      background-size: cover;
-      width: 140px;
-      height: 140px;
+  position: relative;
+`;
 
-      border-radius: 8px;
+export const PostImage = styled.img`
+  width: 100%;
+  height: 100%;
 
-      position: relative;
-    `;
-  }}
+  object-fit: cover;
+
+  border-radius: 8px;
 `;
 
 export const ImageCount = styled.div`

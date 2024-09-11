@@ -1,3 +1,4 @@
+import { ImageIcon } from "@/components/Icons/ImageIcon";
 import { HeartIcon } from "@/components/Icons/HeartIcon";
 
 import { calculateDaysAgo } from "@/utils";
@@ -14,8 +15,13 @@ interface Props {
 export function GridItem({ data, onItemClick }: Props) {
   const { title, photoUrls, author, date, likeCount } = data;
   return (
-    <S.Container $imageUrl={photoUrls[0]} onClick={onItemClick}>
+    <S.Container onClick={onItemClick}>
+      <S.PostImage src={photoUrls[0]} alt={`${title}_${author.kakaoId}`} />
       <S.InfoWrapper>
+        <S.ImageCount>
+          <ImageIcon size={18} color="#FFFFFF" />
+          <S.ImageCountSpan>{photoUrls.length}</S.ImageCountSpan>
+        </S.ImageCount>
         <S.InfoBox>
           <S.Title>{title}</S.Title>
           <S.InfoTextBox>

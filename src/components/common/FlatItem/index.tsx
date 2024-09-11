@@ -63,7 +63,8 @@ export function FlatItem({ data, onItemClick }: Props) {
           </S.SubInfoDiv>
         </S.SubInfoBox>
       </S.TextWrapper>
-      <S.ImageWrapper $imageUrl={photoUrls[0]}>
+      <S.ImageWrapper>
+        <S.PostImage src={photoUrls[0]} alt={`${title}_${author.kakaoId}`} />
         {photoUrls.length > 1 && (
           <S.ImageCount>{photoUrls.length}</S.ImageCount>
         )}

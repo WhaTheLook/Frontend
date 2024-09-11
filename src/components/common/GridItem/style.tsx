@@ -1,33 +1,72 @@
-import { styled, css } from "styled-components";
+import { styled } from "styled-components";
 
-interface ContainerProps {
-  $imageUrl: string;
-}
+export const Container = styled.div`
+  width: 100%;
+  height: 250px;
 
-export const Container = styled.div<ContainerProps>`
-  ${({ $imageUrl }) => {
-    return css`
-      width: 100%;
-      height: 250px;
-      background-image: url(${$imageUrl});
-      background-size: 100%;
-      background-position: center;
-      background-size: cover;
+  border-radius: 8px;
 
-      border-radius: 8px;
+  position: relative;
 
-      cursor: pointer;
-      transition: all 0.3s ease-out;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
 
-      &:hover {
-        background-image: linear-gradient(
-            rgba(0, 0, 0, 0.6),
-            rgba(0, 0, 0, 0.6)
-          ),
-          url(${$imageUrl});
-      }
-    `;
-  }}
+  &::before {
+    content: "";
+
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+
+    border-radius: 8px;
+
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 1;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+`;
+
+export const PostImage = styled.img`
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+  position: absolute;
+
+  ${Container}:hover {
+    width: 40%;
+  }
+`;
+
+export const ImageCount = styled.div`
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 4px 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  border-radius: 99px;
+
+  position: absolute;
+  top: 8px;
+  right: 7px;
+`;
+
+export const ImageCountSpan = styled.div`
+  font-size: 16px;
+  color: #fff;
 `;
 
 export const InfoWrapper = styled.div`
@@ -40,7 +79,10 @@ export const InfoWrapper = styled.div`
   gap: 8px;
 
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
+
+  position: relative;
+  z-index: 2;
 
   ${Container}:hover & {
     opacity: 1;
