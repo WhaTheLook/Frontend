@@ -19,7 +19,8 @@ export function useMenuToggle<T extends HTMLElement>() {
         );
       };
     
-    const handleClickOutside = useCallback(({ target }: MouseEvent) => {
+    const handleClickOutside = useCallback((event: MouseEvent) => {
+        const target = event.target as HTMLElement;
         if (isClickOutside(target)) {
             setMenuVisible(false);
         }
