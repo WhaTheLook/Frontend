@@ -22,31 +22,25 @@ import { useMenuToggle } from "@/hooks/useMenuToggle";
 import * as S from "./style";
 
 interface Props extends HTMLProps<HTMLInputElement> {
-  profileImage: string;
+  profileImageURL: string;
   setValue: UseFormSetValue<ProfileFormValues>;
 }
 
 export const ImageInput = forwardRef<HTMLInputElement, Props>(
-  ({ profileImage, setValue, ...rest }, ref) => {
-    const [imageFile, setImageFile] = useState(profileImage);
+  ({ profileImageURL, setValue, ...rest }, ref) => {
+    const [imageURL, setImageURL] = useState(profileImageURL);
 
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const { menuVisible, handleToggle, menuRef, triggerRef, hideMenu } =
       useMenuToggle<HTMLDivElement>();
 
-    const defaultProfileImgFile = useConvertImgToFile(
-      UserIcon,
-      "user-icon.png"
-    );
-    const initProfileImgFile = useConvertImgToFile(
-      profileImage,
-      "initProfile.png"
-    );
+    const defaultImgFile = useConvertImgToFile(UserIcon, "user-icon");
+    const initImgFile = useConvertImgToFile(profileImageURL, "initProfile");
 
     const handleImageUpdate = (imageFile: File) => {
-      setImageFile(getImageURL(imageFile));
-      setValue("profileImage", imageFile);
+      setImageURL(getImageURL(imageFile));
+      setValue("profileImageFile", imageFile);
       hideMenu();
     };
 
@@ -58,8 +52,8 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
     };
 
     const handleDefaultImageBtnClick = () => {
-      if (defaultProfileImgFile) {
-        handleImageUpdate(defaultProfileImgFile);
+      if (defaultImgFile) {
+        handleImageUpdate(defaultImgFile);
       }
     };
 
@@ -73,17 +67,14 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
     useImperativeHandle(ref, () => inputRef.current!);
 
     useEffect(() => {
-      setValue("profileImage", initProfileImgFile!);
-    }, [initProfileImgFile, setValue]);
+      setValue("profileImageFile", initImgFile!);
+    }, [initImgFile, setValue]);
 
     return (
       <S.Container>
         <S.UploadInput ref={inputRef} {...rest} onChange={handleUploadImage} />
-        <S.UploadBox
-          ref={triggerRef}
-          $previewImage={imageFile}
-          onClick={handleToggle}
-        >
+        <S.UploadBox ref={triggerRef} onClick={handleToggle}>
+          <S.ProfileImage src={imageURL} />
           <S.Icon>
             <PlusIcon size={ICON_SIZE.SMALL} color="#FFFFFF" />
           </S.Icon>

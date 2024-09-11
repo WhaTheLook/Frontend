@@ -10,7 +10,7 @@ import { HeaderButton } from "../HeaderButton";
 import { modalLocationType, modalType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
-import { useModalContext } from "@/hooks/useModalContext";
+import { useModalContext } from "@/hooks/contexts/useModalContext";
 import { useLogout } from "@/hooks/useLogout";
 
 import {

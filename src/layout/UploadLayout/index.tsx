@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useReducer, useState } from "react";
+import { Fragment, useEffect, useReducer } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -14,20 +14,21 @@ import {
   UploadErrorKeys,
 } from "@/types";
 import {
-  API_PATH,
   PathnameType,
   TOAST_MESSAGE,
   toastType,
   UploadActionType,
 } from "@/constants";
+import { urlToFile } from "@/utils";
 
-import { useToastContext } from "@/hooks/useToastContex";
-import { useAuthMutation } from "@/hooks/useAuthMutation";
+import { useToastContext } from "@/hooks/contexts/useToastContex";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
+import { useCreatePostMutation } from "@/mutations/useCreatePostMutation";
+import { useUpdatePostMutation } from "@/mutations/useUpdatePostMutation";
+
 import * as S from "./style";
-import { urlToFile } from "@/utils";
 
 const initState: UploadDataType = {
   postType: { data: null, validation: false },
@@ -94,19 +95,16 @@ export function UploadLayout() {
   const { pathname } = location;
   const postEditData = location.state as PostDetailInfoType | null;
 
-  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector(selectCurrentUser);
   const [data, dispatch] = useReducer(reducer, initState);
   const { postType, images, title, description, tags } = data;
 
   const { handleToastOpen } = useToastContext();
-  const { fetcher } = useAuthMutation({
-    url: API_PATH.createPost(),
-    method: "POST",
-    body: getFormData(),
-    isFormData: true,
-    hasReturnType: false,
-  });
+
+  const { isPending: createIsPending, mutate: createMutate } =
+    useCreatePostMutation();
+  const { isPending: updateIsPending, mutate: updateMutate } =
+    useUpdatePostMutation();
 
   const checkAndAddError = (
     condition: boolean,
@@ -170,15 +168,27 @@ export function UploadLayout() {
       return;
     }
 
-    try {
-      setIsLoading(true);
-      await fetcher();
-
-      navigate("/profile");
-    } catch (error) {
-      showErrorToast(TOAST_MESSAGE.createPostError());
-    } finally {
-      setIsLoading(false);
+    switch (pathname) {
+      case PathnameType.UPLOAD:
+        createMutate(getFormData(), {
+          onSuccess: () => {
+            navigate("/profile");
+          },
+          onError: () => {
+            showErrorToast(TOAST_MESSAGE.failCreatePost());
+          },
+        });
+        break;
+      case PathnameType.POST_EDIT:
+        updateMutate(getFormData(), {
+          onSuccess: () => {
+            navigate("/profile");
+          },
+          onError: () => {
+            showErrorToast(TOAST_MESSAGE.failUpdatePost());
+          },
+        });
+        break;
     }
   };
 
@@ -208,7 +218,6 @@ export function UploadLayout() {
           description: postEditData.content,
           tags: postEditData.hashtags,
         };
-
         dispatch({ type: UploadActionType.EDIT, payload: editData });
       }
     }
@@ -221,7 +230,7 @@ export function UploadLayout() {
       <S.Container>
         <UploadHeader
           onSubmitBtnClick={handleSubmitBtnClick}
-          disabled={isLoading}
+          disabled={createIsPending || updateIsPending}
         />
         <S.Wrapper>
           <S.Box>

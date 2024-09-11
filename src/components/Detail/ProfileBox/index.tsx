@@ -6,8 +6,8 @@ import { OptionIcon } from "@/components/Icons/OptionIcon";
 import { modalLocationType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
-import { useModalContext } from "@/hooks/useModalContext";
-import { useDetailContext } from "@/hooks/useDetailContext";
+import { useModalContext } from "@/hooks/contexts/useModalContext";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 

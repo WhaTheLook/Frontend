@@ -9,7 +9,7 @@ import { API_PATH } from "@/constants";
 import { PostDetailInfoType } from "@/types";
 
 import { useAuthFetchSuspense } from "@/hooks/useAuthFetchSuspense";
-import { useDetailContext } from "@/hooks/useDetailContext";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import * as S from "./style";
 

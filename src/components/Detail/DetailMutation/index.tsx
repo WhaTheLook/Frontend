@@ -16,10 +16,10 @@ import {
 } from "@/constants";
 
 import { useAuthMutation } from "@/hooks/useAuthMutation";
-import { useToastContext } from "@/hooks/useToastContex";
-import { useDetailModalContext } from "@/hooks/useDetailModalContext";
-import { useModalContext } from "@/hooks/useModalContext";
-import { useDetailContext } from "@/hooks/useDetailContext";
+import { useToastContext } from "@/hooks/contexts/useToastContex";
+import { useDetailModalContext } from "@/hooks/contexts/useDetailModalContext";
+import { useModalContext } from "@/hooks/contexts/useModalContext";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import { setDeletePost } from "@/store/slice/myPageSlice";
 

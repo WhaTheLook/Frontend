@@ -1,6 +1,6 @@
 import { Comment } from "@/components/Detail/Comment";
 
-import { useDetailContext } from "@/hooks/useDetailContext";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import * as S from "./style";
 

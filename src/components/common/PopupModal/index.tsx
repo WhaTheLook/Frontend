@@ -6,7 +6,7 @@ import { LoginModal } from "@/components/common/LoginModal";
 import { modalType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
-import { useModalContext } from "@/hooks/useModalContext";
+import { useModalContext } from "@/hooks/contexts/useModalContext";
 
 import * as S from "./style";
 

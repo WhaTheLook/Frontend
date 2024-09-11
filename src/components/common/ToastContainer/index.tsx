@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 
 import { ToastMessage } from "../ToastMessage";
 
-import { useToastContext } from "@/hooks/useToastContex";
+import { useToastContext } from "@/hooks/contexts/useToastContex";
 
 import * as S from "./style";
 

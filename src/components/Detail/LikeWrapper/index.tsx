@@ -8,9 +8,9 @@ import { getLocalStorageItem } from "@/utils";
 import { ACCESS_TOKEN, API_PATH, TOAST_MESSAGE, toastType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
-import { useToastContext } from "@/hooks/useToastContex";
+import { useToastContext } from "@/hooks/contexts/useToastContex";
 import { useAuthMutation } from "@/hooks/useAuthMutation";
-import { useDetailContext } from "@/hooks/useDetailContext";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 

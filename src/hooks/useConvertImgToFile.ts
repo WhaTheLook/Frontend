@@ -1,18 +1,22 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-export function useConvertImgToFile( imageUrl: string, title: string) {
-    const [file, setFile] = useState<File | null>(null);
+const initProfileGCTime = 1000 * 30;
 
-    useEffect(() => {
-        const convertImgToFile = async () => {
-            const response = await fetch(imageUrl);
-            const blob = await response.blob();
-            const file = new File([blob], title, { type: "image/png" });
-            setFile(file);
-        }   
+export function useConvertImgToFile(imageUrl: string, title: string) {
+  const isDefaultImage = title === "user-icon";
 
-        convertImgToFile();
-    }, [imageUrl, title])
+  const fetcher = async () => {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    return new File([blob], title, { type: "image/png" });
+  };
 
-    return file;
+  const { data } = useQuery({
+    queryKey: ["image", imageUrl],
+    queryFn: fetcher,
+    staleTime: Infinity,
+    gcTime: isDefaultImage ? Infinity : initProfileGCTime,
+  });
+
+  return data;
 }

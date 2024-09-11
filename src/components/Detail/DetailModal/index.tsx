@@ -1,7 +1,7 @@
 import { MouseEvent, ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import { useDetailModalContext } from "@/hooks/useDetailModalContext";
+import { useDetailModalContext } from "@/hooks/contexts/useDetailModalContext";
 
 import * as S from "./style";
 

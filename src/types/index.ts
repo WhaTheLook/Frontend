@@ -95,7 +95,7 @@ export interface UploadLayoutContextProps {
 }
 
 export interface ProfileFormValues {
-  profileImage: File;
+  profileImageFile: File;
   profileName: string;
 }
 

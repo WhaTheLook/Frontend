@@ -30,7 +30,9 @@ export function useReIssueToken() {
           const { accessToken } = await response.json();
   
           setLocalStorageItem(ACCESS_TOKEN, accessToken);
-          dispatch(setSignIn())
+          dispatch(setSignIn());
+          
+          return accessToken;
         } catch (error) {
           // 세션 만료 로그아웃
           if (error instanceof CommonError) {

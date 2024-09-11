@@ -11,8 +11,8 @@ import { ICON_SIZE } from "@/constants/style";
 import { CommentsType, UserInfoType } from "@/types";
 
 import { useAuthMutation } from "@/hooks/useAuthMutation";
-import { useToastContext } from "@/hooks/useToastContex";
-import { useDetailContext } from "@/hooks/useDetailContext";
+import { useToastContext } from "@/hooks/contexts/useToastContex";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
