@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 
 import * as S from "./style";
 
-export function UploadButton() {
+export function CreateButton() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/upload");
+    navigate("/create");
   };
 
   return (

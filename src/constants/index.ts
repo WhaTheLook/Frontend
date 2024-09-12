@@ -49,7 +49,7 @@ export enum DetailActionType {
 }
 
 export enum PathnameType {
-    UPLOAD = "/upload",
+    CREATE = "/create",
     PROFILE = "/profile/edit",
     POST_EDIT = "/post/edit",
 }

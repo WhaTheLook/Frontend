@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "upload",
+    path: "create",
     element: (
       <AuthBoundary>
         <UploadLayout />
