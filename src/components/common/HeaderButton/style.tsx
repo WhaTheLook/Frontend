@@ -9,6 +9,7 @@ export const Container = styled.button`
 
   font-size: 14px;
   font-weight: 600;
+  white-space: nowrap;
   color: #ffffff;
 
   border-radius: 99px;

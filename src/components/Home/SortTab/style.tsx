@@ -1,8 +1,14 @@
+import media from "@/styles/media";
 import { styled, css } from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
   margin: 18px 0;
+
+  ${media.small`
+    padding: 0 8px;
+    box-sizing: border-box;
+  `}
 `;
 
 export const Wrapper = styled.div`

@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import { css, styled } from "styled-components";
 
 export const Container = styled.div``;
@@ -17,6 +18,12 @@ export const Box = styled.div`
 
   display: flex;
   gap: 50px;
+
+  position: relative;
+
+  ${media.small`
+    padding: 0;
+  `}
 `;
 
 interface MainProps {
@@ -28,7 +35,7 @@ export const Main = styled.main<MainProps>`
     return css`
       width: 100%;
       margin-top: 20px;
-      padding-bottom: 40px;
+      padding-bottom: 80px;
 
       display: flex;
       justify-content: ${$isCenter ? "center" : "baseline"};

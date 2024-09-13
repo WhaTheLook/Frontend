@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import { styled } from "styled-components";
 
 export const Container = styled.header`
@@ -41,6 +42,10 @@ export const InfoBox = styled.div`
 
 export const LoginMessage = styled.span`
   font-size: 16px;
+
+  ${media.small`
+    display: none;
+  `}
 `;
 
 export const UserName = styled.span`

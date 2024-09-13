@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import { styled } from "styled-components";
 
 export const Container = styled.div`
@@ -33,6 +34,11 @@ export const Container = styled.div`
   &:hover::before {
     opacity: 1;
   }
+
+  ${media.small`
+    width: 180px;
+    height: 180px;
+  `}
 `;
 
 export const PostImage = styled.img`
@@ -62,11 +68,21 @@ export const ImageCount = styled.div`
   position: absolute;
   top: 8px;
   right: 7px;
+
+  ${media.small`
+    padding: 3px 8px;
+
+    gap: 4px;
+  `}
 `;
 
 export const ImageCountSpan = styled.div`
   font-size: 16px;
   color: #fff;
+
+  ${media.small`
+    font-size: 14px;
+  `}
 `;
 
 export const InfoWrapper = styled.div`
@@ -87,12 +103,20 @@ export const InfoWrapper = styled.div`
   ${Container}:hover & {
     opacity: 1;
   }
+
+  ${media.small`
+    padding: 0 10px;
+  `}
 `;
 
 export const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 9px;
+
+  ${media.small`
+    gap: 5px;
+  `}
 `;
 
 export const Title = styled.span`
@@ -107,6 +131,12 @@ export const Title = styled.span`
   text-overflow: ellipsis;
 
   overflow: hidden;
+
+  ${media.small`
+    width: 100px;
+
+    font-size: 14px;
+  `}
 `;
 
 export const InfoTextBox = styled.div`
@@ -114,6 +144,10 @@ export const InfoTextBox = styled.div`
   gap: 4px;
 
   color: rgba(255, 255, 255, 0.55);
+
+  ${media.small`
+    gap: 2px;
+  `}
 `;
 
 export const Writter = styled.span`
@@ -127,6 +161,12 @@ export const Writter = styled.span`
   color: rgba(255, 255, 255, 0.55);
 
   overflow: hidden;
+
+  ${media.small`
+    max-width: 80px;
+
+    font-size: 10px;
+  `}
 `;
 
 export const Date = styled.span`
@@ -134,6 +174,10 @@ export const Date = styled.span`
 
   font-size: 12px;
   color: rgba(255, 255, 255, 0.55);
+
+  ${media.small`
+    font-size: 10px;
+  `}
 `;
 
 export const SubInfoBox = styled.div`
@@ -141,9 +185,17 @@ export const SubInfoBox = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 6px;
+
+  ${media.small`
+    gap: 4px;
+  `}
 `;
 
 export const HeartCount = styled.span`
   color: rgba(255, 255, 255, 0.55);
   font-size: 13px;
+
+  ${media.small`
+    font-size: 11px;
+  `}
 `;

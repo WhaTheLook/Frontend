@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import { styled } from "styled-components";
 
 export const Container = styled.div`
@@ -9,6 +10,11 @@ export const Container = styled.div`
   justify-content: space-between;
 
   border-radius: 10px;
+
+  ${media.small`
+    height: 130px;
+    padding: 4px 0px;
+  `}
 `;
 
 export const TextWrapper = styled.div`
@@ -18,6 +24,10 @@ export const TextWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
+
+  ${media.small`
+    gap: 12px;
+  `}
 `;
 
 export const TitleBox = styled.div`
@@ -29,6 +39,10 @@ export const TitleBox = styled.div`
   border-radius: 10px;
 
   cursor: pointer;
+
+  ${media.small`
+    gap: 12px;
+  `}
 `;
 
 export const Title = styled.span`
@@ -41,6 +55,11 @@ export const Title = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  ${media.small`
+    width: 380px;
+    font-size: 16px;
+  `}
 `;
 
 export const Description = styled.p`
@@ -53,17 +72,30 @@ export const Description = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  ${media.small`
+    width: 380px;
+    font-size: 14px;
+  `}
 `;
 
 export const TagsBox = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+
+  ${media.small`
+    gap: 10px;
+  `}
 `;
 
 export const Tag = styled.div`
   font-size: 14px;
   color: rgba(0, 0, 0, 0.5);
+
+  ${media.small`
+    font-size: 12px;
+  `}
 `;
 
 export const InfoBox = styled.div`
@@ -72,6 +104,10 @@ export const InfoBox = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+
+  ${media.small`
+    gap: 4px;
+  `}
 `;
 
 export const UserInfoBox = styled.div`
@@ -80,11 +116,20 @@ export const UserInfoBox = styled.div`
   gap: 5px;
 
   cursor: pointer;
+
+  ${media.small`
+    gap: 4px;
+  `}
 `;
 
 export const UserProfile = styled.div`
   width: 25px;
   height: 25px;
+
+  ${media.small`
+    width: 22px;
+    height: 22px;
+  `}
 `;
 
 export const ProfileImage = styled.img`
@@ -100,10 +145,18 @@ export const UserName = styled.span`
   ${UserInfoBox}:hover & {
     text-decoration: underline;
   }
+
+  ${media.small`
+    font-size: 11px;    
+  `}
 `;
 
 export const DateText = styled.span`
   font-size: 12px;
+
+  ${media.small`
+    font-size: 11px;    
+  `}
 `;
 
 export const SubInfoBox = styled.div`
@@ -118,11 +171,19 @@ export const SubInfoDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+
+  ${media.small`
+    gap: 4px;
+  `}
 `;
 
 export const SubInfoText = styled.span`
   font-size: 12px;
   color: rgba(0, 0, 0, 0.5);
+
+  ${media.small`
+    font-size: 11px;    
+  `}
 `;
 
 export const ImageWrapper = styled.div`
@@ -130,6 +191,11 @@ export const ImageWrapper = styled.div`
   height: 140px;
 
   position: relative;
+
+  ${media.small`
+    width: 125px;
+    height: 125px;
+  `}
 `;
 
 export const PostImage = styled.img`
