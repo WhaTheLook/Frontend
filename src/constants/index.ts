@@ -46,6 +46,7 @@ export enum DetailActionType {
     ADD_COMMENTS = "ADD_COMMENTS",
     DELETE_COMMENT = "DELETE_COMMENT",
     UPDATE_COMMENT = "UPDATE_COMMENT",
+    SET_COMMENT = "SET_COMMENT",
 }
 
 export enum PathnameType {
@@ -156,6 +157,7 @@ export const MAX_FETCH_SIZE_FLAT = 10;
 export const MAX_FETCH_SIZE_GRID = 9;
 export const FLATITEM_SKELETON_COUNT = 4;
 export const GRIDITEM_SKELETON_COUNT = 6;
+export const MAX_FETCH_SIZE_COMMENT = 10;
 
 export const ACCESS_TOKEN = "accessToken";
 export const REFRESH_TOKEN = "refreshToken";

@@ -88,6 +88,10 @@ export type DetailAction =
       type: DetailActionType.UPDATE_COMMENT;
       payload: { commentId: CommentsType["id"], newText: CommentsType["text"] };
     }
+  | {
+      type: DetailActionType.SET_COMMENT;
+      payload: CommentsType[];
+    }
 
 export interface UploadLayoutContextProps {
     data: UploadDataType;
@@ -151,9 +155,9 @@ export interface UserInfoFetchType {
   commentCount: number;
 }
 
-export interface PostListFetchType {
+export interface ListFetchType<T> {
   size: number;
-  content: PostListContentType[];
+  content: T[];
   number: number;
   sort: {
     empty: true;
@@ -186,6 +190,6 @@ export type ProtectedPathname =
   | "login";
 
 export interface SearchListFetchType {
-  posts: PostListFetchType;
+  posts: ListFetchType<PostListContentType>;
   total: number;
 }

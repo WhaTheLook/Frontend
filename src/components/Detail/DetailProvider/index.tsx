@@ -34,6 +34,7 @@ interface DetailContextProps {
   addComment: (newComment: CommentsType) => void;
   deleteComment: (commentId: CommentsType["id"]) => void;
   updateComment: ({ commentId, newText }: UpdateCommentType) => void;
+  setComment: (comments: CommentsType[]) => void;
 }
 
 export const DetailContext = createContext<DetailContextProps>({
@@ -42,6 +43,7 @@ export const DetailContext = createContext<DetailContextProps>({
   addComment: () => {},
   deleteComment: () => {},
   updateComment: () => {},
+  setComment: () => {},
 });
 
 function reducer(
@@ -78,6 +80,12 @@ function reducer(
         comments: [...copyedComments],
       };
     }
+    case DetailActionType.SET_COMMENT: {
+      return {
+        ...state,
+        comments: [...state.comments, ...payload],
+      };
+    }
     default:
       return state;
   }
@@ -94,24 +102,38 @@ export function DetailProvider({ children }: Props) {
     dispatch({ type: DetailActionType.SET_POST, payload: newPost });
   }, []);
 
-  const addComment = (newComment: CommentsType) => {
+  const addComment = useCallback((newComment: CommentsType) => {
     dispatch({ type: DetailActionType.ADD_COMMENTS, payload: newComment });
-  };
+  }, []);
 
-  const deleteComment = (commentId: CommentsType["id"]) => {
+  const deleteComment = useCallback((commentId: CommentsType["id"]) => {
     dispatch({ type: DetailActionType.DELETE_COMMENT, payload: commentId });
-  };
+  }, []);
 
-  const updateComment = ({ commentId, newText }: UpdateCommentType) => {
-    dispatch({
-      type: DetailActionType.UPDATE_COMMENT,
-      payload: { commentId, newText },
-    });
-  };
+  const updateComment = useCallback(
+    ({ commentId, newText }: UpdateCommentType) => {
+      dispatch({
+        type: DetailActionType.UPDATE_COMMENT,
+        payload: { commentId, newText },
+      });
+    },
+    []
+  );
+
+  const setComment = useCallback((comments: CommentsType[]) => {
+    dispatch({ type: DetailActionType.SET_COMMENT, payload: comments });
+  }, []);
 
   return (
     <DetailContext.Provider
-      value={{ data, setPostDetail, addComment, deleteComment, updateComment }}
+      value={{
+        data,
+        setPostDetail,
+        addComment,
+        deleteComment,
+        updateComment,
+        setComment,
+      }}
     >
       {children}
     </DetailContext.Provider>

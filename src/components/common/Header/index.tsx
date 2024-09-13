@@ -62,7 +62,7 @@ export function Header() {
           <Link to="/">
             <S.TitleBox>
               <LogoIcon size={ICON_SIZE.LARGE} />
-              <S.Title>WHATHELOOK</S.Title>
+              <S.Title>e:oat</S.Title>
             </S.TitleBox>
           </Link>
           <S.InfoBox>

@@ -8,8 +8,9 @@ import { DetailMutation } from "../DetailMutation";
 import { API_PATH } from "@/constants";
 import { PostDetailInfoType } from "@/types";
 
-import { useAuthFetchSuspense } from "@/hooks/useAuthFetchSuspense";
 import { useDetailContext } from "@/hooks/contexts/useDetailContext";
+
+import { useAuthSuspenseFetchQuery } from "@/hooks/query/useAuthSuspenseFetchQuery";
 
 import * as S from "./style";
 
@@ -22,25 +23,27 @@ export function PostDetail() {
 
   const { setPostDetail } = useDetailContext();
 
-  const { data, error } = useAuthFetchSuspense<PostDetailInfoType>({
-    url: API_PATH.postDetailInfo({
-      postId: selectedPostId,
-    }),
-    shouldTokenCheck: false,
-  });
+  const { data, error, isFetched } =
+    useAuthSuspenseFetchQuery<PostDetailInfoType>({
+      queryKey: ["detail", String(selectedPostId)],
+      url: API_PATH.postDetailInfo({
+        postId: selectedPostId,
+      }),
+      shouldTokenCheck: false,
+    });
 
   if (error) {
     throw error;
   }
 
   useEffect(() => {
-    if (data) {
-      setPostDetail(data);
-    }
+    if (!data) return;
+
+    setPostDetail(data);
   }, [data, setPostDetail]);
 
   return (
-    data && (
+    isFetched && (
       <Fragment>
         <S.Container $isModal={Boolean(postId)}>
           <ImageWrapper />
