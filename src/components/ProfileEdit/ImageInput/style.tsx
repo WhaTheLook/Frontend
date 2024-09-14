@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -54,6 +55,11 @@ export const Menu = styled.div`
   position: absolute;
   left: 115%;
   top: 40%;
+
+  ${media.small`
+    padding: 5px 3px;
+    width: 135px;
+  `}
 `;
 
 export const MenuButton = styled.button`
@@ -73,4 +79,9 @@ export const MenuButton = styled.button`
   &:hover {
     background-color: #f2f2f2;
   }
+
+  ${media.small`
+    padding: 6px 0;
+    font-size: 12px;
+  `}
 `;

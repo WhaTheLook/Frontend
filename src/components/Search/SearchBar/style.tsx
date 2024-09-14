@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
@@ -6,6 +7,10 @@ export const Container = styled.div`
   margin-bottom: 30px;
 
   position: relative;
+
+  ${media.small`
+    height: 50px;
+  `}
 `;
 
 interface FormProps {
@@ -50,6 +55,10 @@ export const InputText = styled.input`
     -webkit-appearance: none;
     appearance: none;
   }
+
+  ${media.small`
+    font-size: 20px;
+  `}
 `;
 
 export const BaseButton = styled.button`

@@ -34,11 +34,14 @@ export const Main = styled.main<MainProps>`
   ${({ $isCenter }) => {
     return css`
       width: 100%;
+      padding: 0 10px;
       margin-top: 20px;
       padding-bottom: 80px;
 
       display: flex;
       justify-content: ${$isCenter ? "center" : "baseline"};
+
+      box-sizing: border-box;
     `;
   }}
 `;

@@ -57,6 +57,7 @@ export const Title = styled.span`
   white-space: nowrap;
 
   ${media.small`
+    max-height: 22px;
     width: 380px;
     font-size: 16px;
   `}

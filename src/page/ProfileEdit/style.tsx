@@ -26,7 +26,7 @@ export const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: "center";
+  justify-content: center;
   gap: 50px;
 `;
 

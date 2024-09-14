@@ -13,6 +13,5 @@ export const Container = styled.div`
 
   ${media.small`
     gap: 8px;
-    padding: 0 8px;
   `}
 `;

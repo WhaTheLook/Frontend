@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import { styled, css } from "styled-components";
 
 export const Container = styled.nav`
@@ -50,6 +51,10 @@ export const Text = styled.span<TextProps>`
       white-space: nowrap;
 
       user-select: none;
+
+      ${media.small`
+        font-size: 16px;
+      `}
     `;
   }}
 `;

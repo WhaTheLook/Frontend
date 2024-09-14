@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
@@ -6,6 +7,10 @@ export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+
+  ${media.small`
+    gap: 8px;
+  `}
 `;
 
 const skeletonGradient = keyframes`
@@ -28,4 +33,9 @@ export const GridItemSkeleton = styled.div`
   border-radius: 8px;
 
   animation: ${skeletonGradient} 1.4s ease-in infinite;
+
+  ${media.small`
+    width: 180px;
+    height: 180px;
+  `}
 `;

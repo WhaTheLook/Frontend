@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { HomeIcon } from "@/components/Icons/HomeIcon";
 import { SearchIcon } from "@/components/Icons/SearchIcon";
@@ -9,6 +9,7 @@ import { UploadButton } from "../UploadButton";
 import { ICON_SIZE } from "@/constants/style";
 
 import * as S from "./style";
+import { useResizeWindow } from "@/hooks/useResizeWindow";
 
 const iconProps = { size: ICON_SIZE.MEDIUM_SMALL, color: "#000" };
 
@@ -36,6 +37,13 @@ const navigationList = [
 ];
 
 export function Navigation() {
+  const { breakPoint } = useResizeWindow();
+  const location = useLocation();
+  const { pathname } = location;
+
+  const isExistUploadButton = () =>
+    breakPoint === "small" && !(pathname === "/" || pathname === "/profile");
+
   return (
     <S.Container>
       <S.Wrapper>
@@ -50,7 +58,7 @@ export function Navigation() {
           ))}
         </S.List>
       </S.Wrapper>
-      <UploadButton />
+      {!isExistUploadButton() && <UploadButton />}
     </S.Container>
   );
 }
