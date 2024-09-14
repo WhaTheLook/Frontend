@@ -21,7 +21,7 @@ export function SearchFetcher({ children }: Props) {
   const fetchMoreElement = useRef<HTMLDivElement>(null);
 
   const {
-    result,
+    result: { content, last, totalCount },
     isLoading,
     isError,
     error,
@@ -40,28 +40,24 @@ export function SearchFetcher({ children }: Props) {
     throw error;
   }
 
-  const { posts, totalCount } = result;
+  useEffect(() => {
+    handleSetData(content, totalCount);
+  }, [content, totalCount, handleSetData]);
 
   useEffect(() => {
-    handleSetData(posts, totalCount);
-  }, [posts, totalCount, handleSetData]);
-
-  useEffect(() => {
-    if (intersecting) {
+    if (intersecting && !last) {
       fetchNextPage();
     }
-  }, [intersecting, fetchNextPage]);
+  }, [intersecting, fetchNextPage, last]);
 
   return (
     <Fragment>
       {isLoading && <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />}
-      {posts && children}
+      {content && children}
       {isFetchingNextPage && (
         <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
       )}
-      {!isFetchingNextPage && !shouldHandleError && (
-        <div ref={fetchMoreElement}></div>
-      )}
+      <div ref={fetchMoreElement}></div>
       {shouldHandleError && <PostToastError onClick={resetHandleError} />}
     </Fragment>
   );

@@ -51,9 +51,10 @@ export function useInfiniteSearchFetchQuery({ getUrl, queryKey }: Props) {
     });
 
   const result = useMemo(() => {
-    const posts = data?.pages.flatMap((page) => page.posts.content) || null;
+    const content = data?.pages.flatMap((page) => page.posts.content) || null;
+    const last = data?.pages[data.pages.length - 1].posts.last;
     const totalCount = data?.pages[0].total || 0;
-    return { posts, totalCount };
+    return { content, last, totalCount };
   }, [data]);
 
   return {

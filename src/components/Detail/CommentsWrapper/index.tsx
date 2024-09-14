@@ -7,6 +7,7 @@ import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import { usePostCommentsQuery } from "@/quires/usePostCommentsQuery";
+
 import * as S from "./style";
 
 export function CommentsWrapper() {
@@ -18,7 +19,7 @@ export function CommentsWrapper() {
   const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
   const {
-    result: { last, content },
+    result: { content, last },
     isFetchingNextPage,
     fetchNextPage,
     isLoading,

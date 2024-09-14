@@ -1,7 +1,7 @@
 import { API_PATH, MAX_FETCH_SIZE_COMMENT } from "@/constants";
 import { CommentsType } from "@/types";
 
-import { useInfiniteFetchQuery } from "@/hooks/query/useInfiteFetchQuery";
+import { useAuthInfiniteFetchQuery } from "@/hooks/query/useAuthInfiniteFetchQuery";
 
 const url = (page: number | undefined, postId: number) =>
   API_PATH.commentList({
@@ -11,8 +11,9 @@ const url = (page: number | undefined, postId: number) =>
   });
 
 export function usePostCommentsQuery(postId: number) {
-  return useInfiniteFetchQuery<CommentsType>({
+  return useAuthInfiniteFetchQuery<CommentsType>({
     queryKey: ["myComment", String(postId)],
     getUrl: (page) => url(page, postId),
+    shouldTokenCheck: false,
   });
 }

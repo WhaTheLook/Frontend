@@ -71,6 +71,8 @@ export function Comment({ data }: Props) {
     }
   };
 
+  const handleReplyBtnClick = () => {};
+
   useEffect(() => {
     const scrollView = document.getElementById("detail-scrollView");
     if (!scrollView || !menuVisible) return;
@@ -99,7 +101,9 @@ export function Comment({ data }: Props) {
             {data.children.length >= 1 && (
               <S.ContentButton>{`대댓글 (${data.children.length}개)`}</S.ContentButton>
             )}
-            <S.ContentButton>댓글 달기</S.ContentButton>
+            <S.ContentButton onClick={handleReplyBtnClick}>
+              댓글 달기
+            </S.ContentButton>
           </S.ContentButtonBox>
         </S.ContentWrapper>
       </S.Main>
