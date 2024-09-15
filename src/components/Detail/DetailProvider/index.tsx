@@ -28,6 +28,11 @@ interface UpdateCommentType {
   newText: CommentsType["text"];
 }
 
+interface ReplyCommentType {
+  newComment: CommentsType;
+  parentId: CommentsType["id"];
+}
+
 interface DetailContextProps {
   data: PostDetailInfoType;
   setPostDetail: (newData: PostDetailInfoType) => void;
@@ -35,6 +40,7 @@ interface DetailContextProps {
   deleteComment: (commentId: CommentsType["id"]) => void;
   updateComment: ({ commentId, newText }: UpdateCommentType) => void;
   setComment: (comments: CommentsType[]) => void;
+  replyComment: ({ newComment, parentId }: ReplyCommentType) => void;
 }
 
 export const DetailContext = createContext<DetailContextProps>({
@@ -44,6 +50,7 @@ export const DetailContext = createContext<DetailContextProps>({
   deleteComment: () => {},
   updateComment: () => {},
   setComment: () => {},
+  replyComment: () => {},
 });
 
 function reducer(
@@ -54,7 +61,10 @@ function reducer(
 
   switch (type) {
     case DetailActionType.SET_POST:
-      return payload;
+      return {
+        ...payload,
+        comments: [],
+      };
     case DetailActionType.ADD_COMMENTS:
       return {
         ...state,
@@ -83,7 +93,24 @@ function reducer(
     case DetailActionType.SET_COMMENT: {
       return {
         ...state,
-        comments: [...state.comments, ...payload],
+        comments: [...payload],
+      };
+    }
+    case DetailActionType.REPLY_COMMENT: {
+      const { newComment, parentId } = payload;
+      const updatedComments = state.comments.map((comment) => {
+        if (comment.id === parentId) {
+          return {
+            ...comment,
+            children: [...comment.children, newComment],
+          };
+        }
+        return comment;
+      });
+
+      return {
+        ...state,
+        comments: updatedComments,
       };
     }
     default:
@@ -124,6 +151,16 @@ export function DetailProvider({ children }: Props) {
     dispatch({ type: DetailActionType.SET_COMMENT, payload: comments });
   }, []);
 
+  const replyComment = useCallback(
+    ({ newComment, parentId }: ReplyCommentType) => {
+      dispatch({
+        type: DetailActionType.REPLY_COMMENT,
+        payload: { newComment, parentId },
+      });
+    },
+    []
+  );
+
   return (
     <DetailContext.Provider
       value={{
@@ -133,6 +170,7 @@ export function DetailProvider({ children }: Props) {
         deleteComment,
         updateComment,
         setComment,
+        replyComment,
       }}
     >
       {children}

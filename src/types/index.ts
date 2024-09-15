@@ -92,6 +92,10 @@ export type DetailAction =
       type: DetailActionType.SET_COMMENT;
       payload: CommentsType[];
     }
+  | {
+      type: DetailActionType.REPLY_COMMENT;
+      payload: { newComment: CommentsType, parentId: CommentsType["id"] };
+    }
 
 export interface UploadLayoutContextProps {
     data: UploadDataType;
@@ -118,12 +122,13 @@ export interface UserInfoType {
 }
 
 export interface CommentsType {
-  id: number;
+  accept: boolean;
   author: UserInfoType;
-  text: string;
-  date: string;
-  depth: number;
   children: CommentsType[];
+  date: string;
+  id: number;
+  targetUser: UserInfoType;
+  text: string;
 }
 
 export interface PostListContentType {

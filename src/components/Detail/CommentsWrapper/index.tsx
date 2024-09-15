@@ -11,12 +11,9 @@ import { usePostCommentsQuery } from "@/quires/usePostCommentsQuery";
 import * as S from "./style";
 
 export function CommentsWrapper() {
-  const { data } = useDetailContext();
-
-  const { setComment } = useDetailContext();
+  const { data, setComment } = useDetailContext();
 
   const fetchMoreElement = useRef<HTMLDivElement>(null);
-  const intersecting = useInfiniteScoll(fetchMoreElement, true);
 
   const {
     result: { content, last },
@@ -24,6 +21,8 @@ export function CommentsWrapper() {
     fetchNextPage,
     isLoading,
   } = usePostCommentsQuery(data.id);
+
+  const intersecting = useInfiniteScoll(fetchMoreElement, !last);
 
   useEffect(() => {
     if (!content) return;
@@ -39,8 +38,9 @@ export function CommentsWrapper() {
   return (
     <S.Container>
       {isLoading && <LoadingSpinner color="#A2A2A2" isNoPadding={true} />}
-      {content &&
-        content.map((comment) => <Comment key={comment.id} data={comment} />)}
+      {data.comments.map((comment) => (
+        <Comment key={comment.id} data={comment} />
+      ))}
       {isFetchingNextPage && (
         <LoadingSpinner color="#A2A2A2" isNoPadding={true} />
       )}

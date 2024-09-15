@@ -47,6 +47,7 @@ export enum DetailActionType {
     DELETE_COMMENT = "DELETE_COMMENT",
     UPDATE_COMMENT = "UPDATE_COMMENT",
     SET_COMMENT = "SET_COMMENT",
+    REPLY_COMMENT = "REPLY_COMMENT",
 }
 
 export enum PathnameType {

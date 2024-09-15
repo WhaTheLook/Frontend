@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
-export const Container = styled.li`
+export const Container = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const Wrapper = styled.li`
   width: 100%;
 
   display: flex;

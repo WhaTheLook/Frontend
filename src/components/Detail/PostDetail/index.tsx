@@ -21,9 +21,9 @@ export function PostDetail() {
   } = history; // 모달를 통한 렌더링 시
   const selectedPostId = Number(postId || modalPostId);
 
-  const { setPostDetail } = useDetailContext();
+  const { setPostDetail, data } = useDetailContext();
 
-  const { data, error, isFetched } =
+  const { data: fetchedData, error } =
     useAuthSuspenseFetchQuery<PostDetailInfoType>({
       queryKey: ["detail", String(selectedPostId)],
       url: API_PATH.postDetailInfo({
@@ -37,13 +37,13 @@ export function PostDetail() {
   }
 
   useEffect(() => {
-    if (!data) return;
+    if (!fetchedData) return;
 
-    setPostDetail(data);
-  }, [data, setPostDetail]);
+    setPostDetail(fetchedData);
+  }, [fetchedData, setPostDetail]);
 
   return (
-    isFetched && (
+    data.id !== 0 && (
       <Fragment>
         <S.Container $isModal={Boolean(postId)}>
           <ImageWrapper />
