@@ -47,7 +47,8 @@ export enum DetailActionType {
     DELETE_COMMENT = "DELETE_COMMENT",
     UPDATE_COMMENT = "UPDATE_COMMENT",
     SET_COMMENT = "SET_COMMENT",
-    REPLY_COMMENT = "REPLY_COMMENT",
+    ADD_REPLY_COMMENT = "ADD_REPLY_COMMENT",
+    SET_REPLY_COMMENT = "SET_REPLY_COMMENT",
 }
 
 export enum PathnameType {
@@ -114,6 +115,13 @@ interface CommentListArgType {
     lastCommentId?: number;
 }
 
+interface ReplyCommentListArgType {
+    postId: number;
+    parentId: number;
+    size: number;
+    lastCommentId?: number;
+}
+
 export const API_PATH = {
     login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
@@ -152,13 +160,17 @@ export const API_PATH = {
     },
     deleteComment: ({ commentId }: { commentId: number }) => `${API_URL}/post/${commentId}/delete`,
     updateComment: ({ commentId }: { commentId: number }) => `${API_URL}/post/${commentId}/update`,
+    replyCommentList: ({ postId, parentId, size, lastCommentId }: ReplyCommentListArgType) => {
+        const baseUrl = `${API_URL}/post/${postId}/${parentId}/comment?size=${size}`;
+        return lastCommentId ? `${baseUrl}&lastCommentId=${lastCommentId}` : baseUrl;
+    }
 }
 
 export const MAX_FETCH_SIZE_FLAT = 10;
 export const MAX_FETCH_SIZE_GRID = 9;
 export const FLATITEM_SKELETON_COUNT = 4;
 export const GRIDITEM_SKELETON_COUNT = 6;
-export const MAX_FETCH_SIZE_COMMENT = 10;
+export const MAX_FETCH_SIZE_COMMENT = 1;
 
 export const ACCESS_TOKEN = "accessToken";
 export const REFRESH_TOKEN = "refreshToken";

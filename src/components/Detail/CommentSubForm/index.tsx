@@ -31,7 +31,7 @@ export function CommentSubForm({ type, data, handleClose }: Props) {
   const [inputText, setInputText] = useState(type === "EDIT" ? data.text : "");
 
   const { handleToastOpen } = useToastContext();
-  const { updateComment, replyComment } = useDetailContext();
+  const { updateComment, addReplyComment } = useDetailContext();
 
   const loginUserInfo = useSelector(selectCurrentUser) as UserInfoType;
 
@@ -90,7 +90,7 @@ export function CommentSubForm({ type, data, handleClose }: Props) {
         replyMutate(JSON.stringify(replyPayload), {
           onSuccess: (newComment) => {
             handleClose();
-            replyComment({ newComment: newComment!, parentId: data.id });
+            addReplyComment({ newComment: newComment!, parentId: data.id });
           },
           onError: () => {
             handleToastOpen({
@@ -104,7 +104,7 @@ export function CommentSubForm({ type, data, handleClose }: Props) {
   };
 
   return (
-    <S.EditForm>
+    <S.EditForm $isEdit={type === "EDIT"}>
       <S.EditTextArea value={inputText} onChange={handleChange} />
       <S.EditButtonBox>
         <S.EditCancleBtn

@@ -40,7 +40,8 @@ interface DetailContextProps {
   deleteComment: (commentId: CommentsType["id"]) => void;
   updateComment: ({ commentId, newText }: UpdateCommentType) => void;
   setComment: (comments: CommentsType[]) => void;
-  replyComment: ({ newComment, parentId }: ReplyCommentType) => void;
+  addReplyComment: ({ newComment, parentId }: ReplyCommentType) => void;
+  setReplyComment: (comments: CommentsType[]) => void;
 }
 
 export const DetailContext = createContext<DetailContextProps>({
@@ -50,7 +51,8 @@ export const DetailContext = createContext<DetailContextProps>({
   deleteComment: () => {},
   updateComment: () => {},
   setComment: () => {},
-  replyComment: () => {},
+  addReplyComment: () => {},
+  setReplyComment: () => {},
 });
 
 function reducer(
@@ -96,21 +98,37 @@ function reducer(
         comments: [...payload],
       };
     }
-    case DetailActionType.REPLY_COMMENT: {
-      const { newComment, parentId } = payload;
-      const updatedComments = state.comments.map((comment) => {
-        if (comment.id === parentId) {
-          return {
-            ...comment,
-            children: [...comment.children, newComment],
-          };
-        }
-        return comment;
-      });
+    case DetailActionType.ADD_REPLY_COMMENT: {
+      // const { newComment, parentId } = payload;
+      // const updatedComments = state.comments.map((comment) => {
+      //   if (comment.id === parentId) {
+      //     return {
+      //       ...comment,
+      //       children: [...comment.children, newComment],
+      //     };
+      //   }
+      //   return comment;
+      // });
 
       return {
         ...state,
-        comments: updatedComments,
+        // comments: updatedComments,
+      };
+    }
+    case DetailActionType.SET_REPLY_COMMENT: {
+      // const { newComment, parentId } = payload;
+      // const updatedComments = state.comments.map((comment) => {
+      //   if (comment.id === parentId) {
+      //     return {
+      //       ...comment,
+      //       children: [...comment.children, newComment],
+      //     };
+      //   }
+      //   return comment;
+      // });
+      return {
+        ...state,
+        comments: [...payload],
       };
     }
     default:
@@ -151,10 +169,14 @@ export function DetailProvider({ children }: Props) {
     dispatch({ type: DetailActionType.SET_COMMENT, payload: comments });
   }, []);
 
-  const replyComment = useCallback(
+  const setReplyComment = useCallback((comments: CommentsType[]) => {
+    dispatch({ type: DetailActionType.SET_REPLY_COMMENT, payload: comments });
+  }, []);
+
+  const addReplyComment = useCallback(
     ({ newComment, parentId }: ReplyCommentType) => {
       dispatch({
-        type: DetailActionType.REPLY_COMMENT,
+        type: DetailActionType.ADD_REPLY_COMMENT,
         payload: { newComment, parentId },
       });
     },
@@ -170,7 +192,8 @@ export function DetailProvider({ children }: Props) {
         deleteComment,
         updateComment,
         setComment,
-        replyComment,
+        addReplyComment,
+        setReplyComment,
       }}
     >
       {children}

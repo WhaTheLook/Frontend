@@ -21,9 +21,12 @@ import * as S from "./style";
 
 interface Props {
   data: CommentsType;
+  type: "PARENT" | "CHILDREN";
+  toggleReplyShow?: (commentId: number) => void;
+  isShowReply?: boolean;
 }
 
-export function Comment({ data }: Props) {
+export function Comment({ data, toggleReplyShow, type, isShowReply }: Props) {
   const {
     author: { kakaoId, name, profileImage },
   } = data;
@@ -57,7 +60,7 @@ export function Comment({ data }: Props) {
     handleToggle();
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     mutate(undefined, {
       onSuccess: () => {
         deleteComment(data.id);
@@ -76,6 +79,11 @@ export function Comment({ data }: Props) {
         handleToggle();
       },
     });
+  };
+
+  const handleViewReply = () => {
+    if (!toggleReplyShow) return;
+    toggleReplyShow(data.id);
   };
 
   const handleReplyBtnClick = () => {
@@ -108,7 +116,12 @@ export function Comment({ data }: Props) {
               <S.Date title={data.date}>{calculateDaysAgo(data.date)}</S.Date>
             </S.NameBox>
             {!isEdit ? (
-              <S.Content>{data.text}</S.Content>
+              <S.Content>
+                {type === "CHILDREN" && (
+                  <S.TargetUser>{`@${data.targetUser.name}`}</S.TargetUser>
+                )}
+                {data.text}
+              </S.Content>
             ) : (
               <CommentSubForm
                 type="EDIT"
@@ -117,8 +130,12 @@ export function Comment({ data }: Props) {
               />
             )}
             <S.ContentButtonBox>
-              {data.children.length >= 1 && (
-                <S.ContentButton>{`대댓글 (${data.children.length}개)`}</S.ContentButton>
+              {type === "PARENT" && data.childrenCount >= 1 && (
+                <S.ContentButton onClick={handleViewReply}>
+                  {isShowReply
+                    ? "대댓글 접기"
+                    : `대댓글 (${data.childrenCount}개)`}
+                </S.ContentButton>
               )}
               <S.ContentButton onClick={handleReplyBtnClick}>
                 댓글 달기

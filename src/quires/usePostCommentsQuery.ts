@@ -12,7 +12,7 @@ const url = (page: number | undefined, postId: number) =>
 
 export function usePostCommentsQuery(postId: number) {
   return useAuthInfiniteFetchQuery<CommentsType>({
-    queryKey: ["myComment", String(postId)],
+    queryKey: ["postComment", String(postId)],
     getUrl: (page) => url(page, postId),
     shouldTokenCheck: false,
   });

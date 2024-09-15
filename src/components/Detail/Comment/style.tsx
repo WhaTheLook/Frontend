@@ -56,7 +56,17 @@ export const ContentWrapper = styled.div`
   gap: 8px;
 `;
 
+export const TargetUser = styled.span`
+  font-size: 13px;
+  font-weight: 600;
+  color: #a2a2a2;
+`;
+
 export const Content = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
   font-size: 13px;
 `;
 
