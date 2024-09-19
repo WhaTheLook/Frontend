@@ -78,7 +78,7 @@ export type DetailAction =
     }
   | {
       type: DetailActionType.ADD_COMMENTS;
-      payload: CommentsType;
+      payload: CommentsViewType;
     }
   | {
       type: DetailActionType.DELETE_COMMENT;
@@ -90,7 +90,7 @@ export type DetailAction =
     }
   | {
       type: DetailActionType.SET_COMMENT;
-      payload: CommentsType[];
+      payload: CommentsViewType[];
     }
   | {
       type: DetailActionType.ADD_REPLY_COMMENT;
@@ -98,7 +98,7 @@ export type DetailAction =
     }
   | {
       type: DetailActionType.SET_REPLY_COMMENT;
-      payload: CommentsType[];
+      payload: { newComments: CommentsType[], parentId: CommentsType["id"] };
     }
 
 export interface UploadLayoutContextProps {
@@ -135,6 +135,10 @@ export interface CommentsType {
   text: string;
 }
 
+export interface CommentsViewType extends CommentsType {
+  children: CommentsViewType[]
+}
+
 export interface PostListContentType {
     id: number;
     author: UserInfoType;
@@ -151,7 +155,7 @@ export interface PostListContentType {
 
 export interface PostDetailInfoType extends PostListContentType {
   deleteYN: boolean;
-  comments: CommentsType[];
+  comments: CommentsViewType[];
 }
 
 export interface UserInfoFetchType {

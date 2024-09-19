@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Comment } from "../Comment";
 
-import { CommentsType } from "@/types";
+import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import { useReplyCommentQuery } from "@/quires/useReplyCommentQuery";
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function ReplyComments({ postId, parentId, childrenCount }: Props) {
-  const [data, setData] = useState<CommentsType[]>([]);
+  const { data, setReplyComment } = useDetailContext();
 
   const {
     result: { content, last },
@@ -24,6 +24,10 @@ export function ReplyComments({ postId, parentId, childrenCount }: Props) {
     fetchNextPage,
     isLoading,
   } = useReplyCommentQuery({ postId, parentId });
+
+  const replyComments = data.comments.find(
+    (comment) => comment.id === parentId
+  )?.children;
 
   const handleViewMore = () => {
     fetchNextPage();
@@ -35,13 +39,13 @@ export function ReplyComments({ postId, parentId, childrenCount }: Props) {
 
   useEffect(() => {
     if (!content) return;
-    setData(content);
-  }, [content]);
+    setReplyComment(content, parentId);
+  }, [content, parentId, setReplyComment]);
 
   return (
     <S.Container>
       {isLoading && <LoadingSpinner color="#A2A2A2" isNoPadding={true} />}
-      {data.map((comment) => (
+      {replyComments?.map((comment) => (
         <Comment key={comment.id} data={comment} type="CHILDREN" />
       ))}
       {isFetchingNextPage && (
@@ -49,7 +53,7 @@ export function ReplyComments({ postId, parentId, childrenCount }: Props) {
       )}
       {showViewMoreButton() && (
         <S.ViewMoreButton onClick={handleViewMore}>
-          {`${childrenCount - data.length}개 댓글 더보기`}
+          {`${childrenCount - replyComments!.length}개 댓글 더보기`}
         </S.ViewMoreButton>
       )}
     </S.Container>

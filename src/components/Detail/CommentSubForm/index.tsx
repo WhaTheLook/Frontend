@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -29,10 +29,11 @@ export function CommentSubForm({ type, data, handleClose }: Props) {
   const selectedPostId = Number(postId || modalPostId);
 
   const [inputText, setInputText] = useState(type === "EDIT" ? data.text : "");
+  const parentUserName = `@${data.author.name} `;
 
   const { handleToastOpen } = useToastContext();
-  const { updateComment, addReplyComment } = useDetailContext();
-
+  const { updateComment, addReplyComment, data: data1 } = useDetailContext();
+  console.log(data1.comments);
   const loginUserInfo = useSelector(selectCurrentUser) as UserInfoType;
 
   const editPayload = { commentId: data.id, text: inputText };
@@ -40,7 +41,7 @@ export function CommentSubForm({ type, data, handleClose }: Props) {
     postId: selectedPostId,
     userId: Number(loginUserInfo.kakaoId),
     parentId: data.id,
-    text: inputText,
+    text: inputText.replace(parentUserName, "").trim(),
     targetId: data.author.kakaoId,
   };
 
@@ -61,7 +62,18 @@ export function CommentSubForm({ type, data, handleClose }: Props) {
 
   const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = target;
-    setInputText(value);
+    switch (type) {
+      case "EDIT":
+        setInputText(value);
+        break;
+      case "REPLY":
+        if (!value.startsWith(parentUserName)) {
+          setInputText(parentUserName);
+        } else {
+          setInputText(value);
+        }
+        break;
+    }
   };
 
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
@@ -102,6 +114,12 @@ export function CommentSubForm({ type, data, handleClose }: Props) {
         break;
     }
   };
+
+  useEffect(() => {
+    if (type === "REPLY") {
+      setInputText(parentUserName);
+    }
+  }, [type, parentUserName]);
 
   return (
     <S.EditForm $isEdit={type === "EDIT"}>

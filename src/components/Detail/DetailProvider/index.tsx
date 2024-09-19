@@ -1,6 +1,11 @@
 import { createContext, ReactNode, useCallback, useReducer } from "react";
 
-import { CommentsType, DetailAction, PostDetailInfoType } from "@/types";
+import {
+  CommentsType,
+  CommentsViewType,
+  DetailAction,
+  PostDetailInfoType,
+} from "@/types";
 import { DetailActionType } from "@/constants";
 
 const initState: PostDetailInfoType = {
@@ -36,12 +41,12 @@ interface ReplyCommentType {
 interface DetailContextProps {
   data: PostDetailInfoType;
   setPostDetail: (newData: PostDetailInfoType) => void;
-  addComment: (newComment: CommentsType) => void;
+  addComment: (comment: CommentsType) => void;
   deleteComment: (commentId: CommentsType["id"]) => void;
   updateComment: ({ commentId, newText }: UpdateCommentType) => void;
   setComment: (comments: CommentsType[]) => void;
   addReplyComment: ({ newComment, parentId }: ReplyCommentType) => void;
-  setReplyComment: (comments: CommentsType[]) => void;
+  setReplyComment: (comments: CommentsType[], parentId: number) => void;
 }
 
 export const DetailContext = createContext<DetailContextProps>({
@@ -73,23 +78,62 @@ function reducer(
         comments: [payload, ...state.comments],
       };
     case DetailActionType.DELETE_COMMENT: {
-      const filteredComments = [...state.comments].filter(
-        ({ id }) => id !== payload
-      );
+      const commentId = payload;
+      const deleteCommentById = (
+        comments: CommentsViewType[],
+        id: number
+      ): CommentsViewType[] => {
+        if (!comments) return [];
+        return comments
+          .filter((comment) => comment.id !== id)
+          .map((comment) => ({
+            ...comment,
+            children: deleteCommentById(comment.children, id),
+          }));
+      };
+
+      const deletedComments = deleteCommentById([...state.comments], commentId);
+      // const filteredComments = [...state.comments].filter(
+      //   ({ id }) => id !== payload
+      // );
       return {
         ...state,
-        comments: [...filteredComments],
+        comments: [...deletedComments],
       };
     }
     case DetailActionType.UPDATE_COMMENT: {
       const { commentId, newText } = payload;
-      const copyedComments = [...state.comments].map((comment) =>
-        comment.id === commentId ? { ...comment, text: newText } : comment
+
+      const updateCommentText = (
+        comments: CommentsViewType[],
+        id: number,
+        newText: string
+      ): CommentsViewType[] => {
+        return comments.map((comment) => {
+          if (comment.id === id) {
+            return { ...comment, text: newText };
+          }
+
+          if (comment.children && comment.children.length > 0) {
+            return {
+              ...comment,
+              children: updateCommentText(comment.children, id, newText),
+            };
+          }
+
+          return comment;
+        });
+      };
+
+      const updatedComments = updateCommentText(
+        [...state.comments],
+        commentId,
+        newText
       );
 
       return {
         ...state,
-        comments: [...copyedComments],
+        comments: [...updatedComments],
       };
     }
     case DetailActionType.SET_COMMENT: {
@@ -99,36 +143,31 @@ function reducer(
       };
     }
     case DetailActionType.ADD_REPLY_COMMENT: {
-      // const { newComment, parentId } = payload;
-      // const updatedComments = state.comments.map((comment) => {
-      //   if (comment.id === parentId) {
-      //     return {
-      //       ...comment,
-      //       children: [...comment.children, newComment],
-      //     };
-      //   }
-      //   return comment;
-      // });
+      const { newComment, parentId } = payload;
+      const addComments = state.comments.map((comment) => {
+        if (comment.id === parentId) {
+          return { ...comment, children: [...comment.children, newComment] };
+        }
+        return comment;
+      }) as CommentsViewType[];
 
       return {
         ...state,
-        // comments: updatedComments,
+        comments: [...addComments],
       };
     }
     case DetailActionType.SET_REPLY_COMMENT: {
-      // const { newComment, parentId } = payload;
-      // const updatedComments = state.comments.map((comment) => {
-      //   if (comment.id === parentId) {
-      //     return {
-      //       ...comment,
-      //       children: [...comment.children, newComment],
-      //     };
-      //   }
-      //   return comment;
-      // });
+      const { newComments, parentId } = payload;
+
+      const newRepyComments = state.comments.map((comment) => {
+        if (comment.id === parentId) {
+          return { ...comment, children: [...newComments] };
+        }
+        return comment;
+      }) as CommentsViewType[];
       return {
         ...state,
-        comments: [...payload],
+        comments: [...newRepyComments],
       };
     }
     default:
@@ -143,18 +182,23 @@ interface Props {
 export function DetailProvider({ children }: Props) {
   const [data, dispatch] = useReducer(reducer, initState);
 
+  // 게시글 정보 출력
   const setPostDetail = useCallback((newPost: PostDetailInfoType) => {
     dispatch({ type: DetailActionType.SET_POST, payload: newPost });
   }, []);
 
-  const addComment = useCallback((newComment: CommentsType) => {
+  // 댓글 생성
+  const addComment = useCallback((comments: CommentsType) => {
+    const newComment: CommentsViewType = { ...comments, children: [] };
     dispatch({ type: DetailActionType.ADD_COMMENTS, payload: newComment });
   }, []);
 
+  // 댓글 삭제
   const deleteComment = useCallback((commentId: CommentsType["id"]) => {
     dispatch({ type: DetailActionType.DELETE_COMMENT, payload: commentId });
   }, []);
 
+  // 댓글 수정
   const updateComment = useCallback(
     ({ commentId, newText }: UpdateCommentType) => {
       dispatch({
@@ -165,14 +209,26 @@ export function DetailProvider({ children }: Props) {
     []
   );
 
+  // 댓글 출력
   const setComment = useCallback((comments: CommentsType[]) => {
-    dispatch({ type: DetailActionType.SET_COMMENT, payload: comments });
+    const newComments: CommentsViewType[] = comments.map((comment) => {
+      return { ...comment, children: [] };
+    });
+    dispatch({ type: DetailActionType.SET_COMMENT, payload: newComments });
   }, []);
 
-  const setReplyComment = useCallback((comments: CommentsType[]) => {
-    dispatch({ type: DetailActionType.SET_REPLY_COMMENT, payload: comments });
-  }, []);
+  // 대댓글 출력
+  const setReplyComment = useCallback(
+    (comments: CommentsType[], parentId: number) => {
+      dispatch({
+        type: DetailActionType.SET_REPLY_COMMENT,
+        payload: { newComments: comments, parentId },
+      });
+    },
+    []
+  );
 
+  // 대댓글 작성
   const addReplyComment = useCallback(
     ({ newComment, parentId }: ReplyCommentType) => {
       dispatch({
