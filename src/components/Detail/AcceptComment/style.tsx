@@ -1,11 +1,17 @@
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
-  width: 100%;
+  background-color: rgba(246, 229, 141, 0.6);
+  padding: 10px 7px;
 
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 15px;
+  border-radius: 7px;
+`;
+
+export const AcceptText = styled.span`
+  font-size: 13px;
 `;
 
 export const Wrapper = styled.li`
@@ -56,36 +62,12 @@ export const ContentWrapper = styled.div`
   gap: 8px;
 `;
 
-export const TargetUser = styled.span`
-  font-size: 13px;
-  font-weight: 600;
-  color: #a2a2a2;
-`;
-
 export const Content = styled.p`
   display: flex;
   align-items: center;
   gap: 7px;
 
   font-size: 13px;
-`;
-
-export const ContentButtonBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-export const ContentButton = styled.button`
-  background-color: transparent;
-  padding: 0;
-
-  font-size: 12px;
-  color: #a2a2a2;
-
-  border: none;
-
-  cursor: pointer;
 `;
 
 export const IconWrapper = styled.div`

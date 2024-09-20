@@ -128,21 +128,39 @@ export function UploadLayout() {
     return errorKeys;
   };
 
+  function createPostBlob(postData: object) {
+    return new Blob([JSON.stringify(postData)], { type: "application/json" });
+  }
+
+  function getPostData(isEdit: boolean) {
+    const baseData = {
+      title: title.data.trim(),
+      content: description.data.trim(),
+      category: postType.data,
+      hashtags: tags.data.map((tag) => `#${tag}`),
+    };
+
+    if (isEdit) {
+      return {
+        id: postEditData?.id,
+        author: user?.kakaoId,
+        ...baseData,
+      };
+    }
+
+    return {
+      kakaoId: user?.kakaoId,
+      ...baseData,
+    };
+  }
+
   function getFormData() {
     const formData = new FormData();
-    const postRequestData = new Blob(
-      [
-        JSON.stringify({
-          kakaoId: user?.kakaoId,
-          title: title.data.trim(),
-          content: description.data.trim(),
-          category: postType.data,
-          hashtags: tags.data.map((tag) => `#${tag}`),
-        }),
-      ],
-      { type: "application/json" }
-    );
-    formData.append("postRequest", postRequestData);
+    const isEdit = pathname === PathnameType.POST_EDIT;
+    const postBlob = createPostBlob(getPostData(isEdit));
+
+    formData.append(isEdit ? "postUpdateRequest" : "postRequest", postBlob);
+
     images.data
       .map((image) => image.file)
       .forEach((image) => formData.append("photos", image as File));
@@ -169,7 +187,7 @@ export function UploadLayout() {
     }
 
     switch (pathname) {
-      case PathnameType.UPLOAD:
+      case PathnameType.CREATE:
         createMutate(getFormData(), {
           onSuccess: () => {
             navigate("/profile");
@@ -207,7 +225,7 @@ export function UploadLayout() {
     }
 
     async function processEditData() {
-      if (pathname === PathnameType.UPLOAD) {
+      if (pathname === PathnameType.CREATE) {
         dispatch({ type: UploadActionType.RESET, payload: null });
       } else if (pathname === PathnameType.POST_EDIT && postEditData) {
         const images = await getImagesFormat(postEditData.photoUrls);
@@ -216,7 +234,7 @@ export function UploadLayout() {
           images,
           title: postEditData.title,
           description: postEditData.content,
-          tags: postEditData.hashtags,
+          tags: postEditData.hashtags.map((tag) => tag.slice(1)),
         };
         dispatch({ type: UploadActionType.EDIT, payload: editData });
       }

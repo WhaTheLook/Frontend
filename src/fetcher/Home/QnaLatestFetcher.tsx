@@ -1,31 +1,23 @@
-import { Fragment, ReactNode, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Fragment, ReactNode, useContext, useEffect, useRef } from "react";
 
+import { PostContext } from "@/components/common/PostProvider";
 import { FlatListSkeleton } from "@/components/common/FlatListSkeleton";
-import { PostToastError } from "@/components/common/PostToastError";
 import { Divider } from "@/components/common/Divider";
+import { PostToastError } from "@/components/common/PostToastError";
 
 import { FLATITEM_SKELETON_COUNT } from "@/constants";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
 
-import {
-  MyPageUserInfoType,
-  selectUserInfo,
-  setCommentData,
-} from "@/store/slice/myPageSlice";
-
-import { useMyCommentsQuery } from "@/quires/useMyCommentsQuery";
+import { useQnaLatestQuery } from "@/quires/useQnaLatestQuery";
 
 interface Props {
   children: ReactNode;
 }
 
-export function MyCommentsFetcher({ children }: Props) {
-  const dispatch = useDispatch();
-
-  const user = useSelector(selectUserInfo) as MyPageUserInfoType;
+export function QnaLatestFetcher({ children }: Props) {
+  const { handleSetData } = useContext(PostContext);
 
   const fetchMoreElement = useRef<HTMLDivElement>(null);
 
@@ -37,7 +29,7 @@ export function MyCommentsFetcher({ children }: Props) {
     isError,
     error,
     fetchNextPage,
-  } = useMyCommentsQuery(user?.kakaoId);
+  } = useQnaLatestQuery();
 
   const { shouldHandleError, resetHandleError } = useInfiniteFetchError({
     isFetchingNextPage,
@@ -50,9 +42,13 @@ export function MyCommentsFetcher({ children }: Props) {
   }
 
   useEffect(() => {
+    handleSetData(null);
+  }, [handleSetData]);
+
+  useEffect(() => {
     if (!content) return;
-    dispatch(setCommentData({ data: content }));
-  }, [content, dispatch]);
+    handleSetData(content);
+  }, [content, handleSetData]);
 
   useEffect(() => {
     if (intersecting && !last) {

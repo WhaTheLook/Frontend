@@ -4,12 +4,13 @@ import { HomeIcon } from "@/components/Icons/HomeIcon";
 import { SearchIcon } from "@/components/Icons/SearchIcon";
 import { BookMarkIcon } from "@/components/Icons/BookmarkIcon";
 import { UserIcon } from "@/components/Icons/UserIcon";
-import { UploadButton } from "../UploadButton";
+import { CreateButton } from "@/components/common/CreateButton";
 
 import { ICON_SIZE } from "@/constants/style";
 
-import * as S from "./style";
 import { useResizeWindow } from "@/hooks/useResizeWindow";
+
+import * as S from "./style";
 
 const iconProps = { size: ICON_SIZE.MEDIUM_SMALL, color: "#000" };
 
@@ -58,7 +59,7 @@ export function Navigation() {
           ))}
         </S.List>
       </S.Wrapper>
-      {!isExistUploadButton() && <UploadButton />}
+      {!isExistUploadButton() && <CreateButton />}
     </S.Container>
   );
 }

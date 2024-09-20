@@ -8,7 +8,9 @@ import { DetailProvider } from "@/components/Detail/DetailProvider";
 export function Detail() {
   return (
     <ApiErrorBoundary>
-      <Suspense fallback={<LoadingSpinner color="#B2B2B2" isNoPadding />}>
+      <Suspense
+        fallback={<LoadingSpinner color="#B2B2B2" isNoPadding={false} />}
+      >
         <DetailProvider>
           <PostDetail />
         </DetailProvider>

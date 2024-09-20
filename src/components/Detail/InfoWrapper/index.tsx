@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { AcceptComment } from "../AcceptComment";
+
 import { calculateDaysAgo } from "@/utils";
 
 import { useDetailContext } from "@/hooks/contexts/useDetailContext";
@@ -23,6 +25,7 @@ export function InfoWrapper() {
         </S.Tags>
       )}
       <S.Date title={data.date}>{calculateDaysAgo(data.date)}</S.Date>
+      {data.accept && <AcceptComment data={data.accept} />}
     </S.ContentBox>
   );
 }

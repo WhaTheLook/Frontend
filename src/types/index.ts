@@ -78,7 +78,7 @@ export type DetailAction =
     }
   | {
       type: DetailActionType.ADD_COMMENTS;
-      payload: CommentsType;
+      payload: CommentsViewType;
     }
   | {
       type: DetailActionType.DELETE_COMMENT;
@@ -87,6 +87,26 @@ export type DetailAction =
   | {
       type: DetailActionType.UPDATE_COMMENT;
       payload: { commentId: CommentsType["id"], newText: CommentsType["text"] };
+    }
+  | {
+      type: DetailActionType.SET_COMMENT;
+      payload: CommentsViewType[];
+    }
+  | {
+      type: DetailActionType.ADD_REPLY_COMMENT;
+      payload: { newComment: CommentsType, parentId: CommentsType["id"] };
+    }
+  | {
+      type: DetailActionType.SET_REPLY_COMMENT;
+      payload: { newComments: CommentsType[], parentId: CommentsType["id"] };
+    }
+  | {
+      type: DetailActionType.SET_ACCEPT_COMMENT;
+      payload: CommentsType;
+    }
+  | {
+      type: DetailActionType.RESET_ACCEPT_COMMENT;
+      payload: CommentsType;
     }
 
 export interface UploadLayoutContextProps {
@@ -114,12 +134,17 @@ export interface UserInfoType {
 }
 
 export interface CommentsType {
-  id: number;
+  accept: boolean;
   author: UserInfoType;
-  text: string;
+  childrenCount: number;
   date: string;
-  depth: number;
-  children: CommentsType[];
+  id: number;
+  targetUser: UserInfoType;
+  text: string;
+}
+
+export interface CommentsViewType extends CommentsType {
+  children: CommentsViewType[]
 }
 
 export interface PostListContentType {
@@ -137,8 +162,9 @@ export interface PostListContentType {
 }
 
 export interface PostDetailInfoType extends PostListContentType {
+  accept: CommentsType | null;
   deleteYN: boolean;
-  comments: CommentsType[];
+  comments: CommentsViewType[];
 }
 
 export interface UserInfoFetchType {
@@ -151,9 +177,9 @@ export interface UserInfoFetchType {
   commentCount: number;
 }
 
-export interface PostListFetchType {
+export interface ListFetchType<T> {
   size: number;
-  content: PostListContentType[];
+  content: T[];
   number: number;
   sort: {
     empty: true;
@@ -186,6 +212,6 @@ export type ProtectedPathname =
   | "login";
 
 export interface SearchListFetchType {
-  posts: PostListFetchType;
+  posts: ListFetchType<PostListContentType>;
   total: number;
 }

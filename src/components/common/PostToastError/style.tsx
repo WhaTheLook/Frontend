@@ -2,34 +2,53 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  background-color: #2d3436;
-  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+`;
+
+export const Wrapper = styled.div`
+  width: 100%;
+  background-color: #fff5f5;
+  padding: 22px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
+  border: 1px solid #fedad9;
   border-radius: 10px;
 
   box-sizing: border-box;
 `;
 
+export const TextBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 7px;
+`;
+
 export const Text = styled.span`
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
+  color: #000;
+  font-size: 15px;
 `;
 
 export const RetryButton = styled.button`
-  background: #636e72;
-  padding: 10px;
+  background-color: #0d0d0d;
+  padding: 11px 22px;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
 
   font-size: 14px;
   font-weight: 600;
   color: #fff;
 
   border: none;
-  border-radius: 8px;
+  border-radius: 99px;
 
   cursor: pointer;
 `;

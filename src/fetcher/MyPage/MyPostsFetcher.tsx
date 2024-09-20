@@ -30,7 +30,7 @@ export function MyPostsFetcher({ children }: Props) {
   const fetchMoreElement = useRef<HTMLDivElement>(null);
 
   const {
-    result,
+    result: { content, last },
     isLoading,
     isFetchingNextPage,
     isFetchNextPageError,
@@ -50,30 +50,27 @@ export function MyPostsFetcher({ children }: Props) {
   }
 
   useEffect(() => {
-    if (!result) return;
-
-    dispatch(setPostData({ data: result }));
-  }, [result, dispatch]);
+    if (!content) return;
+    dispatch(setPostData({ data: content }));
+  }, [content, dispatch]);
 
   useEffect(() => {
-    if (intersecting) {
+    if (intersecting && !last) {
       fetchNextPage();
     }
-  }, [intersecting, fetchNextPage]);
+  }, [intersecting, fetchNextPage, last]);
 
   return (
     <Fragment>
       {isLoading && <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />}
-      {result && children}
+      {content && children}
       {isFetchingNextPage && (
         <Fragment>
           <Divider />
           <FlatListSkeleton count={FLATITEM_SKELETON_COUNT} />
         </Fragment>
       )}
-      {!isFetchingNextPage && !shouldHandleError && (
-        <div ref={fetchMoreElement}></div>
-      )}
+      <div ref={fetchMoreElement}></div>
       {shouldHandleError && (
         <Fragment>
           <Divider />

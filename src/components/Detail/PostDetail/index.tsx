@@ -8,8 +8,9 @@ import { DetailMutation } from "../DetailMutation";
 import { API_PATH } from "@/constants";
 import { PostDetailInfoType } from "@/types";
 
-import { useAuthFetchSuspense } from "@/hooks/useAuthFetchSuspense";
 import { useDetailContext } from "@/hooks/contexts/useDetailContext";
+
+import { useAuthSuspenseFetchQuery } from "@/hooks/query/useAuthSuspenseFetchQuery";
 
 import * as S from "./style";
 
@@ -20,27 +21,29 @@ export function PostDetail() {
   } = history; // 모달를 통한 렌더링 시
   const selectedPostId = Number(postId || modalPostId);
 
-  const { setPostDetail } = useDetailContext();
+  const { setPostDetail, data } = useDetailContext();
 
-  const { data, error } = useAuthFetchSuspense<PostDetailInfoType>({
-    url: API_PATH.postDetailInfo({
-      postId: selectedPostId,
-    }),
-    shouldTokenCheck: false,
-  });
+  const { data: fetchedData, error } =
+    useAuthSuspenseFetchQuery<PostDetailInfoType>({
+      queryKey: ["detail", String(selectedPostId)],
+      url: API_PATH.postDetailInfo({
+        postId: selectedPostId,
+      }),
+      shouldTokenCheck: false,
+    });
 
   if (error) {
     throw error;
   }
 
   useEffect(() => {
-    if (data) {
-      setPostDetail(data);
-    }
-  }, [data, setPostDetail]);
+    if (!fetchedData) return;
+
+    setPostDetail(fetchedData);
+  }, [fetchedData, setPostDetail]);
 
   return (
-    data && (
+    data.id !== 0 && (
       <Fragment>
         <S.Container $isModal={Boolean(postId)}>
           <ImageWrapper />
