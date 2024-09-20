@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { CommentSubForm } from "@/components/Detail/CommentSubForm";
@@ -16,6 +16,7 @@ import { useMenuToggle } from "@/hooks/useMenuToggle";
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
 import { useDeleteCommentMutation } from "@/mutations/useDeleteCommentMutation";
+import { useAcceptCommentMutation } from "@/mutations/useAcceptCommentMutation";
 
 import * as S from "./style";
 
@@ -35,16 +36,31 @@ export function Comment({ data, toggleReplyShow, type, isShowReply }: Props) {
 
   const signInUser = useSelector(selectCurrentUser);
 
-  const { deleteComment } = useDetailContext();
+  const {
+    deleteComment,
+    setAcceptComment,
+    resetAcceptComment,
+    data: postData,
+  } = useDetailContext();
   const { handleToastOpen } = useToastContext();
 
-  const { mutate } = useDeleteCommentMutation({ commentId: data.id });
+  const { mutate: deleteMutate } = useDeleteCommentMutation({
+    commentId: data.id,
+  });
+  const { mutate: acceptMutate } = useAcceptCommentMutation({
+    commentId: data.id,
+    postId: postData.id,
+  });
 
   const { menuVisible, handleToggle, menuRef, triggerRef } =
     useMenuToggle<HTMLButtonElement>();
 
   const isLoginUser = () => {
     return kakaoId === signInUser?.kakaoId;
+  };
+
+  const isPostWritter = () => {
+    return signInUser?.kakaoId === postData.author.kakaoId;
   };
 
   const handleCloseEdit = () => {
@@ -61,7 +77,7 @@ export function Comment({ data, toggleReplyShow, type, isShowReply }: Props) {
   };
 
   const handleDelete = () => {
-    mutate(undefined, {
+    deleteMutate(undefined, {
       onSuccess: () => {
         deleteComment(data.id);
         handleToastOpen({
@@ -73,6 +89,45 @@ export function Comment({ data, toggleReplyShow, type, isShowReply }: Props) {
         handleToastOpen({
           type: toastType.ERROR,
           content: TOAST_MESSAGE.failDeleteComment(),
+        });
+      },
+      onSettled: () => {
+        handleToggle();
+      },
+    });
+  };
+
+  const handleAccept = (isCancle: boolean) => {
+    if (postData.accept && !isCancle) {
+      alert("이미 채택된 댓글이 있습니다. 변경하려면 기존 채택을 취소하세요.");
+      return;
+    }
+    const toastContent = isCancle
+      ? {
+          success: TOAST_MESSAGE.successCancleAcceptComment(),
+          error: TOAST_MESSAGE.failCancleAcceptComment(),
+        }
+      : {
+          success: TOAST_MESSAGE.successAcceptComment(),
+          error: TOAST_MESSAGE.failAcceptComment(),
+        };
+
+    acceptMutate(undefined, {
+      onSuccess: (acceptedComment) => {
+        if (isCancle) {
+          resetAcceptComment(acceptedComment!);
+        } else {
+          setAcceptComment(acceptedComment!);
+        }
+        handleToastOpen({
+          type: toastType.SUCCESS,
+          content: toastContent.success,
+        });
+      },
+      onError: () => {
+        handleToastOpen({
+          type: toastType.ERROR,
+          content: toastContent.error,
         });
       },
       onSettled: () => {
@@ -144,15 +199,31 @@ export function Comment({ data, toggleReplyShow, type, isShowReply }: Props) {
           </S.ContentWrapper>
         </S.Main>
         <S.IconWrapper>
-          {isLoginUser() && (
+          {(isLoginUser() || isPostWritter()) && (
             <S.IconButton ref={triggerRef} onClick={handleToggle}>
               <OptionIcon size={ICON_SIZE.TINY} color="#000" />
             </S.IconButton>
           )}
           {menuVisible && (
             <S.Menu ref={menuRef}>
-              <S.MenuButton onClick={handleEdit}>수정</S.MenuButton>
-              <S.MenuButton onClick={handleDelete}>삭제</S.MenuButton>
+              {isLoginUser() && (
+                <Fragment>
+                  <S.MenuButton onClick={handleEdit} $isRedText={false}>
+                    수정
+                  </S.MenuButton>
+                  <S.MenuButton onClick={handleDelete} $isRedText={true}>
+                    삭제
+                  </S.MenuButton>
+                </Fragment>
+              )}
+              {isPostWritter() && (
+                <S.MenuButton
+                  onClick={() => handleAccept(data.accept)}
+                  $isRedText={data.accept}
+                >
+                  {data.accept ? "채택 취소" : "댓글 채택"}
+                </S.MenuButton>
+              )}
             </S.Menu>
           )}
         </S.IconWrapper>

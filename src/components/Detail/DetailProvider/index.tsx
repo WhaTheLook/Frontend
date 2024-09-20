@@ -9,6 +9,7 @@ import {
 import { DetailActionType } from "@/constants";
 
 const initState: PostDetailInfoType = {
+  accept: null,
   id: 0,
   author: {
     name: "",
@@ -47,6 +48,8 @@ interface DetailContextProps {
   setComment: (comments: CommentsType[]) => void;
   addReplyComment: ({ newComment, parentId }: ReplyCommentType) => void;
   setReplyComment: (comments: CommentsType[], parentId: number) => void;
+  setAcceptComment: (comment: CommentsType) => void;
+  resetAcceptComment: (comment: CommentsType) => void;
 }
 
 export const DetailContext = createContext<DetailContextProps>({
@@ -58,6 +61,8 @@ export const DetailContext = createContext<DetailContextProps>({
   setComment: () => {},
   addReplyComment: () => {},
   setReplyComment: () => {},
+  setAcceptComment: () => {},
+  resetAcceptComment: () => {},
 });
 
 function reducer(
@@ -93,9 +98,7 @@ function reducer(
       };
 
       const deletedComments = deleteCommentById([...state.comments], commentId);
-      // const filteredComments = [...state.comments].filter(
-      //   ({ id }) => id !== payload
-      // );
+
       return {
         ...state,
         comments: [...deletedComments],
@@ -170,6 +173,64 @@ function reducer(
         comments: [...newRepyComments],
       };
     }
+    case DetailActionType.SET_ACCEPT_COMMENT: {
+      const { id: acceptId } = payload;
+
+      const acceptComment = (
+        comments: CommentsViewType[],
+        id: number
+      ): CommentsViewType[] => {
+        return comments.map((comment) => {
+          if (comment.id === id) {
+            return { ...comment, accept: true };
+          }
+
+          if (comment.children && comment.children.length > 0) {
+            return {
+              ...comment,
+              children: acceptComment(comment.children, id),
+            };
+          }
+
+          return comment;
+        });
+      };
+
+      const acceptComments = acceptComment([...state.comments], acceptId);
+
+      return {
+        ...state,
+        accept: { ...payload },
+        comments: [...acceptComments],
+      };
+    }
+    case DetailActionType.RESET_ACCEPT_COMMENT: {
+      const { id: acceptId } = payload;
+
+      const acceptComment = (
+        comments: CommentsViewType[],
+        id: number
+      ): CommentsViewType[] => {
+        return comments.map((comment) => {
+          if (comment.id === id) {
+            return { ...comment, accept: false };
+          }
+
+          if (comment.children && comment.children.length > 0) {
+            return {
+              ...comment,
+              children: acceptComment(comment.children, id),
+            };
+          }
+
+          return comment;
+        });
+      };
+
+      const acceptComments = acceptComment([...state.comments], acceptId);
+
+      return { ...state, accept: null, comments: [...acceptComments] };
+    }
     default:
       return state;
   }
@@ -239,6 +300,22 @@ export function DetailProvider({ children }: Props) {
     []
   );
 
+  // 채택 설정
+  const setAcceptComment = useCallback((newComment: CommentsType) => {
+    dispatch({
+      type: DetailActionType.SET_ACCEPT_COMMENT,
+      payload: newComment,
+    });
+  }, []);
+
+  // 채택 해제
+  const resetAcceptComment = useCallback((newComment: CommentsType) => {
+    dispatch({
+      type: DetailActionType.RESET_ACCEPT_COMMENT,
+      payload: newComment,
+    });
+  }, []);
+
   return (
     <DetailContext.Provider
       value={{
@@ -250,6 +327,8 @@ export function DetailProvider({ children }: Props) {
         setComment,
         addReplyComment,
         setReplyComment,
+        setAcceptComment,
+        resetAcceptComment,
       }}
     >
       {children}

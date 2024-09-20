@@ -100,6 +100,14 @@ export type DetailAction =
       type: DetailActionType.SET_REPLY_COMMENT;
       payload: { newComments: CommentsType[], parentId: CommentsType["id"] };
     }
+  | {
+      type: DetailActionType.SET_ACCEPT_COMMENT;
+      payload: CommentsType;
+    }
+  | {
+      type: DetailActionType.RESET_ACCEPT_COMMENT;
+      payload: CommentsType;
+    }
 
 export interface UploadLayoutContextProps {
     data: UploadDataType;
@@ -154,6 +162,7 @@ export interface PostListContentType {
 }
 
 export interface PostDetailInfoType extends PostListContentType {
+  accept: CommentsType | null;
   deleteYN: boolean;
   comments: CommentsViewType[];
 }
