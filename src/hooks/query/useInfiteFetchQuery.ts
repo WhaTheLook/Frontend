@@ -1,21 +1,23 @@
 import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { SearchListFetchType } from "@/types";
+import { ListFetchType } from "@/types";
+
 import { CommonError } from "@/utils/CommonError";
+
 
 interface Props {
   queryKey: string[];
   getUrl: (page: number | undefined) => string;
 }
 
-export function useInfiniteSearchFetchQuery({ getUrl, queryKey }: Props) {
+export function useInfiniteFetchQuery<T extends { id: number }>({ getUrl, queryKey }: Props) {
   const queryFn = async (pageParam: unknown) => {
     try {
       const url = getUrl(Number(pageParam) || undefined);
 
       const response = await fetch(url, { 
-        method: "GET",
+        method: "GET"
       });
 
       if (!response.ok) {
@@ -35,14 +37,14 @@ export function useInfiniteSearchFetchQuery({ getUrl, queryKey }: Props) {
     }
   }
 
-  const { data, isLoading, error, isFetchingNextPage, isError, fetchNextPage, isFetchNextPageError } =
-    useInfiniteQuery<SearchListFetchType>({
+  const { data, isLoading, isError, error, isFetchingNextPage, fetchNextPage, isFetchNextPageError } =
+    useInfiniteQuery<ListFetchType<T>>({
       queryKey,
       queryFn: ({ pageParam }) => queryFn(pageParam),
       getNextPageParam: (lastPage) => {
-        const { posts: { content, last } } = lastPage;
+        const { content, last } = lastPage;
         const lastPostId = content[content.length - 1]?.id;
-        
+
         return last ? undefined : lastPostId;
       },
       initialPageParam: undefined,
@@ -51,10 +53,10 @@ export function useInfiniteSearchFetchQuery({ getUrl, queryKey }: Props) {
     });
 
   const result = useMemo(() => {
-    const content = data?.pages.flatMap((page) => page.posts.content) || null;
-    const last = data?.pages[data.pages.length - 1].posts.last;
-    const totalCount = data?.pages[0].total || 0;
-    return { content, last, totalCount };
+    return { 
+      content: data?.pages.flatMap((page) => page.content) || null,
+      last: data?.pages[data.pages.length - 1].last
+    };
   }, [data]);
 
   return {

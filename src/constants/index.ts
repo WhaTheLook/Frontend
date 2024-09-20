@@ -46,10 +46,15 @@ export enum DetailActionType {
     ADD_COMMENTS = "ADD_COMMENTS",
     DELETE_COMMENT = "DELETE_COMMENT",
     UPDATE_COMMENT = "UPDATE_COMMENT",
+    SET_COMMENT = "SET_COMMENT",
+    ADD_REPLY_COMMENT = "ADD_REPLY_COMMENT",
+    SET_REPLY_COMMENT = "SET_REPLY_COMMENT",
+    SET_ACCEPT_COMMENT = "SET_ACCEPT_COMMENT",
+    RESET_ACCEPT_COMMENT = "RESET_ACCEPT_COMMENT",
 }
 
 export enum PathnameType {
-    UPLOAD = "/upload",
+    CREATE = "/create",
     PROFILE = "/profile/edit",
     POST_EDIT = "/post/edit",
 }
@@ -112,6 +117,13 @@ interface CommentListArgType {
     lastCommentId?: number;
 }
 
+interface ReplyCommentListArgType {
+    postId: number;
+    parentId: number;
+    size: number;
+    lastCommentId?: number;
+}
+
 export const API_PATH = {
     login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
@@ -150,12 +162,20 @@ export const API_PATH = {
     },
     deleteComment: ({ commentId }: { commentId: number }) => `${API_URL}/post/${commentId}/delete`,
     updateComment: ({ commentId }: { commentId: number }) => `${API_URL}/post/${commentId}/update`,
+    replyCommentList: ({ postId, parentId, size, lastCommentId }: ReplyCommentListArgType) => {
+        const baseUrl = `${API_URL}/post/${postId}/${parentId}/comment?size=${size}`;
+        return lastCommentId ? `${baseUrl}&lastCommentId=${lastCommentId}` : baseUrl;
+    },
+    acceptComment: ({ postId, commentId }: { postId: number, commentId: number }) => {
+        return `${API_URL}/post/${postId}/${commentId}/accept`;
+    }
 }
 
 export const MAX_FETCH_SIZE_FLAT = 10;
 export const MAX_FETCH_SIZE_GRID = 9;
 export const FLATITEM_SKELETON_COUNT = 4;
 export const GRIDITEM_SKELETON_COUNT = 6;
+export const MAX_FETCH_SIZE_COMMENT = 5;
 
 export const ACCESS_TOKEN = "accessToken";
 export const REFRESH_TOKEN = "refreshToken";
@@ -172,7 +192,11 @@ export const TOAST_MESSAGE = {
     failDeleteComment: () => "댓글을 삭제하는데 실패했어요. 다시 시도해주세요.",
     successDeleteComment: () => "댓글을 삭제했어요.",
     failUpdateComment: () => "댓글을 수정하는데 실패했어요. 다시 시도해주세요.",
-    successUpdateComment: () => "댓글을 수정했어요."
+    successUpdateComment: () => "댓글을 수정했어요.",
+    failAcceptComment: () => "댓글을 채택하는데 실패했어요. 다시 시도해주세요.",
+    successAcceptComment: () => "댓글을 채택했어요.",
+    failCancleAcceptComment: () => "댓글을 채택 취소하는데 실패했어요. 다시 시도해주세요.",
+    successCancleAcceptComment: () => "댓글 채택을 취소했어요.",
 }
 
 export const FETCH_TIME = 10_000;

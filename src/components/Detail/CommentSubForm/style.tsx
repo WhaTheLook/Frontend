@@ -1,12 +1,23 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const EditForm = styled.form`
-  width: 100%;
+interface EditFormProps {
+  $isEdit: boolean;
+}
 
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 5px;
+export const EditForm = styled.form<EditFormProps>`
+  ${({ $isEdit }) => {
+    return css`
+      width: 100%;
+      padding-left: ${$isEdit ? "0" : "35px"};
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+
+      box-sizing: border-box;
+    `;
+  }}
 `;
 
 export const EditTextArea = styled.textarea`

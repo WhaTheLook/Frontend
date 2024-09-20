@@ -4,7 +4,7 @@ import { HomeIcon } from "@/components/Icons/HomeIcon";
 import { SearchIcon } from "@/components/Icons/SearchIcon";
 import { BookMarkIcon } from "@/components/Icons/BookmarkIcon";
 import { UserIcon } from "@/components/Icons/UserIcon";
-import { UploadButton } from "../UploadButton";
+import { CreateButton } from "@/components/common/CreateButton";
 
 import { ICON_SIZE } from "@/constants/style";
 
@@ -50,7 +50,7 @@ export function Navigation() {
           ))}
         </S.List>
       </S.Wrapper>
-      <UploadButton />
+      <CreateButton />
     </S.Container>
   );
 }

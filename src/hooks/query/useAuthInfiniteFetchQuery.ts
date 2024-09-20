@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { PostListFetchType } from "@/types";
 import { ACCESS_TOKEN } from "@/constants";
 import { getLocalStorageItem } from "@/utils";
 import { CommonError } from "@/utils/CommonError";
+import { ListFetchType } from "@/types";
 
 import { useReIssueToken } from "../useReIssueToken";
 import { useLogout } from "../useLogout";
@@ -12,9 +12,10 @@ import { useLogout } from "../useLogout";
 interface Props {
   queryKey: string[];
   getUrl: (page: number | undefined) => string;
+  shouldTokenCheck: boolean;
 }
 
-export function useAuthInfiniteFetchQuery({ getUrl, queryKey }: Props) {
+export function useAuthInfiniteFetchQuery<T extends { id: number }>({ getUrl, queryKey, shouldTokenCheck }: Props) {
   const { reIssueTokenFetcher } = useReIssueToken();
   const { handleLogout } = useLogout();
 
@@ -22,12 +23,18 @@ export function useAuthInfiniteFetchQuery({ getUrl, queryKey }: Props) {
     try {
       const accessToken = getLocalStorageItem(ACCESS_TOKEN);
       const url = getUrl(Number(pageParam) || undefined);
+      
+      const headers = {} as { Authorization?: string };
+
+      if (shouldTokenCheck) {
+        headers.Authorization = `Bearer ${accessToken}`;
+      } else if (accessToken) {
+        headers.Authorization = `Bearer ${accessToken}`;
+      }
 
       const response = await fetch(url, { 
         method: "GET",
-        headers: {
-            Authorization: `Bearer ${accessToken}`        
-        },
+        headers,
       });
 
       if (!response.ok) {
@@ -61,7 +68,7 @@ export function useAuthInfiniteFetchQuery({ getUrl, queryKey }: Props) {
   }
 
   const { data, isLoading, isError, error, isFetchingNextPage, fetchNextPage, isFetchNextPageError } =
-    useInfiniteQuery<PostListFetchType>({
+    useInfiniteQuery<ListFetchType<T>>({
       queryKey,
       queryFn: ({ pageParam }) => authQueryFn(pageParam),
       getNextPageParam: (lastPage) => {
@@ -76,7 +83,10 @@ export function useAuthInfiniteFetchQuery({ getUrl, queryKey }: Props) {
     });
 
   const result = useMemo(() => {
-    return data?.pages.flatMap((page) => page.content) || null;
+    return { 
+      content: data?.pages.flatMap((page) => page.content) || null,
+      last: data?.pages[data.pages.length - 1].last
+    };
   }, [data]);
 
   return {

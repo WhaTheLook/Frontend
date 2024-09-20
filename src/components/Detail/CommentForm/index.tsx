@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -6,15 +6,16 @@ import { SendIcon } from "@/components/Icons/SendIcon";
 import { ToastContainer } from "@/components/common/ToastContainer";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
-import { API_PATH, TOAST_MESSAGE, toastType } from "@/constants";
+import { TOAST_MESSAGE, toastType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
-import { CommentsType, UserInfoType } from "@/types";
+import { UserInfoType } from "@/types";
 
-import { useAuthMutation } from "@/hooks/useAuthMutation";
 import { useToastContext } from "@/hooks/contexts/useToastContex";
 import { useDetailContext } from "@/hooks/contexts/useDetailContext";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
+
+import { useCreateCommentMutation } from "@/mutations/useCreateCommentMutation";
 
 import * as S from "./style";
 
@@ -24,8 +25,6 @@ interface Props {
 }
 
 export function CommentForm({ text, onChangeText }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
-
   const { postId } = useParams(); // URL를 통한 렌더링 시
   const {
     state: { modalPostId },
@@ -43,36 +42,31 @@ export function CommentForm({ text, onChangeText }: Props) {
   const commentPayload = {
     postId: selectedPostId,
     userId: Number(loginUserInfo.kakaoId),
+    parentId: undefined,
     text: text.trim(),
   };
 
-  const { fetcher } = useAuthMutation<CommentsType>({
-    url: API_PATH.createComment(),
-    method: "POST",
-    body: JSON.stringify(commentPayload),
-    hasReturnType: true,
-  });
+  const { isPending, mutate } = useCreateCommentMutation();
 
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    try {
-      setIsLoading(true);
-      const newComment = await fetcher();
 
-      scrollView?.scrollTo({
-        top: infoWrapper?.offsetHeight,
-        behavior: "instant",
-      });
-      addComment(newComment!);
-      onChangeText("");
-    } catch (error) {
-      handleToastOpen({
-        type: toastType.ERROR,
-        content: TOAST_MESSAGE.failCreateComment(),
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    mutate(JSON.stringify(commentPayload), {
+      onSuccess: (newComment) => {
+        scrollView?.scrollTo({
+          top: infoWrapper?.offsetHeight,
+          behavior: "instant",
+        });
+        addComment(newComment!);
+        onChangeText("");
+      },
+      onError: () => {
+        handleToastOpen({
+          type: toastType.ERROR,
+          content: TOAST_MESSAGE.failCreateComment(),
+        });
+      },
+    });
   };
 
   const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
@@ -81,13 +75,13 @@ export function CommentForm({ text, onChangeText }: Props) {
   };
 
   const isDisable = () => {
-    return text === "" || isLoading;
+    return text === "" || isPending;
   };
 
   return (
     <S.Container>
       <S.Form>
-        {isLoading ? (
+        {isPending ? (
           <LoadingSpinner color="#A2A2A2" isNoPadding={true} />
         ) : (
           <S.TextInput

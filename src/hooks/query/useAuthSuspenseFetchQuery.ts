@@ -68,12 +68,12 @@ export function useAuthSuspenseFetchQuery<T>({
     }
   };
 
-  const { data, isError, error, refetch } = useSuspenseQuery<T>({
+  const { data, isError, error, refetch, isFetched } = useSuspenseQuery<T>({
     queryKey,
     queryFn: fetcher,
     retry: false,
     refetchOnWindowFocus: false,
   });
 
-  return { data, isError, error, refetch };
+  return { data, isError, error, refetch, isFetched };
 }

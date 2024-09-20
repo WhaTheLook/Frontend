@@ -1,23 +1,22 @@
-import { Fragment, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { Fragment, ReactNode, useContext, useEffect, useRef } from "react";
 
+import { PostContext } from "@/components/common/PostProvider";
 import { GridListSkeleton } from "@/components/common/GridListSkeleton";
-import { NothingInfo } from "@/components/common/NothingInfo";
-import { GridList } from "@/components/common/GridList";
 import { PostToastError } from "@/components/common/PostToastError";
 
 import { GRIDITEM_SKELETON_COUNT } from "@/constants";
-import { UserInfoType } from "@/types";
 
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
 
-import { selectCurrentUser } from "@/store/slice/authSlice";
+import { useSharedPopularQuery } from "@/quires/useSharedPopular";
 
-import { useBookmarkQuery } from "@/quires/useBookmarkQuery";
+interface Props {
+  children: ReactNode;
+}
 
-export function BookmarkList() {
-  const user = useSelector(selectCurrentUser) as UserInfoType;
+export function SharedPopularFetcher({ children }: Props) {
+  const { handleSetData } = useContext(PostContext);
 
   const fetchMoreElement = useRef<HTMLDivElement>(null);
 
@@ -29,7 +28,7 @@ export function BookmarkList() {
     isError,
     error,
     fetchNextPage,
-  } = useBookmarkQuery(user?.kakaoId);
+  } = useSharedPopularQuery();
 
   const { shouldHandleError, resetHandleError } = useInfiniteFetchError({
     isFetchingNextPage,
@@ -42,6 +41,15 @@ export function BookmarkList() {
   }
 
   useEffect(() => {
+    handleSetData(null);
+  }, [handleSetData]);
+
+  useEffect(() => {
+    if (!content) return;
+    handleSetData(content);
+  }, [content, handleSetData]);
+
+  useEffect(() => {
     if (intersecting && !last) {
       fetchNextPage();
     }
@@ -50,15 +58,7 @@ export function BookmarkList() {
   return (
     <Fragment>
       {isLoading && <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />}
-      {content && (
-        <Fragment>
-          {content.length === 0 ? (
-            <NothingInfo contentType="bookmark" />
-          ) : (
-            <GridList data={content} />
-          )}
-        </Fragment>
-      )}
+      {content && children}
       {isFetchingNextPage && (
         <GridListSkeleton count={GRIDITEM_SKELETON_COUNT} />
       )}

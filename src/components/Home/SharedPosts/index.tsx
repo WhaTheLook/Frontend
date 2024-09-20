@@ -3,8 +3,8 @@ import { Fragment } from "react";
 import { SharedLatestContainer } from "@/components/Home/SharedLatestContainer";
 import { SharedPopularContainer } from "@/components/Home/SharedPopularContainer";
 
-import { SharedLatestFetcher } from "@/fetcher/SharedLatestFetcher";
-import { SharedPopularFetcher } from "@/fetcher/SharedPopularFetcher";
+import { SharedLatestFetcher } from "@/fetcher/Home/SharedLatestFetcher";
+import { SharedPopularFetcher } from "@/fetcher/Home/SharedPopularFetcher";
 
 interface Props {
   sortType: number;
