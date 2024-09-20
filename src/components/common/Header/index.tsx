@@ -11,6 +11,7 @@ import { modalLocationType, modalType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
 import { useModalContext } from "@/hooks/contexts/useModalContext";
+import { useResizeWindow } from "@/hooks/useResizeWindow";
 import { useLogout } from "@/hooks/useLogout";
 
 import {
@@ -34,6 +35,7 @@ export function Header() {
 
   const { handleOpen, modalLocation } = useModalContext();
   const { handleLogout } = useLogout();
+  const { breakPoint } = useResizeWindow();
 
   const isHeaderModal = () => {
     return modalLocation === modalLocationType.HEAHDER;
@@ -55,13 +57,22 @@ export function Header() {
     },
   };
 
+  const logoSize = () => {
+    switch (breakPoint) {
+      case "mobile":
+        return ICON_SIZE.MEDIUM_LARGE;
+      default:
+        return ICON_SIZE.LARGE;
+    }
+  };
+
   return (
     <Fragment>
       <S.Container>
         <S.Wrapper>
           <Link to="/">
             <S.TitleBox>
-              <LogoIcon size={ICON_SIZE.LARGE} />
+              <LogoIcon size={logoSize()} color="#000" />
               <S.Title>e:oat</S.Title>
             </S.TitleBox>
           </Link>

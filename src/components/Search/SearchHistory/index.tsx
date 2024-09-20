@@ -11,6 +11,8 @@ import {
 import { SEARCHED_HISTORY } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
+import { useResizeWindow } from "@/hooks/useResizeWindow";
+
 import * as S from "./style";
 
 interface Props {
@@ -28,6 +30,8 @@ export const SearchHistory = forwardRef(function SearchHistory(
   );
 
   const navigate = useNavigate();
+
+  const { breakPoint } = useResizeWindow();
 
   const handleAllDeleteBtnClick = () => {
     const confirmed = window.confirm("전체 기록을 삭제할까요?");
@@ -51,6 +55,15 @@ export const SearchHistory = forwardRef(function SearchHistory(
   const handleTagClick = (text: string) => {
     navigate(`?search_query=${text}`);
     onTagClick();
+  };
+
+  const getIconSize = () => {
+    switch (breakPoint) {
+      case "mobile":
+        return ICON_SIZE.MEDIUM_SMALL;
+      default:
+        return ICON_SIZE.MEDIUM_LARGE;
+    }
   };
 
   return (
@@ -81,7 +94,7 @@ export const SearchHistory = forwardRef(function SearchHistory(
               <S.Tag key={tag}>
                 <S.Text onClick={() => handleTagClick(tag)}>{tag}</S.Text>
                 <S.XButton onClick={() => handleTagDeleteBtnClick(index)}>
-                  <XCircleIcon size={ICON_SIZE.MEDIUM_LARGE} color="#595959" />
+                  <XCircleIcon size={getIconSize()} color="#595959" />
                 </S.XButton>
               </S.Tag>
             ))}

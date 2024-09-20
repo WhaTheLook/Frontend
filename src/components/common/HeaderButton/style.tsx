@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.button`
@@ -26,4 +27,9 @@ export const Container = styled.button`
   &:not(:disabled):hover {
     background-color: rgba(0, 0, 0, 0.7);
   }
+
+  ${media.mobile`
+    padding: 6px 12px;
+    font-size: 11px;
+  `}
 `;

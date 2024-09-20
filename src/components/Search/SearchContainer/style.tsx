@@ -11,6 +11,9 @@ export const Container = styled.div`
   ${media.small`
     gap: 22px;
   `}
+  ${media.mobile`
+    gap: 20px;
+  `}
 `;
 
 export const Wrapper = styled.div`
@@ -21,6 +24,9 @@ export const Wrapper = styled.div`
   ${media.small`
     gap: 8px;
   `}
+  ${media.mobile`
+    gap: 6px;
+  `}
 `;
 
 export const Text = styled.span`
@@ -29,6 +35,9 @@ export const Text = styled.span`
 
   ${media.small`
     font-size: 18px;
+  `}
+  ${media.mobile`
+    font-size: 16px;
   `}
 `;
 

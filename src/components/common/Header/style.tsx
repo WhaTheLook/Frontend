@@ -20,6 +20,10 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  ${media.small`
+    height: 30px;
+  `}
 `;
 
 export const TitleBox = styled.div`
@@ -32,6 +36,10 @@ export const Title = styled.h1`
   font-size: 22px;
   font-weight: 600;
   color: #000000;
+
+  ${media.small`
+    font-size: 20px;
+  `}
 `;
 
 export const InfoBox = styled.div`

@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 250px;
+  aspect-ratio: 1 / 1;
 
   border-radius: 8px;
 
@@ -35,9 +35,11 @@ export const Container = styled.div`
     opacity: 1;
   }
 
-  ${media.small`
-    width: 180px;
-    height: 180px;
+  ${media.mobile`
+
+    &:hover::before {
+      opacity: 0;
+    }
   `}
 `;
 
@@ -107,6 +109,13 @@ export const InfoWrapper = styled.div`
   ${media.small`
     padding: 0 10px;
   `}
+  ${media.mobile`
+    display: none;
+
+    ${Container}:hover & {
+      opacity: 0;
+    }
+  `}
 `;
 
 export const InfoBox = styled.div`
@@ -134,7 +143,6 @@ export const Title = styled.span`
 
   ${media.small`
     width: 100px;
-
     font-size: 14px;
   `}
 `;

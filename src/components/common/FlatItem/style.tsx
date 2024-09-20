@@ -15,6 +15,9 @@ export const Container = styled.div`
     height: 130px;
     padding: 4px 0px;
   `}
+  ${media.mobile`
+    height: 100px;
+  `}
 `;
 
 export const TextWrapper = styled.div`
@@ -26,7 +29,11 @@ export const TextWrapper = styled.div`
   gap: 15px;
 
   ${media.small`
+    padding: 0px;
     gap: 12px;
+  `}
+  ${media.mobile`
+    gap: 8px;
   `}
 `;
 
@@ -42,6 +49,9 @@ export const TitleBox = styled.div`
 
   ${media.small`
     gap: 12px;
+  `}
+  ${media.mobile`
+    gap: 8px;
   `}
 `;
 
@@ -61,6 +71,11 @@ export const Title = styled.span`
     width: 380px;
     font-size: 16px;
   `}
+  ${media.mobile`
+    max-height: 18px;
+    width: 180px;
+    font-size: 14px;
+  `}
 `;
 
 export const Description = styled.p`
@@ -77,6 +92,10 @@ export const Description = styled.p`
   ${media.small`
     width: 380px;
     font-size: 14px;
+  `}
+  ${media.mobile`
+    width: 200px;
+    font-size: 13px;
   `}
 `;
 
@@ -97,6 +116,9 @@ export const Tag = styled.div`
   ${media.small`
     font-size: 12px;
   `}
+  ${media.mobile`
+    font-size: 10px;
+  `}
 `;
 
 export const InfoBox = styled.div`
@@ -108,6 +130,9 @@ export const InfoBox = styled.div`
 
   ${media.small`
     gap: 4px;
+  `}
+  ${media.mobile`
+    gap: 3px;
   `}
 `;
 
@@ -121,6 +146,9 @@ export const UserInfoBox = styled.div`
   ${media.small`
     gap: 4px;
   `}
+  ${media.mobile`
+    gap: 3px;
+  `}
 `;
 
 export const UserProfile = styled.div`
@@ -130,6 +158,10 @@ export const UserProfile = styled.div`
   ${media.small`
     width: 22px;
     height: 22px;
+  `}
+  ${media.mobile`
+    width: 16px;
+    height: 16px;
   `}
 `;
 
@@ -150,6 +182,9 @@ export const UserName = styled.span`
   ${media.small`
     font-size: 11px;    
   `}
+  ${media.mobile`
+    font-size: 9px;    
+  `}
 `;
 
 export const DateText = styled.span`
@@ -157,6 +192,9 @@ export const DateText = styled.span`
 
   ${media.small`
     font-size: 11px;    
+  `}
+  ${media.mobile`
+    font-size: 9px;    
   `}
 `;
 
@@ -176,6 +214,9 @@ export const SubInfoDiv = styled.div`
   ${media.small`
     gap: 4px;
   `}
+  ${media.mobile`
+    gap: 3px;   
+  `}
 `;
 
 export const SubInfoText = styled.span`
@@ -184,6 +225,9 @@ export const SubInfoText = styled.span`
 
   ${media.small`
     font-size: 11px;    
+  `}
+  ${media.mobile`
+    font-size: 10px;    
   `}
 `;
 
@@ -196,6 +240,10 @@ export const ImageWrapper = styled.div`
   ${media.small`
     width: 125px;
     height: 125px;
+  `}
+  ${media.mobile`
+    width: 100px;
+    height: 100px;
   `}
 `;
 
@@ -220,4 +268,7 @@ export const ImageCount = styled.div`
   position: absolute;
   top: 4px;
   right: 4px;
+  ${media.mobile`
+    font-size: 11px;
+  `}
 `;

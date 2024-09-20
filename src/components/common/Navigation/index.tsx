@@ -12,38 +12,47 @@ import { useResizeWindow } from "@/hooks/useResizeWindow";
 
 import * as S from "./style";
 
-const iconProps = { size: ICON_SIZE.MEDIUM_SMALL, color: "#000" };
-
-const navigationList = [
-  {
-    icon: <HomeIcon {...iconProps} />,
-    text: "홈",
-    pathUrl: "/",
-  },
-  {
-    icon: <SearchIcon {...iconProps} />,
-    text: "검색",
-    pathUrl: "/search",
-  },
-  {
-    icon: <BookMarkIcon {...iconProps} />,
-    text: "저장한 글",
-    pathUrl: "/saved",
-  },
-  {
-    icon: <UserIcon {...iconProps} />,
-    text: "마이페이지",
-    pathUrl: "/profile",
-  },
-];
-
 export function Navigation() {
   const { breakPoint } = useResizeWindow();
   const location = useLocation();
   const { pathname } = location;
 
+  const getIconSize = () => {
+    switch (breakPoint) {
+      case "mobile":
+        return ICON_SIZE.MEDIUM_TINY;
+      default:
+        return ICON_SIZE.MEDIUM_SMALL;
+    }
+  };
+
   const isExistUploadButton = () =>
-    breakPoint === "small" && !(pathname === "/" || pathname === "/profile");
+    breakPoint !== "large" && !(pathname === "/" || pathname === "/profile");
+
+  const iconProps = { size: getIconSize(), color: "#000" };
+
+  const navigationList = [
+    {
+      icon: <HomeIcon {...iconProps} />,
+      text: "홈",
+      pathUrl: "/",
+    },
+    {
+      icon: <SearchIcon {...iconProps} />,
+      text: "검색",
+      pathUrl: "/search",
+    },
+    {
+      icon: <BookMarkIcon {...iconProps} />,
+      text: "저장한 글",
+      pathUrl: "/saved",
+    },
+    {
+      icon: <UserIcon {...iconProps} />,
+      text: "마이페이지",
+      pathUrl: "/profile",
+    },
+  ];
 
   return (
     <S.Container>

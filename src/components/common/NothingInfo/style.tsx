@@ -15,6 +15,9 @@ export const Box = styled.div`
   ${media.small`
     gap: 22px;
   `}
+  ${media.mobile`
+    gap: 18px;
+  `}
 `;
 
 export const Text = styled.span`
@@ -24,5 +27,8 @@ export const Text = styled.span`
 
   ${media.small`
     font-size: 15px;
+  `}
+  ${media.mobile`
+    font-size: 14px;
   `}
 `;

@@ -11,6 +11,8 @@ import { XCircleIcon } from "@/components/Icons/XCircleIcon";
 import { ICON_SIZE } from "@/constants/style";
 import { ImageUploadType } from "@/types";
 
+import { useResizeWindow } from "@/hooks/useResizeWindow";
+
 import * as S from "./style";
 
 interface Props {
@@ -25,6 +27,17 @@ export const ImageDragDrop = memo(function ImageDragDrop({
   handleDeleteBtnClick,
 }: Props) {
   const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
+
+  const { breakPoint } = useResizeWindow();
+
+  const getIconSize = () => {
+    switch (breakPoint) {
+      case "mobile":
+        return ICON_SIZE.SMALL;
+      default:
+        return ICON_SIZE.MEDIUM;
+    }
+  };
 
   const moveImages = (
     arr: ImageUploadType[],
@@ -86,7 +99,7 @@ export const ImageDragDrop = memo(function ImageDragDrop({
                       $imageUrl={imageUrls[id]}
                     >
                       <S.DeleteButton onClick={() => handleDeleteBtnClick(id)}>
-                        <XCircleIcon size={ICON_SIZE.MEDIUM} color="#FFF" />
+                        <XCircleIcon size={getIconSize()} color="#FFF" />
                       </S.DeleteButton>
                       {index === 0 && (
                         <S.ThumnailBox>

@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -17,4 +18,10 @@ export const Textarea = styled.textarea`
   outline: none;
   resize: none;
   overflow: hidden;
+
+  ${media.mobile`
+    padding: 8px 0;
+    font-size: 15px;
+    line-height: 1.3;
+  `}
 `;

@@ -171,11 +171,11 @@ export const API_PATH = {
     }
 }
 
-export const MAX_FETCH_SIZE_FLAT = 10;
-export const MAX_FETCH_SIZE_GRID = 9;
-export const FLATITEM_SKELETON_COUNT = 4;
-export const GRIDITEM_SKELETON_COUNT = 6;
-export const MAX_FETCH_SIZE_COMMENT = 5;
+export const MAX_FETCH_SIZE_FLAT = 12;
+export const MAX_FETCH_SIZE_GRID = 12;
+export const FLATITEM_SKELETON_COUNT = 5;
+export const GRIDITEM_SKELETON_COUNT = 12;
+export const MAX_FETCH_SIZE_COMMENT = 10;
 
 export const ACCESS_TOKEN = "accessToken";
 export const REFRESH_TOKEN = "refreshToken";

@@ -5,17 +5,8 @@ import { QnaPosts } from "../QnaPosts";
 
 interface Props {
   menuType: number;
-  sortType: number;
 }
 
-export function PostList({ menuType, sortType }: Props) {
-  return (
-    <Fragment>
-      {menuType === 0 ? (
-        <QnaPosts sortType={sortType} />
-      ) : (
-        <SharedPosts sortType={sortType} />
-      )}
-    </Fragment>
-  );
+export function PostList({ menuType }: Props) {
+  return <Fragment>{menuType === 0 ? <QnaPosts /> : <SharedPosts />}</Fragment>;
 }

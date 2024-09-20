@@ -14,4 +14,7 @@ export const Container = styled.div`
   ${media.small`
     gap: 8px;
   `}
+  ${media.mobile`
+    gap: 6px;
+  `}
 `;

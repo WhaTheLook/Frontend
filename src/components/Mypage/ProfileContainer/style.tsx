@@ -29,6 +29,10 @@ export const ProfileImage = styled.img`
     width: 110px;
     height: 110px;
   `}
+  ${media.small`
+    width: 95px;
+    height: 95px;
+  `}
 `;
 
 export const ProfileInfoDiv = styled.div`
@@ -38,6 +42,9 @@ export const ProfileInfoDiv = styled.div`
 
   ${media.small`
     gap: 20px;
+  `}
+  ${media.mobile`
+    gap: 12px;
   `}
 `;
 
@@ -60,8 +67,13 @@ export const EditButton = styled.button`
   }
 
   ${media.small`
+    border: 1px solid #000;
     padding: 8px 10px;
     font-size: 13px;
+  `}
+  ${media.small`
+    padding: 6px 8px;
+    font-size: 12px;
   `}
 `;
 
@@ -74,6 +86,9 @@ export const ProfileTextBox = styled.div`
   ${media.small`
     gap: 18px;
   `}
+  ${media.mobile`
+    gap: 14px;
+  `}
 `;
 
 export const UserName = styled.h3`
@@ -82,6 +97,9 @@ export const UserName = styled.h3`
 
   ${media.small`
     font-size: 22px;
+  `}
+  ${media.mobile`
+    font-size: 18px;
   `}
 `;
 
@@ -93,6 +111,9 @@ export const InfoTextDiv = styled.div`
   ${media.small`
     gap: 12px;
   `}
+  ${media.mobile`
+    gap: 10px;
+  `}
 `;
 
 export const InfoText = styled.span`
@@ -101,6 +122,9 @@ export const InfoText = styled.span`
 
   ${media.small`
     font-size: 14px;
+  `}
+  ${media.mobile`
+    font-size: 13px;
   `}
 `;
 

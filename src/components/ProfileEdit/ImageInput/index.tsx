@@ -82,10 +82,10 @@ export const ImageInput = forwardRef<HTMLInputElement, Props>(
         {menuVisible && (
           <S.Menu ref={menuRef}>
             <S.MenuButton onClick={handleDefaultImageBtnClick}>
-              기본 프로필 사용
+              기본 프로필
             </S.MenuButton>
             <S.MenuButton onClick={handleUploadBtnClick}>
-              이미지 업로드하기
+              이미지 업로드
             </S.MenuButton>
           </S.Menu>
         )}

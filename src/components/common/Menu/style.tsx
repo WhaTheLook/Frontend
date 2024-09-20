@@ -5,6 +5,7 @@ export const Container = styled.nav`
   background-color: #ffffff;
   width: 100%;
   margin-top: -20px;
+  margin-bottom: 15px;
   padding-top: 30px;
 
   border-bottom: 1.5px solid #eaebec;
@@ -13,6 +14,10 @@ export const Container = styled.nav`
   top: 0px;
 
   z-index: 10;
+
+  ${media.mobile`
+    padding-top: 20px;
+  `}
 `;
 
 export const Wrapper = styled.div`
@@ -40,6 +45,10 @@ export const Box = styled.div<TextProps>`
   justify-content: center;
 
   cursor: pointer;
+
+  ${media.mobile`
+    padding-bottom: 10px;
+  `}
 `;
 
 export const Text = styled.span<TextProps>`
@@ -54,6 +63,9 @@ export const Text = styled.span<TextProps>`
 
       ${media.small`
         font-size: 16px;
+      `}
+      ${media.mobile`
+        font-size: 14px;
       `}
     `;
   }}

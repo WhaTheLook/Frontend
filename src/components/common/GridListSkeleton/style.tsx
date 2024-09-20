@@ -11,6 +11,9 @@ export const Container = styled.div`
   ${media.small`
     gap: 8px;
   `}
+  ${media.mobile`
+    gap: 6px;
+  `}
 `;
 
 const skeletonGradient = keyframes`
@@ -28,14 +31,9 @@ const skeletonGradient = keyframes`
 export const GridItemSkeleton = styled.div`
   background-color: #f2f2f2;
   width: 100%;
-  height: 250px;
+  aspect-ratio: 1 / 1;
 
   border-radius: 8px;
 
   animation: ${skeletonGradient} 1.4s ease-in infinite;
-
-  ${media.small`
-    width: 180px;
-    height: 180px;
-  `}
 `;

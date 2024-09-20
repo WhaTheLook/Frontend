@@ -20,12 +20,10 @@ export function GridItem({ data, onItemClick }: Props) {
 
   const IconSize = (breakPoint: Breakpoints) => {
     switch (breakPoint) {
-      case "large":
-        return ICON_SIZE.SMALL;
-      case "medium":
-        return ICON_SIZE.SMALL;
       case "small":
         return ICON_SIZE.TINY;
+      default:
+        return ICON_SIZE.SMALL;
     }
   };
 

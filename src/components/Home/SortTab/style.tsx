@@ -47,6 +47,11 @@ export const Button = styled.button<ButtonProps>`
       &:hover {
         border: 1.4px solid rgba(0, 0, 0, 0.1);
       }
+
+      ${media.mobile`   
+        padding: 4px 10px;
+        font-size: 13px;
+      `}
     `;
   }}
 `;

@@ -4,9 +4,10 @@ import {
     type Interpolation,
   } from "styled-components";
   
-  export type Breakpoints = "small" | "medium" | "large";
+  export type Breakpoints = "mobile" | "small" | "medium" | "large";
   
   export const breakpoints: Record<Breakpoints, string> = {
+    mobile: '@media (max-width: 440px)',
     small: '@media (max-width: 639px)',
     medium: '@media (max-width: 1047px)',
     large: '@media (min-width: 1048px)',

@@ -14,7 +14,7 @@ export const Container = styled.nav`
   top: 40px;
 
   ${media.small`
-    background-color: #FFF;
+    background-color: #fff;
     margin: 0;
     width: 100%;
 
@@ -83,5 +83,8 @@ export const Text = styled.span`
 
   ${media.small`
     font-size: 12px;
+  `}
+  ${media.mobile`
+    font-size: 10px;
   `}
 `;

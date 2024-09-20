@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div``;
@@ -17,6 +18,10 @@ export const Box = styled.div`
 
   display: flex;
   gap: 50px;
+
+  ${media.mobile`
+    padding: 0 10px 100px 10px;
+ `}
 `;
 
 export const Main = styled.main`

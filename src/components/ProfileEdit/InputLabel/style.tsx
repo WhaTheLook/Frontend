@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -22,6 +23,10 @@ export const Label = styled.label`
   font-weight: 600;
 
   user-select: none;
+
+  ${media.mobile`
+    font-size: 15px;
+  `}
 `;
 
 export const InfoText = styled.span`
@@ -29,6 +34,10 @@ export const InfoText = styled.span`
   color: #828282;
 
   user-select: none;
+
+  ${media.mobile`
+    font-size: 14px;
+  `}
 `;
 
 export const Input = styled.input`

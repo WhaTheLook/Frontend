@@ -42,4 +42,7 @@ export const Text = styled.span`
   ${media.small`
     font-size: 14px;
   `}
+  ${media.mobile`
+    font-size: 13px;
+  `}
 `;

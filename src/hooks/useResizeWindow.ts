@@ -9,7 +9,9 @@ export function useResizeWindow() {
   const [breakPoint, setBreakPoint] = useState<Breakpoints>(getBreakPoint(window.innerWidth));
 
   function getBreakPoint (width: number): Breakpoints {
-    if (width <= MEDIA_SIZE.small) {
+    if (width <= MEDIA_SIZE.mobile) {
+      return "mobile";
+    } else if (width <= MEDIA_SIZE.small) {
       return "small";
     } else if (width <= MEDIA_SIZE.medium) {
       return "medium";

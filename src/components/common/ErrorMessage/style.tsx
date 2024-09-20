@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -12,4 +13,8 @@ export const Text = styled.p`
   font-size: 14px;
   font-weight: 500;
   color: #d11f1f;
+
+  ${media.mobile`
+    font-size: 12px;
+  `}
 `;

@@ -28,6 +28,7 @@ export const TOAST_COLOR = {
 }
 
 export const MEDIA_SIZE: Record<Breakpoints, number> = {
+    mobile: 440,
     small: 639,
     medium: 1047,
     large: 1048,

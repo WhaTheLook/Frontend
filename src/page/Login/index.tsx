@@ -10,40 +10,51 @@ import { LogoutIcon } from "@/components/Icons/LogoutIcon";
 import { ICON_SIZE } from "@/constants/style";
 import { ProtectedPathname } from "@/types";
 
+import { useResizeWindow } from "@/hooks/useResizeWindow";
+
 import * as S from "./style";
 
-const iconProps = { size: ICON_SIZE.HUGE, color: "#525252" };
-
-const protectedRoutes = {
+const protectedRoutes = (iconSize: number) => ({
   saved: {
-    icon: <BookMarkIcon {...iconProps} />,
+    icon: <BookMarkIcon size={iconSize} color="#525252" />,
     title: "북마크",
     text: "저장한 게시글을 보려면 로그인하세요.",
   },
   upload: {
-    icon: <UploadIcon {...iconProps} />,
+    icon: <UploadIcon size={iconSize} color="#525252" />,
     title: "글 작성하기",
     text: "글을 작성하려면 로그인하세요.",
   },
   profile: {
-    icon: <UserIcon {...iconProps} />,
+    icon: <UserIcon size={iconSize} color="#525252" />,
     title: "마이페이지",
-    text: "저장한 게시글이나 작성한 댓글을 보려면 로그인하세요.",
+    text: "저장한 글과 댓글을 보려면 로그인하세요.",
   },
   login: {
-    icon: <LogoIcon {...iconProps} />,
+    icon: <LogoIcon size={iconSize} color="#525252" />,
     title: "WHATHELOOK",
     text: "로그인하기",
   },
   tokenExpired: {
-    icon: <LogoutIcon {...iconProps} />,
+    icon: <LogoutIcon size={iconSize} color="#525252" />,
     title: "로그인 세션 만료",
     text: "보안을 위해 다시 로그인해주세요",
   },
-};
+});
 
 const LoginMessage = ({ pathname }: { pathname: ProtectedPathname }) => {
-  const routeInfo = protectedRoutes[pathname || "login"];
+  const { breakPoint } = useResizeWindow();
+
+  const getIconSize = () => {
+    switch (breakPoint) {
+      case "mobile":
+        return ICON_SIZE.LARGE;
+      default:
+        return ICON_SIZE.HUGE;
+    }
+  };
+
+  const routeInfo = protectedRoutes(getIconSize())[pathname || "login"];
 
   return (
     <S.TextBox>

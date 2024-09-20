@@ -11,6 +11,9 @@ export const Container = styled.div`
   ${media.small`
     height: 50px;
   `}
+  ${media.mobile`
+    height: 45px;
+  `}
 `;
 
 interface FormProps {
@@ -58,6 +61,9 @@ export const InputText = styled.input`
 
   ${media.small`
     font-size: 20px;
+  `}
+  ${media.mobile`
+    font-size: 16px;
   `}
 `;
 

@@ -41,6 +41,9 @@ export const Wrapper = styled.div`
     height: 130px;
     padding: 4px 0px;
   `}
+  ${media.mobile`
+    height: 100px;
+  `}
 `;
 
 export const TextWrapper = styled.div`
@@ -64,6 +67,10 @@ export const Title = styled(BaseElement)`
     width: 250px;
     height: 20px;
   `}
+  ${media.mobile`
+    width: 180px;
+    height: 18px;
+  `}
 `;
 
 export const Description = styled(BaseElement)`
@@ -73,6 +80,10 @@ export const Description = styled(BaseElement)`
   ${media.small`
     width: 300px;
     height: 20px;
+  `}
+  ${media.mobile`
+    width: 200px;
+    height: 18px;
   `}
 `;
 
@@ -84,6 +95,9 @@ export const TagsBox = styled.div`
   ${media.small`
     gap: 6px;
   `}
+  ${media.mobile`
+    gap: 4px;
+  `}
 `;
 
 export const Tag = styled(BaseElement)`
@@ -93,6 +107,10 @@ export const Tag = styled(BaseElement)`
   ${media.small`
     width: 55px;
     height: 20px;
+  `}
+  ${media.mobile`
+    width: 35px;
+    height: 18px;
   `}
 `;
 
@@ -108,6 +126,10 @@ export const InfoBox = styled(BaseElement)`
     width: 100px;
     height: 20px;
   `}
+  ${media.mobile`
+    width: 70px;
+    height: 18px;
+  `}
 `;
 
 export const ImageWrapper = styled(BaseElement)`
@@ -119,5 +141,9 @@ export const ImageWrapper = styled(BaseElement)`
   ${media.small`
     width: 125px;
     height: 125px;
+  `}
+  ${media.mobile`
+    width: 100px;
+    height: 100px;
   `}
 `;

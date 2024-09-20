@@ -1,8 +1,9 @@
+import media from "@/styles/media";
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   background-color: #fff;
-  width: 750px;
+  width: inherit;
   min-height: 85px;
 
   border-bottom-left-radius: 12px;
@@ -31,12 +32,30 @@ export const InfoTextBox = styled.div`
 
 export const InfoText = styled.span`
   font-size: 16px;
+
+  ${media.small`
+    font-size: 14px;
+  `}
+  ${media.mobile`
+    font-size: 12px;
+  `}
 `;
 
 export const InfoSubTextDiv = styled.div`
+  font-size: 13px;
+
   display: flex;
   align-items: center;
   gap: 5px;
+
+  ${media.small`
+    gap: 3px;
+    font-size: 12px;
+  `}
+  ${media.mobile`
+    gap: 2px;
+    font-size: 10px;
+  `}
 `;
 
 interface SubButtonProps {
@@ -58,6 +77,13 @@ export const SubButton = styled.button<SubButtonProps>`
       &:hover {
         text-decoration: ${$isDisabled ? "" : "underline"};
       }
+
+      ${media.small`
+        font-size: 12px;
+      `}
+      ${media.mobile`
+        font-size: 10px;
+      `}
     `;
   }}
 `;
@@ -66,6 +92,10 @@ export const Tags = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
+
+  ${media.mobile`
+    gap: 8px;
+  `}
 `;
 
 export const Tag = styled.div`
@@ -77,6 +107,11 @@ export const Tag = styled.div`
   gap: 5px;
 
   border-radius: 99px;
+
+  ${media.mobile`
+    padding: 1px 5px 1px 10px;
+    gap: 3px;
+  `}
 `;
 
 export const Text = styled.span`
@@ -88,6 +123,13 @@ export const Text = styled.span`
   &:hover {
     text-decoration: underline;
   }
+
+  ${media.small`
+    font-size: 13px;
+  `}
+  ${media.mobile`
+    font-size: 12px;
+  `}
 `;
 
 export const XButton = styled.button`
@@ -107,4 +149,11 @@ export const MainText = styled.span`
   text-align: center;
   font-size: 16px;
   color: #a9a9a9;
+
+  ${media.small`
+    font-size: 14px;
+  `}
+  ${media.mobile`
+    font-size: 12px;
+  `}
 `;
