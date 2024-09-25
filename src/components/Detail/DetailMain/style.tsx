@@ -1,10 +1,23 @@
-import styled from "styled-components";
+import media from "@/styles/media";
+import styled, { css } from "styled-components";
 
-export const Container = styled.div`
-  width: 100%;
-  height: 100%;
+interface ContainerProps {
+  $isModal: boolean;
+}
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+export const Container = styled.div<ContainerProps>`
+  ${({ $isModal }) => {
+    return css`
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      ${media.small`
+        height: ${$isModal ? "100%" : "40%"};
+      `}
+    `;
+  }}
 `;

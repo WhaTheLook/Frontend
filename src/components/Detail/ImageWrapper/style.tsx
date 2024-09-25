@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
@@ -14,6 +15,13 @@ export const Container = styled.div`
   border-bottom-left-radius: 12px;
 
   overflow: hidden;
+
+  ${media.small`
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  `}
 `;
 
 export const Wrapper = styled.div`

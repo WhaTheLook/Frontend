@@ -19,7 +19,8 @@ export const Container = styled.div<ContainerProps>`
       border: 1px solid ${!$isModal ? "transparnet" : "rgba(0, 0, 0, 0.13)"};
 
       ${media.small`
-        width: 480px;
+        width: ${!$isModal ? "90%" : "100%"};
+        height: ${!$isModal ? "" : "100%"};
         flex-direction: column;
       `}
     `;

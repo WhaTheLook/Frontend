@@ -32,8 +32,8 @@ export function CommentSubForm({ type, data, handleClose }: Props) {
   const parentUserName = `@${data.author.name} `;
 
   const { handleToastOpen } = useToastContext();
-  const { updateComment, addReplyComment, data: data1 } = useDetailContext();
-  console.log(data1.comments);
+  const { updateComment, addReplyComment } = useDetailContext();
+
   const loginUserInfo = useSelector(selectCurrentUser) as UserInfoType;
 
   const editPayload = { commentId: data.id, text: inputText };

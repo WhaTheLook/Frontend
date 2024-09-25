@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { AcceptComment } from "../AcceptComment";
 
@@ -10,12 +10,13 @@ import * as S from "./style";
 
 export function InfoWrapper() {
   const { data } = useDetailContext();
+  const { postId } = useParams();
 
   return (
     <S.ContentBox id="info-wrapper">
       <S.Title>{data.title}</S.Title>
       <S.Description>{data.content}</S.Description>
-      {data.hashtags.length !== 0 && (
+      {postId && data.hashtags.length !== 0 && (
         <S.Tags>
           {data.hashtags.map((tag) => (
             <Link to={`/search?search_query=${tag.slice(1)}`} key={tag}>
@@ -24,7 +25,9 @@ export function InfoWrapper() {
           ))}
         </S.Tags>
       )}
-      <S.Date title={data.date}>{calculateDaysAgo(data.date)}</S.Date>
+      {postId && (
+        <S.Date title={data.date}>{calculateDaysAgo(data.date)}</S.Date>
+      )}
       {data.accept && <AcceptComment data={data.accept} />}
     </S.ContentBox>
   );

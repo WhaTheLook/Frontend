@@ -32,7 +32,7 @@ export function DetailModal({ children }: Props) {
   return isDetailOpen
     ? createPortal(
         <S.Container onClick={handleOutsideClick}>
-          <div ref={modalRef}>{children}</div>
+          <S.Wrapper ref={modalRef}>{children}</S.Wrapper>
         </S.Container>,
         element
       )
