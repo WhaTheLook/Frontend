@@ -32,8 +32,13 @@ const protectedRoutes = (iconSize: number) => ({
   },
   login: {
     icon: <LogoIcon size={iconSize} color="#525252" />,
-    title: "WHATHELOOK",
+    title: "e:oat",
     text: "로그인하기",
+  },
+  create: {
+    icon: <LogoIcon size={iconSize} color="#525252" />,
+    title: "글 작성하기",
+    text: "글을 작성하려면 로그인을 하세요.",
   },
   tokenExpired: {
     icon: <LogoutIcon size={iconSize} color="#525252" />,

@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -11,6 +12,11 @@ export const Container = styled.div`
   gap: 35px;
 
   border-radius: 12px;
+
+  ${media.mobile`
+    gap: 30px;
+    width: 300px;
+  `}
 `;
 
 export const LogoWrapper = styled.div`
@@ -18,11 +24,19 @@ export const LogoWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
+
+  ${media.mobile`
+    gap: 10px;
+  `}
 `;
 
 export const LogoText = styled.span`
   font-size: 22px;
   font-weight: 600;
+
+  ${media.mobile`
+    font-size: 20px;
+  `}
 `;
 
 export const Text = styled.span`
@@ -30,4 +44,8 @@ export const Text = styled.span`
 
   font-size: 20px;
   font-weight: 600;
+
+  ${media.mobile`
+    font-size: 18px;
+  `}
 `;
