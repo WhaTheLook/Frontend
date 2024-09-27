@@ -81,7 +81,7 @@ export const POST_TYPE_LIST: { id: postTypeType, text: string}[] = [
 
 export const MAX_LENGTH_USER_NAME = 20;
 
-export const API_URL = "https://43.201.58.243.nip.io";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export enum sortOption {
     LATEST = "recent",

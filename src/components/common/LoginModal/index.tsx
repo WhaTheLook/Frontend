@@ -9,7 +9,7 @@ export function LoginModal() {
   return (
     <S.Container>
       <S.LogoWrapper>
-        <LogoIcon size={ICON_SIZE.HUGE} />
+        <LogoIcon size={ICON_SIZE.HUGE} color="#000" />
         <S.LogoText>WHATHELOOK</S.LogoText>
       </S.LogoWrapper>
       <S.Text>로그인</S.Text>
