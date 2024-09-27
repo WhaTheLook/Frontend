@@ -35,6 +35,8 @@ export const Description = styled.p`
   color: rgba(0, 0, 0, 0.8);
 
   word-wrap: break-word;
+  white-space: pre-wrap;
+  line-height: 120%;
 `;
 
 export const Tags = styled.div`

@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { CommentForm } from "@/components/Detail/CommentForm";
 import { SubInfoBox } from "@/components/Detail/SubInfoBox";
 
+import { useResizeWindow } from "@/hooks/useResizeWindow";
+
 import { selectCurrentSignStatus } from "@/store/slice/authSlice";
 
 import * as S from "./style";
@@ -13,7 +15,11 @@ export function SubMainWrapper() {
   const { postId } = useParams();
   const [inputText, setInputText] = useState("");
 
+  const { breakPoint } = useResizeWindow();
+
   const isSignIn = useSelector(selectCurrentSignStatus);
+
+  const isShow = () => !!postId || breakPoint !== "mobile";
 
   const handleChangeText = (text: string) => {
     setInputText(text);
@@ -21,7 +27,7 @@ export function SubMainWrapper() {
   return (
     <S.Container>
       <SubInfoBox />
-      {postId && (
+      {isShow() && (
         <Fragment>
           {isSignIn ? (
             <CommentForm text={inputText} onChangeText={handleChangeText} />

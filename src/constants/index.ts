@@ -127,6 +127,7 @@ interface ReplyCommentListArgType {
 export const API_PATH = {
     login: () => `${API_URL}/user/login`,
     userInfo: () => `${API_URL}/user/info`,
+    deleteUser: ({ userId }: { userId: string }) => `${API_URL}/user/delete/${userId}`,
     postList: ({ category, sortBy, size, lastPostId }: PostListArgType) => {
         const baseUrl = `${API_URL}/post/postList?size=${size}&category=${category}&sortBy=${sortBy}`;
         return lastPostId ? `${baseUrl}&lastPostId=${lastPostId}` : baseUrl;
@@ -197,6 +198,7 @@ export const TOAST_MESSAGE = {
     successAcceptComment: () => "댓글을 채택했어요.",
     failCancleAcceptComment: () => "댓글을 채택 취소하는데 실패했어요. 다시 시도해주세요.",
     successCancleAcceptComment: () => "댓글 채택을 취소했어요.",
+    failDeleteUserAccount: () => "계정을 삭제하는 데 실패했어요. 다시 시도해주세요.",
 }
 
 export const FETCH_TIME = 10_000;
