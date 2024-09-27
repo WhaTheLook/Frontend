@@ -21,6 +21,7 @@ import { getLocalStorageItem, setLocalStorageItem } from "@/utils";
 import { ICON_SIZE } from "@/constants/style";
 
 import { useSearchContext } from "@/hooks/contexts/useSearchContext";
+import { useResizeWindow } from "@/hooks/useResizeWindow";
 
 import * as S from "./style";
 
@@ -35,6 +36,16 @@ export function SearchBar() {
   const searchHistoryRef = useRef<HTMLDivElement | null>(null);
 
   const navigate = useNavigate();
+  const { breakPoint } = useResizeWindow();
+
+  const getIconSize = () => {
+    switch (breakPoint) {
+      case "mobile":
+        return ICON_SIZE.MEDIUM_TINY;
+      default:
+        return ICON_SIZE.MEDIUM_SMALL;
+    }
+  };
 
   function initToggleSearchHist() {
     if (!getLocalStorageItem(TOGGLE_SEARCH_HISTORY)) {
@@ -145,10 +156,10 @@ export function SearchBar() {
             onFocus={() => setIsFocus(true)}
           />
           <S.SubmitButton type="submit">
-            <SearchIcon size={ICON_SIZE.MEDIUM} color="#A2A2A2" />
+            <SearchIcon size={getIconSize()} color="#A2A2A2" />
           </S.SubmitButton>
           <S.ResetButton onClick={handleResetBtnClick}>
-            <XCircleIcon size={ICON_SIZE.MEDIUM_SMALL} color="#FFF" />
+            <XCircleIcon size={getIconSize()} color="#FFF" />
           </S.ResetButton>
         </S.InputBox>
       </S.Form>

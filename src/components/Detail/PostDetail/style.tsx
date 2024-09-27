@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled, { css } from "styled-components";
 
 interface ContainerProps {
@@ -16,6 +17,12 @@ export const Container = styled.div<ContainerProps>`
 
       border-radius: 12px;
       border: 1px solid ${!$isModal ? "transparnet" : "rgba(0, 0, 0, 0.13)"};
+
+      ${media.small`
+        width: ${!$isModal ? "90%" : "100%"};
+        height: ${!$isModal ? "" : "100%"};
+        flex-direction: column;
+      `}
     `;
   }}
 `;

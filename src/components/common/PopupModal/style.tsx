@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -12,6 +13,11 @@ export const Container = styled.div`
 
   border-radius: 8px;
   background: #ffffff;
+
+  ${media.mobile`
+    padding: 15px 0;
+    width: 280px;
+  `}
 `;
 
 export const TextWrapper = styled.div`
@@ -22,21 +28,38 @@ export const TextWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 18px;
+
+  ${media.mobile`
+    padding: 10px 0;
+    gap: 14px;
+  `}
 `;
 
 export const Title = styled.span`
   font-weight: 600;
   font-size: 20px;
+
+  ${media.mobile`
+    font-size: 16px;
+  `}
 `;
 
 export const Text = styled.span`
   font-size: 16px;
+
+  ${media.mobile`
+    font-size: 14px;
+  `}
 `;
 
 export const ButtonWrapper = styled.div`
   width: 80%;
   display: flex;
   gap: 10px;
+
+  ${media.mobile`
+    gap: 7px;
+  `}
 `;
 
 const BaseButton = styled.button`
@@ -52,6 +75,11 @@ const BaseButton = styled.button`
   border: none;
 
   cursor: pointer;
+
+  ${media.mobile`
+    padding: 10px 16px;
+    font-size: 12px;
+  `}
 `;
 
 export const CancleButton = styled(BaseButton)`

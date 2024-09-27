@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import { styled } from "styled-components";
 
 export const Container = styled.header`
@@ -19,6 +20,10 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  ${media.small`
+    height: 30px;
+  `}
 `;
 
 export const TitleBox = styled.div`
@@ -31,6 +36,10 @@ export const Title = styled.h1`
   font-size: 22px;
   font-weight: 600;
   color: #000000;
+
+  ${media.small`
+    font-size: 20px;
+  `}
 `;
 
 export const InfoBox = styled.div`
@@ -41,6 +50,10 @@ export const InfoBox = styled.div`
 
 export const LoginMessage = styled.span`
   font-size: 16px;
+
+  ${media.small`
+    display: none;
+  `}
 `;
 
 export const UserName = styled.span`

@@ -20,6 +20,7 @@ import {
   toastType,
 } from "@/constants";
 
+import { useLogout } from "@/hooks/useLogout";
 import { useModalContext } from "@/hooks/contexts/useModalContext";
 import { useToastContext } from "@/hooks/contexts/useToastContex";
 import { useAuthMutation } from "@/hooks/mutation/useAuthMutation";
@@ -44,12 +45,20 @@ export function ProfileEdit() {
 
   const { handleOpen, modalLocation } = useModalContext();
   const { handleToastOpen } = useToastContext();
+  const { handleLogout } = useLogout();
 
-  const { isPending, mutate } = useAuthMutation<UserInfoType>({
-    url: API_PATH.updateUserInfo(),
-    method: "PUT",
-    isFormData: true,
-    hasReturnType: true,
+  const { isPending: updatingIsPending, mutate: updateUserInfoMutation } =
+    useAuthMutation<UserInfoType>({
+      url: API_PATH.updateUserInfo(),
+      method: "PUT",
+      isFormData: true,
+      hasReturnType: true,
+    });
+  const { mutate: deleteAccountMutation } = useAuthMutation<UserInfoType>({
+    url: API_PATH.deleteUser({ userId: userInfo.kakaoId }),
+    method: "DELETE",
+    isFormData: false,
+    hasReturnType: false,
   });
 
   const isProfileEditModalOpen = () => {
@@ -85,8 +94,8 @@ export function ProfileEdit() {
     });
   };
 
-  const onSubmit: SubmitHandler<ProfileFormValues> = async () => {
-    mutate(getFormData(newName, newProfileImage), {
+  const onSubmit: SubmitHandler<ProfileFormValues> = () => {
+    updateUserInfoMutation(getFormData(newName, newProfileImage), {
       onSuccess: (result) => {
         dispatch(updateAuthInfo({ user: result! }));
         navigate("/profile");
@@ -97,12 +106,24 @@ export function ProfileEdit() {
     });
   };
 
+  const deleteUserAccount = () => {
+    deleteAccountMutation(undefined, {
+      onSuccess: () => {
+        handleLogout("profile");
+        alert("계정이 삭제되었습니다.");
+      },
+      onError: () => {
+        showErrorToast(TOAST_MESSAGE.failDeleteUserAccount());
+      },
+    });
+  };
+
   return (
     <Fragment>
       <S.Container>
         <UploadHeader
           onSubmitBtnClick={handleHeaderBtnClick}
-          disabled={isPending}
+          disabled={updatingIsPending}
         />
         <S.Wrapper>
           <S.Box>
@@ -138,7 +159,10 @@ export function ProfileEdit() {
       </S.Container>
       {isProfileEditModalOpen() && (
         <ModalPortal>
-          <PopupModal type={modalType.DELETE_ACCOUNT} />
+          <PopupModal
+            type={modalType.DELETE_ACCOUNT}
+            onClick={deleteUserAccount}
+          />
         </ModalPortal>
       )}
       <ToastContainer />

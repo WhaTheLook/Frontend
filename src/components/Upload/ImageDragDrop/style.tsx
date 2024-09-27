@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled, { css } from "styled-components";
 
 export const DragBox = styled.div`
@@ -22,6 +23,11 @@ export const SampleImage = styled.div<SampleImageProps>`
       border-radius: 8px;
 
       position: relative;
+
+      ${media.mobile`
+        width: 50px;
+        height: 50px;
+      `}
     `;
   }}
 `;
@@ -42,7 +48,7 @@ export const DeleteButton = styled.div`
 
 export const ThumnailBox = styled.div`
   background-color: #020202;
-  width: 100px;
+  width: inherit;
   padding: 6px 0;
 
   display: flex;
@@ -54,9 +60,17 @@ export const ThumnailBox = styled.div`
 
   position: absolute;
   bottom: 0;
+
+  ${media.mobile`
+    padding: 4px 0;
+  `}
 `;
 
 export const ThumnailText = styled.span`
   font-size: 12px;
   color: #fff;
+
+  ${media.mobile`
+    font-size: 7px;
+  `}
 `;

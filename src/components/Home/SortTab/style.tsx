@@ -1,8 +1,14 @@
+import media from "@/styles/media";
 import { styled, css } from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
   margin: 18px 0;
+
+  ${media.small`
+    padding: 0 8px;
+    box-sizing: border-box;
+  `}
 `;
 
 export const Wrapper = styled.div`
@@ -41,6 +47,11 @@ export const Button = styled.button<ButtonProps>`
       &:hover {
         border: 1.4px solid rgba(0, 0, 0, 0.1);
       }
+
+      ${media.mobile`   
+        padding: 4px 10px;
+        font-size: 13px;
+      `}
     `;
   }}
 `;

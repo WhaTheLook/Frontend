@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -14,4 +15,8 @@ export const Input = styled.input`
   border: none;
 
   outline: none;
+
+  ${media.mobile`
+    font-size: 20px;
+  `}
 `;

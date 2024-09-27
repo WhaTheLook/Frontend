@@ -68,6 +68,8 @@ export const Content = styled.p`
   gap: 7px;
 
   font-size: 13px;
+  white-space: pre-wrap;
+  line-height: 120%;
 `;
 
 export const ContentButtonBox = styled.div`

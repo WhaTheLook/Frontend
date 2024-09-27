@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { UpArrowIcon } from "@/components/Icons/UpArrowIcon";
 
+import { useResizeWindow } from "@/hooks/useResizeWindow";
+
 import { ICON_SIZE } from "@/constants/style";
 
 import * as S from "./style";
@@ -10,9 +12,20 @@ export function ScrollButton() {
   const [showButton, setShowButton] = useState(false);
   const lastScrollY = useRef<number>(0);
 
+  const { breakPoint } = useResizeWindow();
+
   const handleClick = () => {
     const element = document.querySelector("body");
     element?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const getIconSize = () => {
+    switch (breakPoint) {
+      case "mobile":
+        return ICON_SIZE.MEDIUM_LARGE;
+      default:
+        return ICON_SIZE.LARGE;
+    }
   };
 
   useEffect(() => {
@@ -38,7 +51,7 @@ export function ScrollButton() {
   return (
     showButton && (
       <S.Container onClick={handleClick}>
-        <UpArrowIcon size={ICON_SIZE.LARGE} color="#FFF" />
+        <UpArrowIcon size={getIconSize()} color="#FFF" />
       </S.Container>
     )
   );

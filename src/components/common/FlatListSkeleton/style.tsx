@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
@@ -35,6 +36,14 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  ${media.small`
+    height: 130px;
+    padding: 4px 0px;
+  `}
+  ${media.mobile`
+    height: 100px;
+  `}
 `;
 
 export const TextWrapper = styled.div`
@@ -44,27 +53,65 @@ export const TextWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 9px;
+
+  ${media.small`
+    gap: 7px;
+  `}
 `;
 
 export const Title = styled(BaseElement)`
   width: 300px;
   height: 24px;
+
+  ${media.small`
+    width: 250px;
+    height: 20px;
+  `}
+  ${media.mobile`
+    width: 180px;
+    height: 18px;
+  `}
 `;
 
 export const Description = styled(BaseElement)`
   width: 350px;
   height: 24px;
+
+  ${media.small`
+    width: 300px;
+    height: 20px;
+  `}
+  ${media.mobile`
+    width: 200px;
+    height: 18px;
+  `}
 `;
 
 export const TagsBox = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  ${media.small`
+    gap: 6px;
+  `}
+  ${media.mobile`
+    gap: 4px;
+  `}
 `;
 
 export const Tag = styled(BaseElement)`
   width: 70px;
   height: 22px;
+
+  ${media.small`
+    width: 55px;
+    height: 20px;
+  `}
+  ${media.mobile`
+    width: 35px;
+    height: 18px;
+  `}
 `;
 
 export const InfoBox = styled(BaseElement)`
@@ -74,6 +121,15 @@ export const InfoBox = styled(BaseElement)`
   display: flex;
   align-items: center;
   gap: 5px;
+
+  ${media.small`
+    width: 100px;
+    height: 20px;
+  `}
+  ${media.mobile`
+    width: 70px;
+    height: 18px;
+  `}
 `;
 
 export const ImageWrapper = styled(BaseElement)`
@@ -81,4 +137,13 @@ export const ImageWrapper = styled(BaseElement)`
   height: 140px;
 
   border-radius: 8px;
+
+  ${media.small`
+    width: 125px;
+    height: 125px;
+  `}
+  ${media.mobile`
+    width: 100px;
+    height: 100px;
+  `}
 `;

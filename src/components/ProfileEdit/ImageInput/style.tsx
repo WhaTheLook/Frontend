@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -24,6 +25,11 @@ export const ProfileImage = styled.img`
   height: 120px;
 
   border-radius: 50%;
+
+  ${media.mobile`
+    width: 110px;
+    height: 110px;
+  `}
 `;
 
 export const Icon = styled.div`
@@ -38,6 +44,11 @@ export const Icon = styled.div`
   position: absolute;
   bottom: 3px;
   right: 3px;
+
+  ${media.mobile`
+    bottom: 5px;
+    right: 5px;
+  `}
 `;
 
 export const Menu = styled.div`
@@ -54,6 +65,16 @@ export const Menu = styled.div`
   position: absolute;
   left: 115%;
   top: 40%;
+
+  ${media.small`
+    padding: 5px 3px;
+    width: 135px;
+  `}
+  ${media.mobile`
+    left: 105%;
+    padding: 5px 3px;
+    width: 105px;
+  `}
 `;
 
 export const MenuButton = styled.button`
@@ -73,4 +94,12 @@ export const MenuButton = styled.button`
   &:hover {
     background-color: #f2f2f2;
   }
+
+  ${media.small`
+    padding: 6px 0;
+    font-size: 12px;
+  `}
+  ${media.small`
+    font-size: 11px;
+  `}
 `;

@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import { styled } from "styled-components";
 
 export const Container = styled.div`
@@ -7,4 +8,13 @@ export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+
+  box-sizing: border-box;
+
+  ${media.small`
+    gap: 8px;
+  `}
+  ${media.mobile`
+    gap: 6px;
+  `}
 `;

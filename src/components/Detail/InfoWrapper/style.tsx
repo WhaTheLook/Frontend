@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Date = styled.span`
@@ -15,6 +16,11 @@ export const ContentBox = styled.div`
   gap: 20px;
 
   box-sizing: border-box;
+
+  ${media.small`
+    padding: 6px 15px;
+    gap: 15px;
+  `}
 `;
 
 export const Title = styled.h2`
@@ -29,6 +35,8 @@ export const Description = styled.p`
   color: rgba(0, 0, 0, 0.8);
 
   word-wrap: break-word;
+  white-space: pre-wrap;
+  line-height: 120%;
 `;
 
 export const Tags = styled.div`

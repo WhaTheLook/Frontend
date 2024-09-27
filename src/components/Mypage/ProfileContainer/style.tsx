@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const ProfileWrapper = styled.div`
@@ -6,6 +7,10 @@ export const ProfileWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
+
+  ${media.small`
+    gap: 35px;
+  `}
 `;
 
 export const ProfileImageBox = styled.div`
@@ -19,12 +24,28 @@ export const ProfileImage = styled.img`
   height: 140px;
 
   border-radius: 50%;
+
+  ${media.small`
+    width: 110px;
+    height: 110px;
+  `}
+  ${media.small`
+    width: 95px;
+    height: 95px;
+  `}
 `;
 
 export const ProfileInfoDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 26px;
+
+  ${media.small`
+    gap: 20px;
+  `}
+  ${media.mobile`
+    gap: 12px;
+  `}
 `;
 
 export const EditButton = styled.button`
@@ -44,6 +65,16 @@ export const EditButton = styled.button`
   &:hover {
     background-color: #f2f2f2;
   }
+
+  ${media.small`
+    border: 1px solid #000;
+    padding: 8px 10px;
+    font-size: 13px;
+  `}
+  ${media.small`
+    padding: 6px 8px;
+    font-size: 12px;
+  `}
 `;
 
 export const ProfileTextBox = styled.div`
@@ -51,22 +82,50 @@ export const ProfileTextBox = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 22px;
+
+  ${media.small`
+    gap: 18px;
+  `}
+  ${media.mobile`
+    gap: 14px;
+  `}
 `;
 
 export const UserName = styled.h3`
   font-size: 26px;
   font-weight: 600;
+
+  ${media.small`
+    font-size: 22px;
+  `}
+  ${media.mobile`
+    font-size: 18px;
+  `}
 `;
 
 export const InfoTextDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
+
+  ${media.small`
+    gap: 12px;
+  `}
+  ${media.mobile`
+    gap: 10px;
+  `}
 `;
 
 export const InfoText = styled.span`
   font-size: 16px;
   white-space: nowrap;
+
+  ${media.small`
+    font-size: 14px;
+  `}
+  ${media.mobile`
+    font-size: 13px;
+  `}
 `;
 
 export const Bold = styled.b`

@@ -16,3 +16,9 @@ export const Container = styled.div`
 
   z-index: 999;
 `;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

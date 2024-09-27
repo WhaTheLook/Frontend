@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled, { keyframes } from "styled-components";
 
 const scaleUpAnimation = keyframes`
@@ -26,4 +27,9 @@ export const Container = styled.button`
   &:hover {
     background-color: #000;
   }
+
+  ${media.small`
+    bottom: 80px;
+    right: 10px;
+  `}
 `;

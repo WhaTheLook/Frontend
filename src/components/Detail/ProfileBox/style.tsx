@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -11,6 +12,13 @@ export const Container = styled.div`
   box-sizing: border-box;
 
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+  ${media.small`
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    border: none;
+  `}
 `;
 
 export const Profile = styled.div`
@@ -44,9 +52,18 @@ export const ProfileImage = styled.img`
   height: 28px;
 
   border-radius: 50%;
+
+  ${media.small`
+    width: 24px;
+    height: 24px;
+  `}
 `;
 
 export const Writter = styled.span`
   font-size: 15px;
   font-weight: 600;
+
+  ${media.small`
+    font-size: 13px;
+  `}
 `;

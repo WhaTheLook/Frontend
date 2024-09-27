@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -8,6 +9,10 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 14px;
+
+  ${media.mobile`
+    gap: 10px;
+  `}
 `;
 
 export const Title = styled.div`
@@ -15,11 +20,20 @@ export const Title = styled.div`
 
   font-size: 22px;
   font-weight: 600;
+
+  ${media.mobile`
+    margin-top: 6px;
+    font-size: 18px;
+  `}
 `;
 
 export const Text = styled.span`
   font-size: 15px;
   color: #a0a0a0;
+
+  ${media.mobile`
+    font-size: 13px;
+  `}
 `;
 
 export const Button = styled.span`
@@ -38,4 +52,10 @@ export const Button = styled.span`
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
   }
+
+  ${media.mobile`
+    margin-top: 10px;
+    padding: 12px 30px;
+    font-size: 14px;
+  `}
 `;

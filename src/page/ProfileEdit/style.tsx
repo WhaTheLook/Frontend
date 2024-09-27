@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Container = styled.div``;
@@ -26,7 +27,7 @@ export const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: "center";
+  justify-content: center;
   gap: 50px;
 `;
 
@@ -56,4 +57,8 @@ export const AccountDeleteText = styled.span`
   &:hover {
     text-decoration: underline;
   }
+
+  ${media.mobile`
+    font-size: 14px;
+  `}
 `;

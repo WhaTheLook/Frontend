@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled from "styled-components";
 
 export const Button = styled.button`
@@ -15,4 +16,9 @@ export const Button = styled.button`
   border: none;
   border-radius: 12px;
   cursor: pointer;
+
+  ${media.mobile`
+    width: 200px;
+    height: 40px;
+  `}
 `;

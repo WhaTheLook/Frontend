@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
@@ -11,6 +12,11 @@ export const Container = styled.div`
   border-radius: 8px;
 
   position: relative;
+
+  ${media.mobile`
+    padding: 15px;
+    gap: 15px;
+  `}
 `;
 
 export const TagBox = styled.div`
@@ -18,6 +24,10 @@ export const TagBox = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap: 15px;
+
+  ${media.mobile`
+    gap: 12px;
+  `}
 `;
 
 const scaleUp = keyframes`
@@ -42,6 +52,11 @@ export const Tag = styled.div`
   cursor: pointer;
 
   animation: ${scaleUp} 0.1s ease-in;
+
+  ${media.mobile`
+    padding: 8px 10px;
+    font-size: 12px;
+  `}
 `;
 
 export const Input = styled.input`

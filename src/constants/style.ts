@@ -1,3 +1,5 @@
+import { Breakpoints } from "@/styles/media"
+
 export const ICON_SIZE = {
     TINY: 14,
     MEDIUM_TINY: 18,
@@ -23,4 +25,11 @@ export const TOAST_COLOR = {
         color: "#F0C113",
         bgColor: "#FDFAE8"
     }
+}
+
+export const MEDIA_SIZE: Record<Breakpoints, number> = {
+    mobile: 440,
+    small: 639,
+    medium: 1047,
+    large: 1048,
 }

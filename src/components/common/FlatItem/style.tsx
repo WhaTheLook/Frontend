@@ -1,3 +1,4 @@
+import media from "@/styles/media";
 import { styled } from "styled-components";
 
 export const Container = styled.div`
@@ -9,6 +10,14 @@ export const Container = styled.div`
   justify-content: space-between;
 
   border-radius: 10px;
+
+  ${media.small`
+    height: 130px;
+    padding: 4px 0px;
+  `}
+  ${media.mobile`
+    height: 100px;
+  `}
 `;
 
 export const TextWrapper = styled.div`
@@ -18,6 +27,14 @@ export const TextWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
+
+  ${media.small`
+    padding: 0px;
+    gap: 12px;
+  `}
+  ${media.mobile`
+    gap: 8px;
+  `}
 `;
 
 export const TitleBox = styled.div`
@@ -29,6 +46,13 @@ export const TitleBox = styled.div`
   border-radius: 10px;
 
   cursor: pointer;
+
+  ${media.small`
+    gap: 12px;
+  `}
+  ${media.mobile`
+    gap: 8px;
+  `}
 `;
 
 export const Title = styled.span`
@@ -41,6 +65,17 @@ export const Title = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  ${media.small`
+    max-height: 22px;
+    width: 380px;
+    font-size: 16px;
+  `}
+  ${media.mobile`
+    max-height: 18px;
+    width: 180px;
+    font-size: 14px;
+  `}
 `;
 
 export const Description = styled.p`
@@ -53,17 +88,37 @@ export const Description = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  ${media.small`
+    width: 380px;
+    font-size: 14px;
+  `}
+  ${media.mobile`
+    width: 200px;
+    font-size: 13px;
+  `}
 `;
 
 export const TagsBox = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+
+  ${media.small`
+    gap: 10px;
+  `}
 `;
 
 export const Tag = styled.div`
   font-size: 14px;
   color: rgba(0, 0, 0, 0.5);
+
+  ${media.small`
+    font-size: 12px;
+  `}
+  ${media.mobile`
+    font-size: 10px;
+  `}
 `;
 
 export const InfoBox = styled.div`
@@ -72,6 +127,13 @@ export const InfoBox = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+
+  ${media.small`
+    gap: 4px;
+  `}
+  ${media.mobile`
+    gap: 3px;
+  `}
 `;
 
 export const UserInfoBox = styled.div`
@@ -80,11 +142,27 @@ export const UserInfoBox = styled.div`
   gap: 5px;
 
   cursor: pointer;
+
+  ${media.small`
+    gap: 4px;
+  `}
+  ${media.mobile`
+    gap: 3px;
+  `}
 `;
 
 export const UserProfile = styled.div`
   width: 25px;
   height: 25px;
+
+  ${media.small`
+    width: 22px;
+    height: 22px;
+  `}
+  ${media.mobile`
+    width: 16px;
+    height: 16px;
+  `}
 `;
 
 export const ProfileImage = styled.img`
@@ -100,10 +178,24 @@ export const UserName = styled.span`
   ${UserInfoBox}:hover & {
     text-decoration: underline;
   }
+
+  ${media.small`
+    font-size: 11px;    
+  `}
+  ${media.mobile`
+    font-size: 9px;    
+  `}
 `;
 
 export const DateText = styled.span`
   font-size: 12px;
+
+  ${media.small`
+    font-size: 11px;    
+  `}
+  ${media.mobile`
+    font-size: 9px;    
+  `}
 `;
 
 export const SubInfoBox = styled.div`
@@ -118,11 +210,25 @@ export const SubInfoDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+
+  ${media.small`
+    gap: 4px;
+  `}
+  ${media.mobile`
+    gap: 3px;   
+  `}
 `;
 
 export const SubInfoText = styled.span`
   font-size: 12px;
   color: rgba(0, 0, 0, 0.5);
+
+  ${media.small`
+    font-size: 11px;    
+  `}
+  ${media.mobile`
+    font-size: 10px;    
+  `}
 `;
 
 export const ImageWrapper = styled.div`
@@ -130,6 +236,15 @@ export const ImageWrapper = styled.div`
   height: 140px;
 
   position: relative;
+
+  ${media.small`
+    width: 125px;
+    height: 125px;
+  `}
+  ${media.mobile`
+    width: 100px;
+    height: 100px;
+  `}
 `;
 
 export const PostImage = styled.img`
@@ -153,4 +268,7 @@ export const ImageCount = styled.div`
   position: absolute;
   top: 4px;
   right: 4px;
+  ${media.mobile`
+    font-size: 11px;
+  `}
 `;
