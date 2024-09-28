@@ -1,18 +1,17 @@
-import { useContext } from "react";
-
 import { FlatList } from "@/components/common/FlatList";
-import { PostContext } from "@/components/common/PostProvider";
 import { NothingInfo } from "@/components/common/NothingInfo";
 
+import { usePostsContext } from "@/hooks/contexts/usePostsContext";
+
 export function QnaLatestContainer() {
-  const { data } = useContext(PostContext);
+  const { posts } = usePostsContext();
 
   return (
-    data &&
-    (data.length === 0 ? (
+    posts &&
+    (posts.length === 0 ? (
       <NothingInfo contentType="home" />
     ) : (
-      <FlatList data={data} />
+      <FlatList data={posts} />
     ))
   );
 }

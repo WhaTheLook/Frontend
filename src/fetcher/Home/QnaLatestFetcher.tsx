@@ -1,12 +1,12 @@
-import { Fragment, ReactNode, useContext, useEffect, useRef } from "react";
+import { Fragment, ReactNode, useEffect, useRef } from "react";
 
-import { PostContext } from "@/components/common/PostProvider";
 import { FlatListSkeleton } from "@/components/common/FlatListSkeleton";
 import { Divider } from "@/components/common/Divider";
 import { PostToastError } from "@/components/common/PostToastError";
 
 import { FLATITEM_SKELETON_COUNT } from "@/constants";
 
+import { usePostsContext } from "@/hooks/contexts/usePostsContext";
 import { useInfiniteScoll } from "@/hooks/useInfiniteScoll";
 import { useInfiniteFetchError } from "@/hooks/useInfiniteFetchError";
 
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export function QnaLatestFetcher({ children }: Props) {
-  const { handleSetData } = useContext(PostContext);
+  const { handleSetPosts } = usePostsContext();
 
   const fetchMoreElement = useRef<HTMLDivElement>(null);
 
@@ -42,13 +42,13 @@ export function QnaLatestFetcher({ children }: Props) {
   }
 
   useEffect(() => {
-    handleSetData(null);
-  }, [handleSetData]);
+    handleSetPosts(null);
+  }, [handleSetPosts]);
 
   useEffect(() => {
     if (!content) return;
-    handleSetData(content);
-  }, [content, handleSetData]);
+    handleSetPosts(content);
+  }, [content, handleSetPosts]);
 
   useEffect(() => {
     if (intersecting && !last) {

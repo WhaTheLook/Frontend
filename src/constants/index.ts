@@ -214,3 +214,27 @@ export const TIME_UNITS = {
     month: 30 * 24 * 60 * 60 * 1000, 
     year: 365 * 24 * 60 * 60 * 1000,
 };
+
+interface QueryKeyAuth {
+    accessToken: string | null;
+    refreshToken: string | null;
+}
+
+interface QueryKeyHome {
+    category: postTypeType;
+    sort: "latest" | "popular";
+}
+
+export const QUERY_KEY = {
+    home: ({ category, sort }: QueryKeyHome) => ["home", category, sort],
+    myPosts: () => ["myPosts"],
+    myComments: () => ["myComments"],
+    auth: ({ accessToken, refreshToken }: QueryKeyAuth) => ['auth', accessToken, refreshToken],
+    detail: (postId: number) => ["detail", String(postId)],
+    image: (imageUrl: string) => ["image", imageUrl],
+    profile: () => ["profile"],
+    postComments: (postId: number) => ["postComment", String(postId)],
+    replyComment: ({ postId, parentId }: { postId: number, parentId: number }) => ["replyComment", String(postId), String(parentId)],
+    search: (query: string) => ["search", query],
+    bookmark: () => ["bookmark"],
+}

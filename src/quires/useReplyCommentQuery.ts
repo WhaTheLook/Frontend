@@ -1,4 +1,4 @@
-import { API_PATH, MAX_FETCH_SIZE_COMMENT } from "@/constants";
+import { API_PATH, MAX_FETCH_SIZE_COMMENT, QUERY_KEY } from "@/constants";
 import { CommentsType } from "@/types";
 
 import { useAuthInfiniteFetchQuery } from "@/hooks/query/useAuthInfiniteFetchQuery";
@@ -18,7 +18,7 @@ interface Props {
 
 export function useReplyCommentQuery({ postId, parentId }: Props) {
   return useAuthInfiniteFetchQuery<CommentsType>({
-    queryKey: ["replyComment", String(postId), String(parentId)],
+    queryKey: QUERY_KEY.replyComment({postId, parentId}),
     getUrl: (page) => url(page, postId, parentId),
     shouldTokenCheck: false,
   });

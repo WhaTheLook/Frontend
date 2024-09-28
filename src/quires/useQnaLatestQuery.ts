@@ -1,10 +1,7 @@
-import { API_PATH, categoryOption, MAX_FETCH_SIZE_FLAT, sortOption } from "@/constants";
-
+import { API_PATH, categoryOption, MAX_FETCH_SIZE_FLAT, QUERY_KEY, sortOption } from "@/constants";
 import { PostListContentType } from "@/types";
 
 import { useInfiniteFetchQuery } from "@/hooks/query/useInfiteFetchQuery";
-
-const QUERY_KEY = ["home", 'qnaLatest'];
 
 const url = (page: number | undefined) =>
     API_PATH.postList({
@@ -16,7 +13,7 @@ const url = (page: number | undefined) =>
 
 export function useQnaLatestQuery() {
   return useInfiniteFetchQuery<PostListContentType>({
-    queryKey: QUERY_KEY,
+    queryKey: QUERY_KEY.home({category: "질문하기", sort: "latest"}),
     getUrl: (page) => url(page),
   });
 }

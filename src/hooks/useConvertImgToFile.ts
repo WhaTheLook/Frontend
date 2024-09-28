@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEY } from "@/constants";
 
 const initProfileGCTime = 1000 * 30;
 
@@ -12,7 +13,7 @@ export function useConvertImgToFile(imageUrl: string, title: string) {
   };
 
   const { data } = useQuery({
-    queryKey: ["image", imageUrl],
+    queryKey: QUERY_KEY.image(imageUrl),
     queryFn: fetcher,
     staleTime: Infinity,
     gcTime: isDefaultImage ? Infinity : initProfileGCTime,

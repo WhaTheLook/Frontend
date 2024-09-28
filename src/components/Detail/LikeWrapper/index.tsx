@@ -9,8 +9,8 @@ import { ACCESS_TOKEN, API_PATH, TOAST_MESSAGE, toastType } from "@/constants";
 import { ICON_SIZE } from "@/constants/style";
 
 import { useToastContext } from "@/hooks/contexts/useToastContex";
-import { useAuthMutation } from "@/hooks/useAuthMutation";
 import { useDetailContext } from "@/hooks/contexts/useDetailContext";
+import { useAuthMutation } from "@/hooks/mutation/useAuthMutation";
 
 import { selectCurrentUser } from "@/store/slice/authSlice";
 
@@ -26,13 +26,10 @@ export function LikeWrapper() {
 
   const { handleToastOpen } = useToastContext();
 
-  const { fetcher } = useAuthMutation({
+  const { mutate: likePostMutate } = useAuthMutation({
     url: API_PATH.likePost(),
     method: "POST",
-    body: JSON.stringify({
-      userId: user?.kakaoId,
-      postId: id,
-    }),
+    isFormData: false,
     hasReturnType: false,
   });
 
@@ -59,19 +56,24 @@ export function LikeWrapper() {
     }
   };
 
-  const handleLikeClick = async () => {
-    try {
-      const accessToken = getLocalStorageItem(ACCESS_TOKEN);
-      if (!accessToken) {
-        alert("로그인 후 이용하세요.");
-        return;
-      }
-
-      changeUI(isLike);
-      await fetcher();
-    } catch {
-      rollBackUI(isLike, TOAST_MESSAGE.likeError());
+  const handleLikeClick = () => {
+    const accessToken = getLocalStorageItem(ACCESS_TOKEN);
+    if (!accessToken) {
+      alert("로그인 후 이용하세요.");
+      return;
     }
+
+    const likePostPayload = JSON.stringify({
+      userId: user?.kakaoId,
+      postId: id,
+    });
+
+    changeUI(isLike);
+    likePostMutate(likePostPayload, {
+      onError: () => {
+        rollBackUI(isLike, TOAST_MESSAGE.likeError());
+      },
+    });
   };
 
   useEffect(() => {

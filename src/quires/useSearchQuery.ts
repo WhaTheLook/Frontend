@@ -1,8 +1,7 @@
-import { API_PATH, MAX_FETCH_SIZE_GRID, sortOption } from "@/constants";
+import { API_PATH, MAX_FETCH_SIZE_GRID, QUERY_KEY, sortOption } from "@/constants";
 
 import { useInfiniteSearchFetchQuery } from "@/hooks/query/useInfiniteSearchFetchQuery";
 
-const QUERY_KEY = ["search"];
 
 const url = (page: number | undefined, query: string) =>
   API_PATH.searchPosts({
@@ -14,7 +13,7 @@ const url = (page: number | undefined, query: string) =>
 
 export function useSearchQuery(query: string) {
   return useInfiniteSearchFetchQuery({
-    queryKey: [...QUERY_KEY, query],
+    queryKey: QUERY_KEY.search(query),
     getUrl: (page) => url(page, query),
   });
 }

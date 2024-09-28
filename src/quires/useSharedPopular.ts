@@ -1,10 +1,8 @@
-import { API_PATH, categoryOption, MAX_FETCH_SIZE_GRID, sortOption } from "@/constants";
+import { API_PATH, categoryOption, MAX_FETCH_SIZE_GRID, QUERY_KEY, sortOption } from "@/constants";
 
 import { PostListContentType } from "@/types";
 
 import { useInfiniteFetchQuery } from "@/hooks/query/useInfiteFetchQuery";
-
-const QUERY_KEY = ["home", 'sharedPopular'];
 
 const url = (page: number | undefined) =>
     API_PATH.postList({
@@ -16,7 +14,7 @@ const url = (page: number | undefined) =>
 
 export function useSharedPopularQuery() {
   return useInfiniteFetchQuery<PostListContentType>({
-    queryKey: QUERY_KEY,
+    queryKey: QUERY_KEY.home({category: "정보공유", sort: "popular"}),
     getUrl: (page) => url(page),
   });
 }

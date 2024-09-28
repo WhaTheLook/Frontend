@@ -5,7 +5,7 @@ import { ImageWrapper } from "../ImageWrapper";
 import { DetailMain } from "../DetailMain";
 import { DetailMutation } from "../DetailMutation";
 
-import { API_PATH } from "@/constants";
+import { API_PATH, QUERY_KEY } from "@/constants";
 import { PostDetailInfoType } from "@/types";
 
 import { useDetailContext } from "@/hooks/contexts/useDetailContext";
@@ -25,7 +25,7 @@ export function PostDetail() {
 
   const { data: fetchedData, error } =
     useAuthSuspenseFetchQuery<PostDetailInfoType>({
-      queryKey: ["detail", String(selectedPostId)],
+      queryKey: QUERY_KEY.detail(selectedPostId),
       url: API_PATH.postDetailInfo({
         postId: selectedPostId,
       }),

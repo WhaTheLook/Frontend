@@ -3,15 +3,13 @@ import { createContext, ReactNode, useState } from "react";
 import { PostListContentType } from "@/types";
 
 interface createContextType {
-  data: PostListContentType[] | null;
-  handleSetData: (arg: PostListContentType[] | null) => void;
-  handleDeleteData: (arg: number) => void;
+  posts: PostListContentType[] | null;
+  handleSetPosts: (arg: PostListContentType[] | null) => void;
 }
 
 export const PostContext = createContext<createContextType>({
-  data: null,
-  handleSetData: () => {},
-  handleDeleteData: () => {},
+  posts: null,
+  handleSetPosts: () => {},
 });
 
 interface Props {
@@ -19,18 +17,14 @@ interface Props {
 }
 
 export function PostProvider({ children }: Props) {
-  const [data, setData] = useState<PostListContentType[] | null>(null);
+  const [posts, setPosts] = useState<PostListContentType[] | null>(null);
 
-  const handleSetData = (newData: PostListContentType[] | null) => {
-    setData(newData);
-  };
-
-  const handleDeleteData = (postId: number) => {
-    setData((prev) => prev?.filter((post) => post.id !== postId) || null);
+  const handleSetPosts = (newPosts: PostListContentType[] | null) => {
+    setPosts(newPosts);
   };
 
   return (
-    <PostContext.Provider value={{ data, handleSetData, handleDeleteData }}>
+    <PostContext.Provider value={{ posts, handleSetPosts }}>
       {children}
     </PostContext.Provider>
   );

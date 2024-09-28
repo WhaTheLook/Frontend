@@ -23,7 +23,6 @@ export function KakaoLoginRedirect() {
       const loginResponse = await fetch(API_PATH.login(), {
         method: "POST",
         headers: {
-          Accept: "*/*",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ code: authorizeCode }),

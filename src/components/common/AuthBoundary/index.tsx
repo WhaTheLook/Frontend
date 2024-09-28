@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import { ACCESS_TOKEN, API_PATH, REFRESH_TOKEN } from "@/constants";
+import { ACCESS_TOKEN, API_PATH, QUERY_KEY, REFRESH_TOKEN } from "@/constants";
 import { getLocalStorageItem } from "@/utils";
 import { CommonError } from "@/utils/CommonError";
 import { ProtectedPathname } from "@/types";
@@ -68,7 +68,7 @@ export function AuthBoundary({ children }: Props) {
   };
 
   const { isSuccess, isError, isFetching } = useQuery({
-    queryKey: ["auth", accessToken, refreshToken],
+    queryKey: QUERY_KEY.auth({ accessToken, refreshToken }),
     queryFn: tokenCheckFetcher,
     staleTime: 1000 * 60 * 10, // 10분간 최신 데이터로 유지
     gcTime: 0, // 토큰이 변경되면 데이터 메모리에서 삭제
