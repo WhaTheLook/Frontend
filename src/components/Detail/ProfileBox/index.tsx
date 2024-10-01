@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 import { OptionIcon } from "@/components/Icons/OptionIcon";
 
@@ -16,20 +15,16 @@ import * as S from "./style";
 export function ProfileBox() {
   const { data } = useDetailContext();
   const { author } = data;
-  const navigate = useNavigate();
+
   const loginUser = useSelector(selectCurrentUser);
 
   const { handleOpen } = useModalContext();
 
   const isOwnLoginUser = author.kakaoId === loginUser?.kakaoId;
 
-  const handleUserProfileClick = (userId: string) => {
-    navigate(`/profile/${userId}`);
-  };
-
   return (
     <S.Container>
-      <S.Profile onClick={() => handleUserProfileClick(author.kakaoId)}>
+      <S.Profile>
         <S.ProfileImageDiv>
           <S.ProfileImage src={author.profileImage} />
         </S.ProfileImageDiv>

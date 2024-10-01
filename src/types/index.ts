@@ -133,12 +133,8 @@ export interface LoginFetchType {
 
 export interface UserInfoType {
   kakaoId: string;
-  email: string;
   name: string;
   profileImage: string;
-  date: null;
-  postCount: number;
-  commentCount: number;
 }
 
 export interface CommentsType {
