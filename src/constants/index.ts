@@ -237,4 +237,5 @@ export const QUERY_KEY = {
     replyComment: ({ postId, parentId }: { postId: number, parentId: number }) => ["replyComment", String(postId), String(parentId)],
     search: (query: string) => ["search", query],
     bookmark: () => ["bookmark"],
+    loginUserInfo: () => ["userInfo"]
 }

@@ -1,68 +1,81 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { API_PATH } from "@/constants";
+import { API_PATH, QUERY_KEY } from "@/constants";
 import { UserInfoType } from "@/types";
 import { setLocalStorageItem } from "@/utils";
 
+import { useAuthFetchQuery } from "@/hooks/query/useAuthFetchQuery";
+import { useNonAuthMutation } from "@/hooks/mutation/useNonAuthMutation";
+
 import { setCredential } from "@/store/slice/authSlice";
 
+import * as S from "./style";
+
 export function KakaoLoginRedirect() {
+  interface LoginFetchType {
+    accessToken: string;
+    refreshToken: string;
+  }
+  const [isMutationSuccess, setIsMutationSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
   const dispatch = useDispatch();
 
   const location = useLocation();
   const navigate = useNavigate();
 
+  const params = new URLSearchParams(location.search);
+  const authorizeCode = params.get("code");
+
+  const { mutate } = useNonAuthMutation<LoginFetchType>({
+    url: API_PATH.login(),
+    method: "POST",
+    hasReturnType: true,
+  });
+
   useEffect(() => {
-    async function fetcher() {
-      const params = new URLSearchParams(location.search);
-      const authorizeCode = params.get("code");
-      if (!authorizeCode) return;
+    if (!authorizeCode) return;
+    mutate(JSON.stringify({ code: authorizeCode }), {
+      onSuccess: (data) => {
+        const { accessToken, refreshToken } = data!;
+        setLocalStorageItem("refreshToken", refreshToken);
+        setLocalStorageItem("accessToken", accessToken);
+        setIsMutationSuccess(true);
+        setError(false);
+      },
+      onError: () => {
+        setError(true);
+      },
+    });
+  }, [authorizeCode, mutate]);
 
-      const loginResponse = await fetch(API_PATH.login(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code: authorizeCode }),
-      });
+  const { data } = useAuthFetchQuery<UserInfoType>({
+    queryKey: QUERY_KEY.loginUserInfo(),
+    url: API_PATH.userInfo(),
+    shouldTokenCheck: true,
+    enabled: isMutationSuccess,
+  });
 
-      if (!loginResponse.ok) {
-        throw new Error("로그인 에러");
-      }
-
-      const { accessToken, refreshToken } = await loginResponse.json();
-
-      const userInfoResponse = await fetch(API_PATH.userInfo(), {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!userInfoResponse.ok) {
-        throw new Error("회원정보 불러올수 없음.");
-      }
-
-      const { kakaoId, name, profileImage } = await userInfoResponse.json();
-
-      const signInUserInfo: UserInfoType = {
-        name,
-        kakaoId,
-        profileImage,
-      };
-
-      dispatch(setCredential({ user: signInUserInfo }));
-
-      setLocalStorageItem("refreshToken", refreshToken);
-      setLocalStorageItem("accessToken", accessToken);
-
+  useEffect(() => {
+    if (data) {
+      dispatch(setCredential({ user: data }));
       navigate("/");
     }
+  }, [data, dispatch, navigate]);
 
-    fetcher();
-  }, [location, navigate, dispatch]);
-
-  return <></>;
+  return (
+    <S.Container>
+      {error && (
+        <S.MessageBox>
+          <S.Content>
+            <S.MessageTitle>로그인 에러</S.MessageTitle>
+            <S.Message>로그인 중 에러가 발생했어요.</S.Message>
+          </S.Content>
+          <S.Button onClick={() => navigate("/")}>홈으로 이동</S.Button>
+        </S.MessageBox>
+      )}
+    </S.Container>
+  );
 }

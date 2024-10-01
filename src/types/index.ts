@@ -126,11 +126,19 @@ export interface ProfileEditType {
   };
 }
 
-// 🔽 fetch 데이터 타입
+export interface LoginFetchType {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface UserInfoType {
+  kakaoId: string;
+  email: string;
   name: string;
   profileImage: string;
-  kakaoId: string;
+  date: null;
+  postCount: number;
+  commentCount: number;
 }
 
 export interface CommentsType {
